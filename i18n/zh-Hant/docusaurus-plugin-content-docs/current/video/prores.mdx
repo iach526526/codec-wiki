@@ -1,0 +1,40 @@
+---
+title: ProRes
+sidebar_position: 14
+---
+
+# ProRes
+
+ProRes is a family of lossy video compression codecs developed by Apple Inc. ProRes is designed to serve as a high-quality "visually lossless" video editing codec that offers superior image quality compared to many other editing codecs while still maintaining a relatively compact file size compared to uncompressed video.
+
+ProRes uses 4:2:2 or 4:4:4 chroma subsampling depending on the specific subset. This provides greater color fidelity and precision than typical 8-bit 4:2:0 codecs like what can commonly be seen with [AVC](../video/AVC.mdx).
+
+ProRes compression uses the [Discrete Cosine Transform](../introduction/terminology.mdx#discrete-cosine-transform-dct) and intra-frame compression techniques; there is no inter-frame compression applied, meaning redundancy between frames isn't utilized to increase compression efficiency; this keeps decoding light, and simplifies the codec. ProRes is able to achieve very high quality video with relatively low data rates around 100-400 MB/s depending on the resolution and specific ProRes variant.
+
+## Format Breakdown
+
+There are multiple variants of ProRes that offer different combinations of image quality and compression ratios:
+
+Format | Chroma Subsampling | Supported Bit Depth(s)
+--- | :---: | ---:
+[ProRes RAW](https://www.apple.com/final-cut-pro/docs/Apple_ProRes_RAW.pdf) | N/A | 12-bit
+ProRes 4444 XQ | 4:4:4 | 10-bit, 12-bit\*
+ProRes 4444 | 4:4:4 | 10-bit, 12-bit\*
+ProRes HQ | 4:2:2 | 10-bit
+ProRes | 4:2:2 | 10-bit
+ProRes LT | 4:2:2 | 10-bit
+ProRes Proxy | 4:2:2 | 10-bit
+
+\**ProRes 4444 XQ and 4444 support 12-bit color depth, but the lossless alpha channel is 16-bit if included.*
+
+The higher data rate variants like 4444 XQ and HQ prioritize maximum fidelity at the expense of larger file sizes. The lower data rate variants trade off some quality for much smaller file sizes suitable for editing where storage space is constrained.
+
+## Usage
+
+Apple ProRes Raw is available in LUMIX cameras & the Sony Alpha FX3 via Atomos Ninja V. Both cameras are capable of recording 12-bit uncompressed RAW video in the ProRes RAW format.
+
+ProRes has become widely adopted in professional video post-production workflows due to its quality, performance, metadata handling, and tight integration with Apple's Final Cut Pro editing software & ecosystem.
+
+ProRes is supported by most major non-linear editing systems beyond just Final Cut Pro, including Adobe Premiere Pro & BlackMagic's DaVinci Resolve. This cross-platform compatibility makes it a convenient codec for exchange between different video editing applications.
+
+While designed primarily as an editing codec, Apple has also implemented hardware acceleration for ProRes encode & decode in recent Mac devices via Apple Silicon starting with the M2 chip. This hardware acceleration enables higher performance for tasks like playback, transcoding, and export compared to software-only implementations.

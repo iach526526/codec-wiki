@@ -1,0 +1,349 @@
+---
+title: vpxenc
+sidebar_position: 8
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# vpxenc
+
+:::info Under Maintenance
+The content in this entry is incomplete & is in the process of being completed.
+:::
+
+vpxenc is part of the libvpx library for working with the [VP9](../video/VP9.mdx) & [VP8](../video/VP8.mdx) video codecs. It is capable of encoding & decoding both formats, where vpxenc is the multipurpose encoder. VP9 competes with [HEVC](../video/HEVC.mdx) (h265) & [AVC](../video/AVC.mdx) (h264) in coding efficiency, and has been superseded by [AV1](../video/AV1.mdx). VP8 competes with AVC. 
+
+By default, vpxenc isn't as competitive as it could be, but even when used properly, most tests show that h265 offers slightly better quality per bit with efficient encoders like [x265](../encoders/x265.mdx).
+
+
+## FFmpeg
+
+vpxenc is available in FFmpeg via `libvpx` for **VP8** and `libvpx-vp9` for **VP9**, to check if you have it, run `ffmpeg -h encoder=libvpx` or `ffmpeg -h encoder=libvpx-vp9`.
+Non-FFmpeg standard VP8/VP9 parameters are **not** supported.
+
+
+## Supported Color Space
+
+vpxenc supports the following color spaces:
+
+| Format           | Chroma Subsampling | Supported Bit Depth(s) |
+|------------------|:------------------:|-----------------------|
+| YUV420P          | 4:2:0              | 8-bit                 |
+| YUVA420P         | 4:2:0              | 8-bit (Alpha Channel) |
+| YUV422P          | 4:2:2              | 8-bit                 |
+| YUV440P          | 4:4:0              | 8-bit                 |
+| YUV444P          | 4:4:4              | 8-bit                 |
+| GBRP             | -                  | 8-bit                 |
+| YUV420P10LE      | 4:2:0              | 10-bit                |
+| YUV422P10LE      | 4:2:2              | 10-bit                |
+| YUV440P10LE      | 4:4:0              | 10-bit                |
+| YUV444P10LE      | 4:4:4              | 10-bit                |
+| GBRP10LE         | -                  | 10-bit                |
+| YUV420P12LE      | 4:2:0              | 12-bit                |
+| YUV422P12LE      | 4:2:2              | 12-bit                |
+| YUV440P12LE      | 4:4:0              | 12-bit                |
+| YUV444P12LE      | 4:4:4              | 12-bit                |
+| GBRP12LE         | -                  | 12-bit                |
+
+
+## Installing (Binary)
+
+Windows builds are available on Lastrosade's [website](https://jeremylee.sh/bins/) and can be downloaded [here](https://jeremylee.sh/bins/vpx.7z).
+
+For Linux and MacOS, it may be be available when searching "vpxenc" or "libvpx" in their respective package managers.
+
+
+## Compiling (Windows/MacOS/Linux)
+
+Windows users are recommended to compile via MinGW-W64 which comes with [MSYS2](https://msys2.org/).
+
+nasm/yasm, and the GNU build tools (make, configure) are required for this operation.
+
+### Cloning
+First, cloning
+```bash
+git clone https://chromium.googlesource.com/webm/libvpx
+cd libvpx
+mkdir libvpx_build && cd libvpx_build
+```
+
+### ./configure file
+Now here comes the annoying part, the configure file have really bad defaults. So you will need to adjust them, here are some recommended options you should use:
+
+```bash
+../configure --cpu=native --extra-cxxflags="-flto" --extra-cflags="-flto" --as=auto --enable-vp9-highbitdepth --enable-libyuv --enable-webm-io --enable-vp9 --enable-runtime-cpu-detect --enable-internal-stats --enable-postproc --enable-vp9-postproc --enable-static --disable-shared --enable-vp9-temporal-denoising --disable-unit-tests --disable-docs --enable-multithread
+```
+
+Now let's break down what each of them do.
+
+
+- `--cpu=native`
+Native CPU optimizations.
+
+- `--extra-cxxflags="-flto" --extra-cflags="-flto"`
+More CPU optimizations for faster encoding.
+
+- `--as=auto`
+Set the assembler to auto, so it can choose between `yasm` and `nasm`.
+
+- `--enable-vp9-highbitdepth`
+Enables high bit depth (>=10 bits) when encoding VP9.
+
+- `--enable-libyuv`
+Enables YUV4MPEG input support (IMPORTANT), otherwise it will only accept RAW.
+
+- `--enable-webm-io`
+Enables input and output support for WebM container.
+
+- `--enable-vp9`
+Enables VP9 encoding support.
+
+- `--enable-runtime-cpu-detect`
+Enables runtime CPU detection.
+
+- `--enable-internal-stats`
+Enables internal statistics for the encoder for debug purposes.
+
+- `--enable-postproc`
+Enables postprocessing stuff for better video quality.
+
+- `--enable-vp9-postproc`
+Enables VP9-specific postprocessing stuff for better video quality.
+
+- `--enable-static`
+Enables static builds.
+
+- `--disable-shared`
+Disables shared builds.
+
+- `--enable-vp9-temporal-denoising`
+Disables spatial denoising for VP9 and enables temporal instead.
+
+- `--disable-unit-tests`
+Disables unit tests, unless you want to test the encoder as a developer. This should be disabled.
+
+- `--disable-docs`
+Disables documentation, as enabling this also requires doxygen.
+
+- `--enable-multithread`
+Enables the usage of multiple CPU threads for encoding and decoding.
+
+
+### Other ./configure options
+
+There are other options you may want use to either speed up compiliation or drop unwanted features.
+
+1. `--disable-vp8 --disable-vp9-decoder --disable-vp8-decoder` 
+Disables VP8 encoding and `vpxdec` (decoder) to be compiled.
+
+2. `--enable-small`
+Prioritizes smaller encoder binary size over encoding speed.
+
+3. `--target=`
+Enables target compilation for a specific operating system or CPU architecture. There's a lot of them. Here's an exhaustive list of all of them based on the configure file:
+```bash
+arm64-android-gcc
+arm64-darwin-gcc
+arm64-darwin20-gcc
+arm64-darwin21-gcc
+arm64-darwin22-gcc
+arm64-darwin23-gcc
+arm64-linux-gcc
+arm64-win64-gcc
+arm64-win64-vs15
+arm64-win64-vs16
+arm64-win64-vs16-clangcl
+arm64-win64-vs17
+arm64-win64-vs17-clangcl
+armv7-android-gcc
+armv7-darwin-gcc
+armv7-linux-rvct
+armv7-linux-gcc
+armv7-none-rvct
+armv7-win32-gcc
+armv7-win32-vs14
+armv7-win32-vs15
+armv7-win32-vs16
+armv7-win32-vs17
+armv7s-darwin-gcc
+armv8-linux-gcc
+loongarch32-linux-gcc
+loongarch64-linux-gcc
+mips32-linux-gcc
+mips64-linux-gcc
+ppc64le-linux-gcc
+sparc-solaris-gcc
+x86-android-gcc
+x86-darwin8-gcc
+x86-darwin8-icc
+x86-darwin9-gcc
+x86-darwin9-icc
+x86-darwin10-gcc
+x86-darwin11-gcc
+x86-darwin12-gcc
+x86-darwin13-gcc
+x86-darwin14-gcc
+x86-darwin15-gcc
+x86-darwin16-gcc
+x86-darwin17-gcc
+x86-iphonesimulator-gcc
+x86-linux-gcc
+x86-linux-icc
+x86-os2-gcc
+x86-solaris-gcc
+x86-win32-gcc
+x86-win32-vs14
+x86-win32-vs15
+x86-win32-vs16
+x86-win32-vs17
+x86_64-android-gcc
+x86_64-darwin9-gcc
+x86_64-darwin10-gcc
+x86_64-darwin11-gcc
+x86_64-darwin12-gcc
+x86_64-darwin13-gcc
+x86_64-darwin14-gcc
+x86_64-darwin15-gcc
+x86_64-darwin16-gcc
+x86_64-darwin17-gcc
+x86_64-darwin18-gcc
+x86_64-darwin19-gcc
+x86_64-darwin20-gcc
+x86_64-darwin21-gcc
+x86_64-darwin22-gcc
+x86_64-darwin23-gcc
+x86_64-iphonesimulator-gcc
+x86_64-linux-gcc
+x86_64-linux-icc
+x86_64-solaris-gcc
+x86_64-win64-gcc
+x86_64-win64-vs14
+x86_64-win64-vs15
+x86_64-win64-vs16
+x86_64-win64-vs17
+generic-gnu
+```
+
+For **Windows** compilation with MinGW you may need to use `--target=x86_64-win64-gcc` and `--target=arm64-darwin22-gcc` for **MacOS**.
+
+
+### Running GNU make
+
+After successfully running the configure command above, run `make -j $(nproc)` to start compiling with your CPU count. The resulting binary will be called `vpxenc` and you can copy it wherever you like.
+
+## VP8
+
+*Incomplete*
+
+## VP9
+
+For encoding VP9, vpxenc's default parameters are not considered optimal. There are a lot of options that are either disabled without reason or are simply misconfigured, hurting coding efficiency at little cost otherwise. As of mid-2021, some parameters (the TPL-model, lag-in-frames and auto-alt-ref frames) were changed (since libvpx 1.9.0 and libvpx 1.10.0) which means that there's not much use of setting these three parameters unless you're in [FFmpeg](../utilities/ffmpeg.mdx). This section covers the most important options libvpx-vp9 has to offer, recommended settings, & what they do.
+
+It is important to note that the vpxenc parameters provided below are considered optimal because they are efficient, but VP9 Profile 2 isn't compatible with many hardware-accelerated VP9 decoding implementations.
+
+### Encoding
+
+- `--codec=vp9`
+
+Self-explanatory.
+
+- `--passes=2`
+
+vpxenc's 2-pass mode is quite fast compared to 2-pass in [x264](../encoders/x264.mdx) and x265. Only use 1-pass mode for real-time applications, which won't be covered here yet. It is the default in the standalone vpxenc libvpx-vp9 encoder.
+
+- `--webm`
+
+Enables WebM output for the encoder, and passes the encoder flags set. It is not necessary to enable it, but since it passes the encoder flags, I would use it. Can be changed to `--ivf` for an ivf video stream.
+
+- `--good`
+
+This is a sort of quality deadline, the minimum speed the encoder is allowed to go to. It isn't recommended to use `--best` as it is slow for the quality uplift you get. Do not use RT for anything but real-time encoding.
+
+- `--threads=8` 
+
+Dictates the number of threads the encoder should spawn. It doesn’t mean it’ll scale all that well over those 8 threads. On a 16 thread CPU with a single encoder instance, I would use 8 threads. With multiple encoder instance encoding(with qencoder/av1an/neav1e), I would set it to 2 threads.
+
+- `--profile=2` 
+
+VP9 profile 2 is obligatory if you want 10-bit & 12-bit support for HDR, and improved quality from 8-bit.
+
+- `--lag-in-frames=25` 
+
+Lag-in-frames is the libvpx equivalent of lookahead in x264. The higher the number, the slower the encoder will be, but at the upside of making it more efficient. Going above –lag-in-frames=12 also activates another setting called alternate reference frames. 25 is the maximum you can get in libvpx-vp9. It is the default in the standalone vpxenc libvpx-vp9 encoder.
+
+- `--end-usage=q` 
+
+Q mode is the closest equivalent to CRF that libvpx-vp9 offers, so use it if maximum quality is desired.
+
+- `--cq-level=25` 
+
+For 1080p30 8-bit content, it is recommended to go with a Q of 25; you can go lower if you value higher quality over pure efficiency. For 1080p60 8-bit content, I would recommend going with a higher Q value with a delta of around 15. So, a Q of 30 to 40 is usually recommended. Depending on the content, you may have to tune this value, so this advice is only useful in choosing a starting point.
+
+- `--kf-max-dist=[input FPS * 10]` 
+
+This tells the encoder to have a maximum number of frames between keyframes. It will usually place a lower number of keyframes in content like movies, TV shows, or animated shows, so you can set it to a very high number or not set it at all if you want maximum efficiency for this kind of content. Otherwise, I would go with the 10-second rule: `--kf-max-dist=240` for 24FPS content, 300 for 30FPS content, 600 for 60FPS content, and so on.
+
+- `--cpu-used=3` 
+
+This is where the biggest balance of quality to speed is with libvpx-vp9. This is similar to presets in x264 and x265, except the lower the number, the slower the encoder takes. Using `--cpu-used=3` & below enables RDO, which increases quality at the expense of speed.
+:::info
+`--cpu-used=5` and above are *slower* in the 1st pass, so it isn't recommended to use them anyway.
+:::
+
+- `--auto-alt-ref=6`
+
+Activates alternate reference frames. Alternate reference frames are "invisible" frames which are used as references when creating the final display frames.
+
+More alternate reference frames is typically more efficient. Setting this greater than 1 activates overlay frames and isn't compatible with the 8-bit color profiles.
+
+- `--arnr-maxframes=7`
+
+This is the maximum number of alternate reference frames the encoder is allowed to use. For most content, 7 is usually a good bet, and it is the default. With animated content, going with a value of 12 or to the max is a good bet, as animated content benefits from more additional alt-ref frames than other content. Be aware that increasing this value will impact encode speed.
+
+- `--arnr-strength=4`
+
+This setting dictates how much denoising will occur in the alt-ref frames. Lowering it to 2 or 3 is usually a good bet for noisier/grainy content to try and retain more detail, but 4 is a sane starting place. The default setting is 5, which is fine for most content, but it can be beneficial going a bit lower. For animation, keeping the default of 5 is likely a better option.
+
+- `--aq-mode=0`
+
+Adaptive quantization is the way for an encoder to spend more bits in certain areas to improve [psychovisual fidelity](../introduction/psychovisual.mdx). `--aq-mode=0` works well on clean content (animation, video games, screen content). `--aq-mode=2` is recommended when you want to give more detail to more complex parts of a video.
+
+- `--frame-boost=1`
+
+This flag lets the encoder periodically boost the bitrate of a scene/frame if it needs it. Leaving it at the default `--frame-boost=0` is usually a good bet, & this isn't a particularly salient change.
+
+- `--tune-content=default`
+
+This determines how the encoder is tuned. In libvpx-vp9, there are three options: `default`, `screen`, and `film`. Default is for most scenarios, screen is for screen content(video games, live-streaming content like web pages & your screen), and film is for heavily dithered/grainy video. Leaving it at the default for about everything but screen content as described above is probably the best option. `--tune-content=screen` with `--aq-mode=2` is not recommended, as it creates some odd artifacts. It is advised to use `--aq-mode=0` if `--tune-content=screen` is activated, or if you want better perceptual quality, `--aq-mode=1`.
+
+- `--row-mt=1`
+
+Enables row multi-threading in libvpx-vp9. *Always* enable it no matter what, as it does not hurt efficiency, but boosts speed considerably. This feature is disabled by default.
+
+- `--bit-depth=10`
+
+Always use 10-bit for maximum efficiency & minimal banding, even with an 8-bit source. Make sure to enable `--profile=2` as mentioned above.
+
+- `--tile-columns=1`
+
+This setting divides the video into tile columns for easier parallelization when encoding & decoding. Setting `--tile-columns=1`, you will get 2¹ tile columns. Setting it higher is a trade-off between parallelization & coding efficiency, as more tiles means less information your encoder can work with, and this will result in decreased efficiency. Do note there is an upper threshold in regards to the number of tile columns you can get due to the fixed minimum tile width of 256 pixels. So, this means 4 tile columns (2²) for 720p and 1080p, 8 tile columns (2⁴) for 1440p/4k, and so on. If you set a tile column number that is too high, it will drop down to the lowest supported number of tile columns at the input resolution.
+
+- `--tile-rows=0`
+
+This setting divides the video into tile rows. This option is different from columns because although it also makes decoding performance higher, it does not scale as well as tile columns & doesn’t increase encoder threading nearly as much. Always use more tile-columns than rows, or leave the number of tile rows at default (0). Leaving the encoder defaults at `--tile-rows=0` & `--tile-columns=0` will result in the highest overall coding efficiency possible with these options.
+
+- `--enable-tpl=1`
+
+This option enables a temporal layer model, which helps with coding efficiency. It is the default in the standalone vpxenc libvpx-vp9 encoder.
+
+All of these options are only available for the standalone vpxenc program. Here is a sample FFmpeg command line interpretation of the commands above, with some options missing:
+
+```bash
+ffmpeg -i input.mkv -c:v libvpx-vp9 -pix_fmt yuv420p10le -pass 1 -quality good -threads 4 -profile:v 2 -lag-in-frames 25 -crf 25 -b:v 0 -g 240 -cpu-used 3 -auto-alt-ref 6 -arnr-maxframes 7 -arnr-strength 4 -aq-mode 0 -tune-content default -tile-rows 0 -tile-columns 1 -enable-tpl 1 -row-mt 1 -f null -
+ffmpeg -i input.mkv -c:v libvpx-vp9 -pix_fmt yuv420p10le -pass 2 -quality good -threads 4 -profile:v 2 -lag-in-frames 25 -crf 25 -b:v 0 -g 240 -cpu-used 3 -auto-alt-ref 6 -arnr-maxframes 7 -arnr-strength 4 -aq-mode 0 -tune-content default -tile-rows 0 -tile-columns 1 -enable-tpl 1 -row-mt 1 output.mkv
+```
+
+Alternatively, you can pass a raw .y4m stream to standalone vpxenc & encode that way.
+
+*VP9 section written based on work by BlueSwordM, who has granted written permission for this wiki page to exist in its current fashion*

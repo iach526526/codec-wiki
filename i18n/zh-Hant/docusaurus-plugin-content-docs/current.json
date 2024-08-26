@@ -1,0 +1,54 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.💡 Introduction": {
+    "message": "💡 Introduction",
+    "description": "The label for category 💡 Introduction in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.🔊 Audio": {
+    "message": "🔊 Audio",
+    "description": "The label for category 🔊 Audio in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.📹️ Video": {
+    "message": "📹️ Video",
+    "description": "The label for category 📹️ Video in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.💽 Data": {
+    "message": "💽 Data",
+    "description": "The label for category 💽 Data in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.🏞️ Images": {
+    "message": "🏞️ Images",
+    "description": "The label for category 🏞️ Images in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.💾 Encoders": {
+    "message": "💾 Encoders",
+    "description": "The label for category 💾 Encoders in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.🚀 Hardware Encoders": {
+    "message": "🚀 Hardware Encoders",
+    "description": "The label for category 🚀 Hardware Encoders in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.💬 Subtitles": {
+    "message": "💬 Subtitles",
+    "description": "The label for category 💬 Subtitles in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.🎞️ Filtering": {
+    "message": "🎞️ Filtering",
+    "description": "The label for category 🎞️ Filtering in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.🎨 Colorimetry": {
+    "message": "🎨 Colorimetry",
+    "description": "The label for category 🎨 Colorimetry in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.🛠️ Utilities": {
+    "message": "🛠️ Utilities",
+    "description": "The label for category 🛠️ Utilities in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.👁️ Metrics": {
+    "message": "👁️ Metrics",
+    "description": "The label for category 👁️ Metrics in sidebar tutorialSidebar"
+  }
+}

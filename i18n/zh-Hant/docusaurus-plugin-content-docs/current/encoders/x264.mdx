@@ -1,0 +1,135 @@
+---
+title: x264
+sidebar_position: 1
+---
+
+# x264
+
+x264 is a software library and command line application for encoding H.264 / AVC developed by VideoLAN, the people behind the ever-popular VLC Media Player and released under GNU GPL. It is written in C and Assembly with almost two decades worth of development and threading optimizations which makes it the fastest software video encoder available, which also happens to be extremely popular.
+
+x264 has great fine detail retention which makes it perfect for high fidelity content.
+
+
+
+## FFmpeg
+
+x264 is available in FFmpeg via `libx264`, to check if you have it, run `ffmpeg -h encoder=libx264`. You can input non-FFmpeg standard x264 parameters via `-x264-params`.
+
+
+## Supported Color Space
+
+x264 supports the following color spaces:
+
+| Format           | Chroma Subsampling | Supported Bit Depth(s) |
+|------------------|:------------------:|-----------------------|
+| YUV420P          | 4:2:0              | 8-bit                 |
+| YUVJ420P         | 4:2:0              | 8-bit (Full range)    |
+| YUV422P          | 4:2:2              | 8-bit                 |
+| YUVJ422P         | 4:2:2              | 8-bit (Full range)    |
+| YUV444P          | 4:4:4              | 8-bit                 |
+| YUVJ444P         | 4:4:4              | 8-bit (Full range)    |
+| NV12             | Semi-planar        | 8-bit                 |
+| NV16             | Semi-planar        | 8-bit                 |
+| NV21             | Semi-planar        | 8-bit (reversed)      |
+| GRAY8            | -                  | 8-bit                 |
+| YUV420P10LE      | 4:2:0              | 10-bit                |
+| YUV422P10LE      | 4:2:2              | 10-bit                |
+| YUV444P10LE      | 4:4:4              | 10-bit                |
+| GBRP10LE         | -                  | 10-bit                |
+| GRAY10LE         | -                  | 10-bit                |
+
+
+## Installation
+
+**Pre-built binary [Recommended]:**
+
+- https://code.videolan.org/videolan/x264
+
+Choose your operating system there, or you can try using your package manager.
+
+
+
+## Usage
+
+x264 has been praised for its simple, no-fuss settings.
+
+Here are some examples:
+
+```bash title="Simple raw Y4M input with CRF 20 and raw 264 bitstream output"
+x264 --crf 20 -o output.264 input.y4m
+```
+
+```bash title="Preset slow, CRF 20, Y4M input"
+x264 --preset slow --crf 20 -o output.264 input.y4m
+```
+
+These next couple of examples utilize [FFmpeg](../utilities/ffmpeg.mdx) to pipe video into x264.
+
+```bash title="FFmpeg piping"
+ffmpeg -v error -i input.mkv -f yuv4mpegpipe -strict -1 - | x264 --preset slow --crf 20 --demux y4m - -o output.264
+```
+
+```bash title="FFmpeg piping, MKV output"
+ffmpeg -v error -i input.mkv -f yuv4mpegpipe -strict -1 - | x264 --preset slow --crf 20 --demux y4m - -o output.mkv
+```
+:::note Output Containers
+x264 can output ``264``, MKV, FLV (Flash Video), and MP4 (If compiled with GPAC or L-SMASH support). For more information about what containers are, see the ["Terminology" section on containers](../introduction/terminology.mdx#container).
+:::
+
+:::caution
+x264 will use Haali Matroska Muxer for MKV outputs, which has seeking issues. It is recommended to remux back using FFmpeg or mkvmerge/MKVToolNix.
+:::
+
+## Recommendations
+
+As x264 is made to "just work", there aren't many advanced parameters to modify. The general guideline is to encode as slowly as you can tolerate.
+
+### Preset
+
+``--preset veryslow``
+
+The most obvious way to increase fidelity per bit is to allow the encoder to spend more effort, and therefore time, encoding. This preset is decently slow, but preset ``placebo`` is even slower.
+
+### Threads
+
+``--threads X``
+
+This is set to 1.5x the number of available cores by default, and shouldn't need to be adjusted unless you need to reduce the number of threads for some reason. x264's threading is very efficient, and in most cases, x264 should be able to completely saturate most consumer CPUs.
+
+### Open GOP
+
+``--open-gop``
+
+Enables Open GOP (Group of Pictures), where each GOP can [reference one another](https://ottverse.com/closed-gop-open-gop-idr/), thus improving compression with little speed loss. For unknown reasons it is disabled by default in x264.
+
+### AQ Mode
+
+``--aq-mode 3``
+
+In short, will make x264 bias to dark areas and spend more bitrate there, thus dark scenes will look less bad. Basically no speed loss.
+
+
+### Reference Frames
+
+``--bframes 8 --ref 12``
+
+These parameters are responsible for the amount of reference frames x264 will use for compression, the more the better. Maximum of 16, will definitely increase compute time the higher you go.
+
+### MB Tree
+
+``--no-mbtree``
+
+This option disables mb-tree rate control. mb-tree rate control is intended to redistribute bitrate to give more bits to frames that have less motion, and less bits to frames that have more motion (because artifacts in those frames will be less noticeable when the video is playing).
+However, many users claim this can have negative effects on video quality, especially when encoding videos that have significant amounts of grain.
+
+
+### Lossless Encoding
+
+x264 can also encode lossless video, allowing it to compete with lossless video codecs like [FFV1](../video/FFV1.mdx) and [UT Video](../video/utvideo.mdx). To encode lossless video, use `--qp 0`. Slower presets will decrease the size even further while the video remains lossless.
+However, when space is not a concern, such as when encoding an intermediate lossless for later encoding to a lossy format, x264 can become the fastest lossless codec available, providing super fast encoding and decoding.
+For the absolute fastest encoding and decoding, one can use both `--preset ultrafast` and `--tune fastdecode`. However, `--preset superfast` still provides incredibly fast encoding and decoding speed, with 20-30% space savings for lossless compared to `ultrafast`,
+so it may be the ideal choice for many users.
+
+:::info Why QP 0 instead of CRF 0?
+CRF automatically adjusts a number of quantization parameters to achieve a desired quality output. QP stands for *Quantization Parameter*, and allows full control over the resulting video quality. In this case, all-intra or lossless, using QP is necessary, but for lossy encoding CRF will produce better visual fidelity per bit.
+:::

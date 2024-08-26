@@ -1,0 +1,18 @@
+{
+  "title": {
+    "message": "Codec Wiki",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "AV1 \"Stonks\" logo",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Get Started": {
+    "message": "Get Started",
+    "description": "Navbar item with label Get Started"
+  },
+  "item.label.Blog": {
+    "message": "Blog",
+    "description": "Navbar item with label Blog"
+  }
+}

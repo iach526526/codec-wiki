@@ -1,0 +1,50 @@
+{
+  "link.title.Getting Started": {
+    "message": "Getting Started",
+    "description": "The title of the footer links column with title=Getting Started in the footer"
+  },
+  "link.title.Filtering": {
+    "message": "Filtering",
+    "description": "The title of the footer links column with title=Filtering in the footer"
+  },
+  "link.title.More": {
+    "message": "More",
+    "description": "The title of the footer links column with title=More in the footer"
+  },
+  "link.item.label.Prologue": {
+    "message": "Prologue",
+    "description": "The label of footer link with label=Prologue linking to https://wiki.x266.mov/docs/introduction/prologue"
+  },
+  "link.item.label.AAC": {
+    "message": "AAC",
+    "description": "The label of footer link with label=AAC linking to https://wiki.x266.mov/docs/audio/AAC"
+  },
+  "link.item.label.Vapoursynth": {
+    "message": "Vapoursynth",
+    "description": "The label of footer link with label=Vapoursynth linking to https://wiki.x266.mov/docs/filtering/Vapoursynth"
+  },
+  "link.item.label.Deband": {
+    "message": "Deband",
+    "description": "The label of footer link with label=Deband linking to https://wiki.x266.mov/docs/filtering/deband"
+  },
+  "link.item.label.Denoise": {
+    "message": "Denoise",
+    "description": "The label of footer link with label=Denoise linking to https://wiki.x266.mov/docs/filtering/denoise"
+  },
+  "link.item.label.Contribute": {
+    "message": "Contribute",
+    "description": "The label of footer link with label=Contribute linking to https://github.com/av1-community-contributors/codec-wiki/tree/main"
+  },
+  "link.item.label.Terms of Use": {
+    "message": "Terms of Use",
+    "description": "The label of footer link with label=Terms of Use linking to https://wiki.x266.mov/docs/terms-of-use"
+  },
+  "link.item.label.Privacy Policy": {
+    "message": "Privacy Policy",
+    "description": "The label of footer link with label=Privacy Policy linking to https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement"
+  },
+  "copyright": {
+    "message": "Copyright © 2024 Gianni Rosato & contributors. Content licensed under CC BY-SA 4.0. Built with Docusaurus.",
+    "description": "The footer copyright"
+  }
+}

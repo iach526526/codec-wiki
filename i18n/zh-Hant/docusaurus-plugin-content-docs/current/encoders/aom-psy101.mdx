@@ -1,0 +1,92 @@
+---
+title: aom-psy101
+sidebar_position: 19
+keywords: [AV1, encoding, video encoding, AOM AV1]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# aom-psy101
+
+:::info Under Maintenance
+The content in this entry is incomplete & is in the process of being completed.
+:::
+
+:::info Community Fork
+This entry is about a fork of aomenc called aom-psy101. If you'd like to learn about the mainline aomenc encoder before reading, visit our [aomenc wiki entry](./aomenc.mdx).
+:::
+
+Mainline aomenc is unfortunately not perfect. It suffers from bad defaults, a heavy focus on the perceptually flawed [PSNR](../metrics/PSNR.mdx) metric, misleading settings, and other issues. Fortunately, there are a couple of forks developed by the encoding community that were created to combat aomenc's underlying issues.
+
+- [aom-av1-psy](https://github.com/BlueSwordM/aom-av1-psy) *No longer maintained as of 13th January 2023*
+- [aom-av1-lavish](./aom-av1-lavish.mdx) *No longer maintained as of 4th June 2024*
+- [aom-psy101](https://gitlab.com/damian101/aom-psy101)
+- [aom-av1ador](https://github.com/porcino/aom-av1ador)
+
+These forks fix up the poor decisions made by the original AOM devs and most importantly introduce new parameters and tunes to help fine-tune the encoder even more.
+
+[aom-psy101](https://gitlab.com/damian101/aom-psy101) is a fork of aomenc that aims to improve the encoding quality and speed of AV1. It is developed by [damian101](https://gitlab.com/damian101), a talented AV1 community developer.
+
+## FFmpeg
+
+aomenc is available in FFmpeg via ``libaom-av1``, check if you have it by running ``ffmpeg -h encoder=libaom-av1``. You can input non-FFmpeg standard aomenc parameters via ``-aom-params``.
+
+:::caution Mainline aomenc
+Unless you compile FFmpeg yourself with aom-psy101, you will be using the mainline aomenc. Compiling from source yourself with the aomenc libraries provided by aom-psy101 is the only way to use it with FFmpeg.
+:::
+
+## Installation
+
+<Tabs>
+    <TabItem value="unixlike" label="Linux & macOS" default>
+        1. Clone the psy101 repo:
+        ```bash title="Clone the psy101 repo"
+        git clone https://gitlab.com/damian101/aom-psy101
+        cd aom-psy101 && mkdir aom_build && cd aom_build
+        ```
+
+        2. Configure compilation. The following flags are set to ensure the `aomenc` binary is build for optimal performance:
+        ```bash title="Set CMake flags"
+        cmake .. -DBUILD_SHARED_LIBS=0 -DENABLE_DOCS=0 -DCONFIG_TUNE_BUTTERAUGLI=0 -DCONFIG_TUNE_VMAF=0 -DCONFIG_AV1_DECODER=0 -DENABLE_TESTS=0 -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-flto -pipe -march=native" -DCMAKE_C_FLAGS="-flto -pipe -march=native"
+        ```
+
+        3. Compile:
+        ```bash title="Compile"
+        make -j$(nproc)
+        ```
+
+        4. Install to your system. This may require elevated privileges:
+        ```bash title="Install"
+        make install
+        ```
+    </TabItem>
+    <TabItem value="wind" label="Windows">
+        **MSYS2** is the best option for building in Windows, as it provides a Unix-like environment for compilation.
+
+        0. Make sure you have downloaded & installed MSYS2 from [the MSYS2 website](https://www.msys2.org/) before beginning the build process.
+
+        1. Close any MSYS2 Console that you have open, start the Clang64 console & install the required dependencies:
+        ```bash
+        pacman -S git perl mingw-w64-clang-x86_64-clang mingw-w64-clang-x86_64-ninja mingw-w64-clang-x86_64-cmake mingw-w64-clang-x86_64-nasm
+        ```
+
+        2. Clone the psy101 repo:
+        ```bash title="Clone the psy101 repo"
+        git clone https://gitlab.com/damian101/aom-psy101
+        cd aom-psy101 && mkdir aom_build && cd aom_build
+        ```
+
+        2. Configure compilation. The following flags are set to ensure the `aomenc` binary is build for optimal performance:
+        ```bash title="Set CMake flags"
+        LDFLAGS=-static cmake .. -DBUILD_SHARED_LIBS=0 -DENABLE_DOCS=0 -DCONFIG_TUNE_BUTTERAUGLI=0 -DCONFIG_TUNE_VMAF=0 -DCONFIG_AV1_DECODER=0 -DENABLE_TESTS=0 -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-flto -pipe -march=native" -DCMAKE_C_FLAGS="-flto -pipe -march=native"
+        ```
+
+        3. Compile:
+        ```bash title="Compile"
+        ninja
+        ```
+
+        The resulting binary will be available within the home folder of the location where you installed MSYS2 (usually `C:`). Navigate there, and then to `aom-psy101\aom_build` folder; the binary should be there.
+    </TabItem>
+</Tabs>

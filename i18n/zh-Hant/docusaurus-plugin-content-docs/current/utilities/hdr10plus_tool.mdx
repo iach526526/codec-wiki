@@ -1,0 +1,68 @@
+---
+title: hdr10plus_tool
+sidebar_position: 11
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# hdr10plus_tool
+
+**hdr10plus_tool** is a command line tool written in Rust for working with HDR10+ in HEVC files. It was previously named *hdr10plus_parser*.
+
+## Installation
+
+<Tabs>
+    <TabItem value="unixlike" label="Linux & macOS">
+        You can download official pre-built binaries for Linux & macOS from [the GitHub Releases](https://github.com/quietvoid/hdr10plus_tool/releases), or you may compile the tool yourself via the instructions below.
+
+        Ensure you have Rust installed.
+
+        ```bash
+        git clone https://github.com/quietvoid/hdr10plus_tool.git
+        cd hdr10plus_tool
+        RUSTFLAGS="-C target-cpu=native" cargo build --release
+        ```
+    </TabItem>
+    <TabItem value="windows" label="Windows">
+        You can download official pre-built binaries for Windows from [the GitHub Releases](https://github.com/quietvoid/hdr10plus_tool/releases), or you may compile the tool yourself via the instructions below.
+
+        Ensure you have Rust installed.
+
+        ```pwsh
+        git clone https://github.com/quietvoid/hdr10plus_tool.git
+        cd hdr10plus_tool
+        set RUSTFLAGS=-C target-cpu=native 
+        cargo build --release
+        ```
+    </TabItem>
+</Tabs>
+
+## Usage
+
+```bash title="General usage"
+hdr10plus_tool [OPTIONS] <SUBCOMMAND>
+```
+```bash title="Get more options for a subcommand"
+hdr10plus_tool <SUBCOMMAND> --help
+```
+### Extracting
+```bash title="Extract using FFmpeg pipe (Recommended)"
+ffmpeg -hide_banner -strict -2 -i input.mkv -map 0:v:0 -c copy -vbsf hevc_mp4toannexb -f hevc - | hdr10plus_tool extract -o metadata.json -
+```
+```bash title="Extract from raw bitstream"
+hdr10plus_tool extract video.hevc -o metadata.json
+```
+### Injecting
+
+```bash title="Inject to raw bitstream"
+hdr10plus_tool inject -i video.hevc -j metadata.json -o injected_output.hevc
+```
+### Removing HDR10+ Metadata
+
+```bash title="Remove using FFmpeg pipe (Recommended)"
+ffmpeg -hide_banner -strict -2 -i input.mkv -map 0:v:0 -c copy -vbsf hevc_mp4toannexb -f hevc - | hdr10plus_tool remove -
+```
+```bash title="Remove from raw bitstream"
+hdr10plus_tool remove video.hevc -o hdr10plus_removed_output.hevc
+```

@@ -1,0 +1,115 @@
+---
+title: rav1e
+keywords: [AV1, encoding, video encoding]
+sidebar_position: 5
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# rav1e
+
+[rav1e](https://github.com/xiph/rav1e) is an open source command line application for encoding AV1 written in Assembly & Rust, co-developed by Xiph.org and Mozilla and licensed under BSD-2 Clause.
+
+## FFmpeg
+
+rav1e is available in FFmpeg via `librav1e`, to check if you have it, run `ffmpeg -h encoder=librav1e`. You can input non-FFmpeg standard rav1e parameters via `-rav1e-params`.
+
+
+## Supported Color Space
+
+rav1e supports the following color spaces:
+
+| Format           | Chroma Subsampling | Supported Bit Depth(s) |
+|------------------|:------------------:|-----------------------|
+| YUV420P          | 4:2:0              | 8-bit                 |
+| YUVJ420P         | 4:2:0              | 8-bit (Full range)    |
+| YUV422P          | 4:2:2              | 8-bit                 |
+| YUVJ422P         | 4:2:2              | 8-bit (Full range)    |
+| YUV444P          | 4:4:4              | 8-bit                 |
+| YUVJ444P         | 4:4:4              | 8-bit (Full range)    |
+| YUV420P10LE      | 4:2:0              | 10-bit                |
+| YUV422P10LE      | 4:2:2              | 10-bit                |
+| YUV444P10LE      | 4:4:4              | 10-bit                |
+| YUV420P12LE      | 4:2:0              | 12-bit                |
+| YUV422P12LE      | 4:2:2              | 12-bit                |
+| YUV444P12LE      | 4:4:4              | 12-bit                |
+
+## Installation
+
+<Tabs>
+    <TabItem value="unixlike" label="Linux & macOS">
+
+        Official pre-built rav1e binaries can be found on the [releases page](https://github.com/xiph/rav1e/releases) in rav1e's Github repository. Unofficially, the [rAV1ator CLI](../utilities/rav1ator-cli.mdx) command line tool can automatically download and install rav1e to `/usr/local/bin`. rav1e can also be installed with Cargo by running `cargo install rav1e`. 
+
+        :::info Stable Release
+For stability & a proper version number, please reset the source to the correct release commit. In the releases page, click the icon to the right of the release tag & copy the commit in the url bar. Then, in the cloned rav1e directory, `git reset --hard [commit hash]`
+:::
+
+        Here are instructions for resetting to release 0.7.1 (latest as of 19 Feb 2024) and building. Omit the `git reset` command to use the latest git, if you have a *specific* reason to use the latest git instead of an official tagged release.
+
+        ```bash
+        git clone https://github.com/xiph/rav1e.git
+        cd rav1e
+        git reset --hard a8d05d0c43826a465b60dbadd0ab7f1327d75371
+        RUSTFLAGS="-C target-cpu=native" cargo build --release
+        ```
+
+        When done, the binary can be found in `/target/release`. You can then copy the binary wherever you desire it to go, like by doing `cp /target/release/rav1e /usr/local/bin` .
+
+        ### Patched Installation with HDR10+ support
+
+        rav1e currently has an [unmerged pull request](https://github.com/xiph/rav1e/pull/3000) by quietvoid, the person behind [hdr10plus_tool](../utilities/hdr10plus_tool.mdx) and [dovi_tool](../utilities/dovi_tool.mdx). The PR adds a new parameter called `--hdr10plus-json` for HDR10+ JSON dynamic metadata input. To merge it locally, do the following:
+
+        ```bash
+        git clone https://github.com/xiph/rav1e.git
+        cd rav1e
+        git reset --hard [release commit]
+        git fetch origin pull/3000/head:HDR10+
+        ```
+        Now the patch should be applied, and you may build as usual.
+
+    </TabItem>
+    <TabItem value="windows" label="Windows">
+        If you would not like to build from source, official pre-built rav1e binaries can be found on the [releases page](https://github.com/xiph/rav1e/releases) in rav1e's Github repository.
+
+         :::info Stable Release
+For stability & a proper version number, please reset the source to the correct release commit. In the releases page, click the icon to the right of the release tag & copy the commit in the url bar. Then, in the cloned rav1e directory, `git reset --hard [commit hash]`
+:::
+
+        Here are instructions for resetting to release 0.7.1 (latest as of 19 Feb 2024) and building. Omit the `git reset` command to use the latest git, if you have a *specific* reason to use the latest git instead of an official tagged release.
+
+        ```powershell
+        git clone https://github.com/xiph/rav1e.git
+        cd rav1e
+        git reset --hard a8d05d0c43826a465b60dbadd0ab7f1327d75371
+        set RUSTFLAGS=-C target-cpu=native
+        cargo build --release
+        ```
+        When done, the binary can be found in `target/release` 
+    </TabItem>
+</Tabs>
+
+## Usage
+
+For AV1 encoding, rav1e has very sane defaults. It is very hard to go wrong with parameters if you modify as few as possible.
+
+:::tip
+To convert `cq-level` in aomenc and `crf` in SVT-AV1 to rav1e's quantizer values, multiply by 4. For example, `--cq-level 20` equals to `--quantizer 60`.
+:::
+
+```bash title="Basic usage"
+rav1e -i input.y4m -o output.ivf --quantizer 60 --photon-noise 8
+```
+
+```bash title="Basic usage with FFmpeg piping, 10bit input"
+ffmpeg -i input.mkv -pix_fmt yuv420p10le -strict -2 -f yuv4mpegpipe - | rav1e - -o output.ivf --quantizer 80 --photon-noise 8
+```
+
+```bash title="Basic usage with FFmpeg piping, 10bit input and assuming 4K"
+ffmpeg -i input.mkv -pix_fmt yuv420p10le -strict -2 -f yuv4mpegpipe - | rav1e - -o output.ivf --quantizer 68 --tile-columns 2 --tile-rows 1 --photon-noise 8
+```
+
+## Tips & Tricks
+
+1. Use 2x1 tiles or `tile-columns 2` and `tile-rows 1` for 4K (2160p) encoding, this will help with both encoding and decoding speeds.

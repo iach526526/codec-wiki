@@ -69,7 +69,17 @@ const config = {
   // to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'zh-Hant'],
+    localeConfigs: {
+      'en': {
+        label: 'English',
+        direction: 'ltr',
+      },
+      'zh-Hant': {
+        label: '繁體中文',
+        direction: 'ltr',
+      },
+    },
   },
 
   presets: [
@@ -109,6 +119,8 @@ const config = {
         {to: 'blog', label: 'Blog', position: 'left'},
         {href: 'https://discord.gg/bbQD5MjDr3', className: 'header-discord-link', 'aria-label': 'Discord', position: 'right'},
         {href: 'https://github.com/av1-community-contributors/codec-wiki/tree/main', className: 'header-github-link', 'aria-label': 'GitHub', position: 'right'},
+        {type: 'localeDropdown', position: 'right',}
+        // switch language dropdown
       ],
         title: 'Codec Wiki',
         logo: {
