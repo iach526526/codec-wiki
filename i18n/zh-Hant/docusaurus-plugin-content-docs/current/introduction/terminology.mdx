@@ -7,19 +7,19 @@ sidebar_position: 2
 在學習編碼技術時，理解這些用來描述概念的專業術語非常重要，儘管這些概念本身通常並不難理解。
 
 ## Bitstream
-*Bitstream* 或稱 *bit stream* 是一種媒體檔案，可以在媒體播放器中播放。它包含一個[容器](#container)，包裹了多個[基本流](#elementary-stream)。
+*Bitstream* 或稱 *bit stream* 是一種媒體檔案，可以在媒體播放器中播放。它包含一個[容器](#container)，包裹了多個[elementary stream](#elementary-stream)。
 
 ## Lossy / Lossless
 *Lossy* 編碼會捨棄部分細節以縮小檔案大小。這種取捨通常是可以接受的，但如果你需要完美還原資料，那麼就需要選擇 *lossless* 編碼。
 
 ## Elementary stream
-基本流是一個音訊、視訊或字幕軌道。它是你希望封裝到容器中的壓縮資料。
+elementary stream是一個音訊、視訊或字幕軌道。它是你希望封裝到容器中的壓縮資料。
 
 ## Muxing
-將基本流封裝到容器中，這個過程不會改變資料本身。
+將elementary stream封裝到容器中，這個過程不會改變資料本身。
 
 ## Codec
-編解碼器（**co**der/**dec**oder）是實際負責編碼你輸入資料的程式碼。它接收資料並生成基本流作為輸出。更多資訊可參考[序章](./prologue.mdx#what-is-a-codec)中的「什麼是編解碼器」部分。
+編解碼器（**co**der/**dec**oder）是實際負責編碼你輸入資料的程式碼。它接收資料並生成elementary stream作為輸出。更多資訊可參考[序章](./prologue.mdx#what-is-a-codec)中的「什麼是編解碼器」部分。
 
 ## Filter
 Filter 是一段程式碼，用來對資料進行處理，使其具備不同的效果，例如銳化、去除雜訊、穩定畫面、去噪、縮放或疊加等。
@@ -28,42 +28,49 @@ Filter 是一段程式碼，用來對資料進行處理，使其具備不同的�
 這些程式碼用來進行[封裝](#muxing)操作，或反向操作以從容器中提取 elementary stream。
 
 
-## Bitstream filter
-A bitstream filter is a filter that is directly applied to the [bitstream](#bitstream) in order to change something about the container, for instance, convert frame types, or corrupt some packets.
+## Bitstream Filter
+
+Bitstream filter 是一種直接應用於 [bitstream](#bitstream) 的濾鏡，用於改變容器中的某些內容，例如轉換幀類型或損壞某些資料包。
 
 ## Container
-A container is a format for putting one or more elementary streams into one file, which is then called a [bitstream](#bitstream).
 
-A video container is a digital file format that holds video and audio data, as well as additional information such as subtitles, metadata, and chapter markers. It acts as a "wrapper" that packages all these elements into a single file that can be played on various devices and software platforms. Think of it like a container you might use to transport goods - the video and audio data are like the items being transported, while the container itself provides a structure and organization for the contents.
+容器是一種格式，用於將一個或多個elementary stream放入一個檔案中，這個檔案就稱為 [bitstream](#bitstream)。
 
-Some kinds of containers:
+視訊容器是一種數位檔案格式，它包含視訊和音訊資料，以及額外的資訊，例如字幕、元資料和章節標記。它充當一個「包裝器」，將這些元素打包成一個單一檔案，可以在各種設備和軟體平台上播放。可以將其比作一個用來運輸物品的容器——視訊和音訊資料就像是運輸的物品，而容器本身則提供了結構和內容的組織。
+
+### 一些常見的容器格式：
 
 #### MP4 / M4V
 
-This is likely the most common container you've encountered, & has near universal compatibility. Has a limited maximum amount of streams. The supported video codecs are [H.264](../video/AVC.mdx), [H.265](../video/HEVC.mdx), [H.266](../video/VVC.mdx), DivX, Xvid, [VP9](../video/VP9.mdx) (Unofficial, hacky), and [AV1](../video/AV1.mdx) (Unofficial, hacky). For audio codecs it's many of the various flavors of [AAC](../audio/AAC.mdx), [MP3](../audio/MP3.mdx), [FLAC](../audio/FLAC.mdx) (Unofficial), [Opus](../audio/Opus.mdx) (Unofficial, hacky). For subtitles only MPEG-4 Timed Text (TTXT) is supported.
+這可能是你遇到的最常見的容器，並且具有幾乎普遍的兼容性。它有最大的流量限制。支持的視訊編解碼器包括 [H.264](../video/AVC.mdx)、[H.265](../video/HEVC.mdx)、[H.266](../video/VVC.mdx)、DivX、Xvid、[VP9](../video/VP9.mdx)（非官方、黑客版本）、[AV1](../video/AV1.mdx)（非官方、黑客版本）。音訊編解碼器包括各種不同風格的 [AAC](../audio/AAC.mdx)、[MP3](../audio/MP3.mdx)、[FLAC](../audio/FLAC.mdx)（非官方）、[Opus](../audio/Opus.mdx)（非官方、黑客版本）。字幕方面僅支持 MPEG-4 Timed Text (TTXT)。
 
-The best tool to work with this container is MP4Box, but FFmpeg also works.
+處理這種容器的最佳工具是 MP4Box，但 FFmpeg 也適用。
+
 
 #### MOV
 
-Similar to MP4, but less supported. Made with Apple Quicktime in mind, supports ProRes.
+與 MP4 類似，但支援度較低。MOV 檔案主要為 Apple Quicktime 所設計，並支援 ProRes 編碼，雖然支援的範圍不如 MP4 廣泛，但仍被某些專業用途所使用。
 
 #### MKV / MKA / MKS / MK3D
 
-Also known as Matroska, allows an unlimited amount of video/audio/subtitle streams and any codec that probably still exists in Area 51, you can put literally anything in there and it won't even care, MPEG-2/DivX/H.266/Theora/Thor/RealVideo/MJPEG/AVS3/AMR-WB, you name it. All around best container for working with if you have the choice.
+也稱為 Matroska，這個容器格式可以無限地容納視訊、音訊和字幕流，並支援幾乎所有可能存在的編碼器，包括 MPEG-2、DivX、H.266、Theora、Thor、RealVideo、MJPEG、AVS3 和 AMR-WB 等。這使得 MKV 成為一個極為靈活且功能強大的容器，特別適合需要多樣化編碼或多流的情況。
 
 #### WebM
 
-A container made with web streaming in mind. WebM is a stripped-down subset of MKV that only allows free & open source codecs such as VP8, VP9 or AV1 for video alongside Vorbis or Opus for audio. It is a common misconception that [WebVTT](../subtitles/webvtt.mdx) tracks always work natively in browsers when within a WebM container; in practice, WebMs containing WebVTT subtitles *will usually not* play back the subtitles in browsers. WebVTT subtitles can be utilized with the `<track>` element instead, meaning they exist outside the WebM container itself. More info in the [Mozilla Web Docs](https://developer.mozilla.org/en-US/docs/Web/Media/Audio_and_video_delivery/Adding_captions_and_subtitles_to_HTML5_video).
+專為網頁串流而設計的容器。WebM 是 MKV 的精簡版，只允許使用免費且開放的編碼器，例如 VP8、VP9 或 AV1 進行視訊編碼，以及 Vorbis 或 Opus 進行音訊編碼。儘管許多人誤以為 [WebVTT](../subtitles/webvtt.mdx) 字幕能在 WebM 容器內直接在瀏覽器中顯示，實際上，WebVTT 字幕通常無法在包含 WebVTT 字幕的 WebM 檔案中顯示。要在瀏覽器中使用 WebVTT 字幕，應該利用 HTML 的 `<track>` 元素來加載這些字幕，這些字幕其實並不包含在 WebM 容器內。詳細資訊請參考 [Mozilla Web Docs](https://developer.mozilla.org/en-US/docs/Web/Media/Audio_and_video_delivery/Adding_captions_and_subtitles_to_HTML5_video)。
 
 ## Transcoding
-Taking an elementary stream & converting it to another format, lossless or lossy, using an encoder of some kind. For example, if I convert a lossless [FFV1](../video/FFV1.mdx) video to a lossy AV1 video using an encoder like [rav1e](../encoders/rav1e.mdx), I have *transcoded* this lossless video to AV1. Transcoding doesn't have anything to do with the container.
+
+將一個基礎流轉換為另一種格式的過程，這可以是無損的，也可以是有損的，並使用某種編碼器來完成。例如，將一個無損的 [FFV1](../video/FFV1.mdx) 視訊轉換為有損的 AV1 視訊，使用編碼器如 [rav1e](../encoders/rav1e.mdx)，就是一個典型的轉碼過程。轉碼的過程不涉及容器的格式。
 
 ## RDO
-RDO, or Rate-Distortion Optimization, is a technique used to find the best trade-off between the bit rate & the quality of lossily encoded content. RDO can be metric-based, optimizing to score well on metrics like [PSNR](../metrics/PSNR.mdx) or [SSIM](../metrics/SSIM.mdx).
 
-## Perceputal / Psychovisual / Psychoacoustic
-"Psychovisual quality" (for videos), "Psychoacoustic quality" (for audio), or "perceptual quality" is a term used to describe the perception of quality of distorted media by the human senses. The goal of any multimedia codec is to minimize data while maintaining perceived quality, and optimizing around human perception theoretically yields the best performance within any limited set of coding techniques (like when using an older codec). Our model of human perception continues to evolve, which makes modelling perceptual quality very difficult. Presently, the metrics [SSIMULACRA2](../metrics/SSIMULACRA2.mdx) (Images/Video) & [Butteraugli](../metrics/butteraugli.mdx) (Video) are considered the most accurate to our human visual system.
+RDO，即 Rate-Distortion Optimization（比特率-失真優化），是一種技術，用來找到比特率與有損編碼內容質量之間的最佳平衡點。RDO 的優化可以基於各種度量，例如 [PSNR](../metrics/PSNR.mdx) 和 [SSIM](../metrics/SSIM.mdx)，來達到最佳的效果。
+
+## Perceptual / Psychovisual / Psychoacoustic
+
+“Psychovisual quality”（視訊感知質量）、“Psychoacoustic quality”（音訊感知質量）或“perceptual quality”（感知質量）是用來描述人類感官如何感知扭曲媒體質量的術語。任何多媒體編碼器的目標都是在保持感知質量的同時減少數據量，並圍繞人類感知進行優化，這樣理論上能在有限的編碼技術中實現最佳性能。由於我們對人類感知的理解不斷演進，建模感知質量變得非常困難。目前，[SSIMULACRA2](../metrics/SSIMULACRA2.mdx)（用於圖像/視訊）和 [Butteraugli](../metrics/butteraugli.mdx)（用於視訊）被認為是最符合我們視覺系統的度量標準。
 
 ## Discrete Cosine Transform (DCT)
-The Discrete Cosine Transform is a mathematical transformation that can transform discrete data into the frequency domain. This discrete data could be pixels in an image/video compression block or data points recorded temporally representing an audio recording. This algorithm is a particularly good choice for image, video, music, & speech compression because it has high energy compaction relative to our understanding of fidelity in media. High energy compaction means the DCT is able to represent a signal with a small number of significant coefficients. 
+
+離散餘弦變換（DCT）是一種數學變換，用於將離散數據轉換到頻率域。這些數據可以是圖像或視訊壓縮區塊中的像素，或者是音訊錄製的時間序列數據。DCT 是一種特別適合用於圖像、視訊、音樂和語音壓縮的算法，因為它在保持信號的忠實度方面具有高能量壓縮能力。這意味著 DCT 可以用少量的重要係數來準確表示信號。
