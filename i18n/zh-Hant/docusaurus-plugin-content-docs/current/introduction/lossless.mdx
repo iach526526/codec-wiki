@@ -9,46 +9,45 @@ sidebar_position: 3
 The content in this entry is incomplete & is in the process of being completed.
 :::
 
-Lossless compression is a method of data compression that allows the original data to be perfectly reconstructed from the compressed data. This is particularly important in applications where perfectly preserving the original fidelity of a medium is critical, such as in archiving, generic data compression, & professional media editing. To understand how lossless compression works, we will first delve into the concepts of redundancy, entropy, and specific compression techniques oft used in lossless compression.
+無損壓縮是一種數據壓縮技術，能夠在壓縮後完全恢復原始數據。在需要完全保留原始內容完整性的應用場景中，這種技術尤為重要，例如在數據存檔、通用數據壓縮和專業媒體編輯中。為了理解無損壓縮的運作原理，我們首先需要了解冗餘、熵的概念，以及無損壓縮中常用的幾種壓縮技術。
 
-### Redundancy & Entropy
+### 冗餘與熵
 
-The concepts of redundancy & entropy are important to understand as you continue reading.
+了解冗餘與熵的概念對於深入理解無損壓縮至關重要。
 
-**Redundancy** refers to the repetitive or predictable elements in data. These elements do not add new information and can be efficiently encoded to reduce the overall data size without losing any information.
+**冗餘** 指的是數據中重複或可預測的部分。這些部分並不提供新信息，通過高效編碼可以減少數據大小，而不會損失任何信息。
 
-**Entropy**, in the context of information theory, is a measure of the unpredictability or randomness of data. Lower entropy implies higher redundancy, implying that the data is theoretically more compressible.
+**熵** 在信息理論中是用來衡量數據的隨機性或不可預測性。熵越低，冗餘度越高，意味著數據在理論上越容易壓縮。
 
-In lossless compression, the goal is to reduce redundancy and encode data as efficiently as possible based on its entropy.
+在無損壓縮中，我們的目標是減少冗餘，並根據數據的熵進行最有效的編碼。
 
-### Techniques in Lossless Compression
 
-1. **Run-Length Encoding (RLE)**:
-   RLE is a simple form of lossless compression where sequences of the same data value (runs) are stored as a single data value and a count. This technique is effective for compressing data with long runs of identical samples, such as silence or constant tones. For example, the sequence `AAAAABBBCC` could be encoded as `5A3B2C`.
+### 無損壓縮中的技術
 
-2. **Huffman Coding**:
-    Huffman coding is an entropy encoding algorithm used for lossless data compression that works by separating an input into component symbols and replacing each symbol with a code. The algorithm builds a binary tree, with each leaf node representing a symbol separated from the input data, and the path from the root to the leaf representing the binary code for that symbol.
+1. **游程編碼 (run-length encoding,RLE)**：
+   游程編碼是一種簡單的無損壓縮方法，將連續相同的數據值（即“游程”）儲存為單一數據值和計數。這種技術非常適合壓縮長時間重複的數據，例如靜音或恆定音調。例如，序列 `AAAAABBBCC` 可以被編碼為 `5A3B2C`。
 
-    Huffman coding is effective when the probability distribution of the input characters is known and can be exploited. Imagine you are storing the state of a traffic light; it is either green, yellow, red, or off for maintenance. As the operator, you have determined that it is green 50% of the time, red 40% of the time, yellow 9% of the time, and disabled 1% of the time. Because there are four options, you can accurately represent all of the possible symbols in our example using two bits. Green could be `00`, red `01`, yellow `10`, and off `11`. While assigning two-bit codes accurately conveys the information, we're storing an average of two bits per symbol; we can reduce the average number of bits per symbol by taking the probabilities into account here. We'll assign green to `0` since it appears the most frequently; this is the first leaf on our binary tree. Next, we have the leaves that stem from the `1` code; red can simply be `11`, while yellow can be `100` and the disabled symbol can be represented by `101`. This gives us the following Huffman codes:
-        - Green     (50%): `0`
-        - Red       (40%): `11`
-        - Yellow    ( 9%): `100`
-        - Disabled  ( 1%): `101`
+2. **run-length encoding (Huffman Coding)**：
+   霍夫曼編碼是一種熵編碼算法，用於無損數據壓縮。它通過將數據拆分為組成符號，並為每個符號分配編碼來工作。這個過程涉及構建一棵二叉樹，每個葉節點代表一個符號，從根到葉的路徑對應於該符號的二進制編碼。
 
-    Represented by the following tree:
+   霍夫曼編碼在知道字符概率分佈的情況下效果最佳。假設你在記錄交通信號燈的狀態，它可能是綠色、黃色、紅色或因維修而關閉。根據統計，綠色出現的機率為 50%、紅色 40%、黃色 9%、關閉 1%。由於這裡有四種狀態，我們可以用兩位二進制數來表示。綠色可以用 `00`、紅色 `01`、黃色 `10`，關閉則為 `11`。然而，為了更有效地壓縮數據，我們可以根據各狀態的出現頻率分配編碼。例如，綠色頻率最高，所以分配 `0`，紅色 `11`，黃色 `100`，關閉 `101`。這樣，我們得到的霍夫曼編碼如下：
+       - 綠色     (50%): `0`
+       - 紅色     (40%): `11`
+       - 黃色     ( 9%): `100`
+       - 關閉     ( 1%): `101`
 
-        ![Traffic light Huffman tree](https://raw.githubusercontent.com/av1-community-contributors/images/main/color-huffman-tree-svg.svg)
+   樹形結構如下所示：
 
-    Now, if we do the math by multiplying the probability by the length of each code and taking the weighted sum:
-        (50% • 1) + (40% • 2) + (9% • 3) + (1% • 3) = **1.6**
+   ![交通信號燈霍夫曼樹](https://raw.githubusercontent.com/av1-community-contributors/images/main/color-huffman-tree-svg.svg)
 
-    We end up with an average of **1.6 bits per symbol**. Even in our relatively simple example, this shows how Huffman coding can save space quite effectively while still losslessly representing the same information.
+   通過計算概率與編碼長度的加權總和：
+       (50% • 1) + (40% • 2) + (9% • 3) + (1% • 3) = **1.6**
 
-3. **Arithmetic Coding**
-   Arithmetic coding is another entropy encoding technique that represents an entire message as a single number in the interval `[0, 1)`. Unlike Huffman coding, which assigns fixed binary codes to component symbols separated from an input, arithmetic coding represents multiple symbols with a single floating-point number *q* which must be within the range `0.0 ≤ q < 1.0`. Arithmetic coding is particularly effective when the probability distribution of the symbols is skewed, as it can produce a more compact representation than Huffman coding. It is usually slower than Huffman coding.
+   我們得到每個符號的平均 **1.6 位**。這顯示了霍夫曼編碼在節省空間方面的高效性，同時能夠無損地保留信息。
+3. **算術編碼**
+   算術編碼是一種熵編碼技術，它將整個訊息表示為 `[0, 1)` 區間中的一個單一數字。與霍夫曼編碼不同的是，霍夫曼編碼為輸入中的每個符號分配固定的二進制碼，而算術編碼則使用一個範圍在 `0.0 ≤ q < 1.0` 之間的浮點數 *q* 來表示多個符號。當符號的概率分佈偏斜時，算術編碼能提供比霍夫曼編碼更緊湊的表示，但它的處理速度通常比霍夫曼編碼慢。
 
-   Let's return to our traffic light example. Let's say you aren't satisfied with our previous Huffman coding result, which has produced an average of 1.6 bits per symbol, and you'd like to use arithmetic coding instead. In arithmetic coding, each of our symbols should first be placed on a range within the interval `[0, 1)` based on its probability. Then, we can narrow down this range as we encode more symbols, eventually arriving at a single number that represents the entire sequence. The steps follow below.
-
+   讓我們回到交通信號燈的例子。如果你對之前霍夫曼編碼的結果不滿意，該結果的平均位元數為 1.6，而你希望使用算術編碼，則在算術編碼中，每個符號會首先根據其概率被分配到 `[0, 1)` 區間中的一個範圍。隨著我們編碼更多符號，這個範圍會逐漸縮小，最終得出一個單一數字來表示整個序列。具體步驟如下。
     Let's use the same probabilities from before:
     - Green     (50%)
     - Red       (40%)
