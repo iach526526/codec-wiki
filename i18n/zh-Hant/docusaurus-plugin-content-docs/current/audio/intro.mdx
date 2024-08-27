@@ -1,46 +1,45 @@
----
-title: Intro
-description: What is lossless audio? What is lossy audio? What is an audio codec? This entry serves as an intro to digital audio processing.
-keywords: [audio codec, audio, codec, audio encoding, audio decoding, audio compression, audio quality, audio formats, audio file formats, audio file, audio file type, audio file extension, audio file format, audio file types, audio file formats]
+﻿---
+title: 介紹
+description: 什麼是無損音頻？什麼是有損音頻？什麼是音頻編解碼器？這篇文章將介紹數位音頻處理的基本概念。
+keywords: [音頻編解碼器, 音頻, 編解碼器, 音頻編碼, 音頻解碼, 音頻壓縮, 音質, 音頻格式, 音頻檔案格式, 音頻檔案, 音頻檔案類型, 音頻檔案擴展名, 音頻檔案格式, 音頻檔案類型, 音頻檔案格式]
 sidebar_position: 1
 ---
 
-# Introduction to Lossy & Lossless Audio Compression
+# 無損與有損音頻壓縮介紹
 
-:::info Under Maintenance
-The content in this entry is incomplete & is in the process of being completed.
+:::info 維護中
+此條目內容尚不完整，正在進行更新中。
 :::
 
-Digital audio is the representation of sound recorded in, or converted into, digital form. To understand digital audio, it's crucial to grasp some fundamental concepts, including **sampling**, **Nyquist Frequency**, and the **Nyquist-Shannon Sampling Theorem**.
+數位音頻是指以數位形式記錄或轉換的聲音。要了解數位音頻，掌握一些基本概念是關鍵的，包括 **取樣**、**奈奎斯特頻率(Nyquist Frequency)** 和 **奈奎斯特–夏農取樣定理 (Nyquist-Shannon Sampling Theorem)**。
 
-## Sampling & the Nyquist Frequency
+## 取樣與奈奎斯特頻率
 
-**Sampling** is the process of converting a continuous, analog audio signal into a discrete digital signal by measuring the amplitude of the audio signal at uniform intervals. The frequency of this measurement is known as the *sampling rate*, typically measured in samples per second, or Hertz (Hz). For example, audio CDs use a sampling rate of 44,100 Hz, which means the audio signal is sampled 44,100 times every second.
+**取樣** 是將連續的類比音頻信號轉換為離散數位信號的過程，通過在均勻的時間間隔內測量音頻信號的振幅來完成。這個測量的頻率稱為 *取樣率*，通常以每秒取樣次數或赫茲（Hz）來表示。例如，音頻 CD 的取樣率為 44,100 Hz，意味著每秒取樣 44,100 次。
 
-To accurately represent a wave, you need at least two measurements per cycle; one to capture the peak of the wave, and one to capture the trough. If you sample less than twice per cycle, you can't distinguish between different frequencies; this is where the **Nyquist frequency** comes from. Named after Harry Nyquist, the **Nyquist frequency** is *half of the sampling rate of a discrete signal processing system*. For a given sampling rate, the Nyquist frequency represents the highest frequency that can be accurately sampled without introducing errors such as aliasing. For example, with a sampling rate of 48,000 Hz, the Nyquist frequency is 24,000 Hz. Capturing frequencies above the Nyquist frequency for a given system can bring about **aliasing** artifacts. Aliasing occurs where high-frequency components appear as lower frequencies in the sampled signal, distorting the information.
+為了準確地表示一個波形，你需要每個週期至少進行兩次取樣：一次捕捉波峰，一次捕捉波谷。如果取樣頻率低於每個週期兩次，你將無法準確區分不同的頻率；這就是 **奈奎斯特頻率** 的由來。**奈奎斯特頻率** 是 *離散信號處理系統取樣率的一半*。對於給定的取樣率，奈奎斯特頻率是可以準確取樣的最高頻率，而不會引入像混疊這樣的錯誤。例如，取樣率為 48,000 Hz 時，奈奎斯特頻率是 24,000 Hz。捕捉超過奈奎斯特頻率的頻率會產生 **混疊** 伪影，這會導致高頻成分在取樣信號中顯示為低頻，從而扭曲信息。
 
-The **Nyquist-Shannon sampling theorem** states that to avoid aliasing, the sampling rate must be at least twice the highest frequency present in the signal. This theorem is crucial for ensuring that the digital representation of the audio signal retains all the information from the original analog signal without distortion.
+**奈奎斯特–夏農取樣定理** 表明，為了避免混疊，取樣率必須至少是信號中最高頻率的兩倍。這一定理對於確保數位音頻能夠忠實於原始類比音頻至關重要。
+## 無損音頻壓縮
 
-## Lossless Audio Compression
+無損壓縮的主要優勢在於能夠保持音質，這使得它非常適合用於專業音頻製作、檔案保存以及需要高音質的場合。然而，無損檔案的尺寸比有損檔案要大很多，這可能會對存儲和（尤其是）串流造成挑戰。
 
-The main benefit of lossless compression is the preservation of audio quality, making it ideal for professional audio production, archiving, and situations where high fidelity is required. However, lossless files are significantly larger than their lossy counterparts, which can be a drawback for storage and (especially) streaming.
-
-:::note Lossless Compression
-If you would like to dive more deeply into the topic of lossless compression, you can check out the [Lossless Compression](../introduction/lossless.mdx) entry in the Introduction section of the wiki.
+:::note 無損壓縮
+如果你想深入了解無損壓縮的相關內容，可以參考維基中的 [無損壓縮](../introduction/lossless.mdx) 條目。
 :::
 
-[FLAC](./FLAC.mdx), [WavPack](./WavPack.mdx), & [ALAC](./ALAC.mdx) are examples of popular lossless audio codecs that you are likely to encounter in the wild.
+[FLAC](./FLAC.mdx)、[WavPack](./WavPack.mdx) 和 [ALAC](./ALAC.mdx) 是一些常見的無損音頻編解碼器，你很可能會在實際使用中遇到這些編解碼器。
 
-## Lossy Audio Compression
+## 有損音頻壓縮
 
-The primary advantage of lossy compression is the significant reduction in file size, making it ideal for streaming, portable devices, and situations where storage space is limited. However, the trade-off is a potential loss in audio quality, which may be noticeable in critical listening environments.
+有損壓縮的主要優點是可以顯著減少檔案大小，這使它非常適合用於串流、可攜設備和儲存空間有限的場合。然而，這樣的壓縮方式可能會導致音質損失，在精確的聽音環境中這種損失可能會變得明顯。
 
-:::note Lossy Compression
-If you would like to dive more deeply into the topic of lossy compression, you can check out the [Lossy Compression](../introduction/lossy.mdx) entry in the Introduction section of the wiki.
+:::note 有損壓縮
+如果你希望深入了解有損壓縮的相關內容，可以參考維基中的 [有損壓縮](../introduction/lossy.mdx) 條目。
 :::
 
-[MP3](./MP3.mdx), [AAC](./AAC.mdx), [Vorbis](./Vorbis.mdx), & [Opus](./Opus.mdx) are some examples of popular lossy audio codecs that you are likely to encounter in the wild.
+[MP3](./MP3.mdx)、[AAC](./AAC.mdx)、[Vorbis](./Vorbis.mdx) 和 [Opus](./Opus.mdx) 是一些常見的有損音頻編解碼器，你在實際使用中可能會遇到這些編解碼器。
 
-## Conclusion
+## 結論
 
-Understanding these baseline principles of digital audio processing is essential for informed reading when it comes to the rest of the Audio section of this wiki. We hope this page helped you grasp some of the fundamental concepts that underpin digital audio processing.
+理解這些數位音頻處理的基本概念對於閱讀維基中音頻部分的其他內容至關重要。我們希望這一頁面能幫助你掌握數位音頻處理的一些基本概念。
