@@ -1,98 +1,98 @@
----
+﻿---
 title: Opus
 sidebar_position: 2
 ---
 
-# Opus
+### Opus
 
-:::info Under Maintenance
-The content in this entry is incomplete & is in the process of being completed.
+:::info 維護中
+本條目內容不完整，目前正在進行完善中。
 :::
 
-Opus is an open-source audio codec that has largely replaced [Vorbis](../audio/Vorbis.mdx) as the standard open audio codec. It is the recommended codec for usage in WebM video containers in tandem with the [VP9](../video/VP9.mdx) or [AV1](../video/AV1.mdx) video codecs.
+Opus 是一款開源音頻編碼器，已廣泛取代 [Vorbis](../audio/Vorbis.mdx) 成為標準開放音頻編碼器。它被推薦用於 WebM 影片容器中，搭配 [VP9](../video/VP9.mdx) 或 [AV1](../video/AV1.mdx) 影片編碼器。
 
-Opus is known for its incredible coding efficiency and unique multi-channel optimizations. Stereo Opus audio reaches [transparency](https://en.wikipedia.org/wiki/Transparency_(data_compression)) (psychoacoustically lossless audio quality) at 128kb/s, compared to [AAC](../audio/AAC.mdx)'s generally agreed upon 256kb/s and [MP3](../audio/MP3.mdx)'s 320kb/s. Transparency varies based on the type of content & the encoding implementation used, especially for codecs other than Opus, and the values provided above may be debated to a degree.
+Opus 以其卓越的編碼效率和獨特的多聲道優化而聞名。立體聲 Opus 音頻在 128kb/s 的位元率下達到 [透明度](https://en.wikipedia.org/wiki/Transparency_(data_compression))（心理聲學上無損音質），相比之下，AAC 通常需要 256kb/s，而 MP3 則需要 320kb/s。透明度會根據內容類型和編碼實現的不同而有所變化，尤其是對於除 Opus 之外的編碼器，以上數值可能會有一定爭議。
 
-Opus is described on [opus-codec.org](https://opus-codec.org/) as a "totally open, royalty-free, highly versatile audio codec. Opus is unmatched for interactive speech and music transmission over the Internet, but is also intended for storage and streaming applications. It is standardized by the Internet Engineering Task Force (IETF) as [RFC 6716](https://datatracker.ietf.org/doc/html/rfc6716) which incorporated technology from Skype’s SILK codec and Xiph.Org’s CELT codec."
+Opus 在 [opus-codec.org](https://opus-codec.org/) 上被描述為一款「完全開放、免版稅、高度多功能的音頻編碼器。Opus 在互動式語音和音樂傳輸方面無可比擬，但也適用於儲存和串流應用。它由網際網路工程任務組（IETF）標準化為 [RFC 6716](https://datatracker.ietf.org/doc/html/rfc6716)，該標準融合了 Skype 的 SILK 編碼器和 Xiph.Org 的 CELT 編碼器技術。」
 
-Opus supports the following features:
+Opus 支持以下特性：
 
-- Bitrates from 6 kb/s to 510 kb/s (with a maximum of around 255 kb/s per channel on non stereo layouts)
-- Sampling rates from 8 kHz (narrowband) to 48 kHz (fullband)
-- Frame sizes from 2.5 ms to 60 ms
-- Support for both constant bitrate (CBR) and variable bitrate (VBR)
-- Audio bandwidth from narrowband to fullband
-- Support for speech and music
-- Support for mono and stereo
-- Support for up to 255 channels (multistream frames)
-- Dynamically adjustable bitrate, audio bandwidth, and frame size
-- Good loss robustness and packet loss concealment (PLC)
-- Floating point and fixed-point implementation
+- 位元率範圍：6 kb/s 至 510 kb/s（在非立體聲佈局下每通道最大約 255 kb/s）
+- 取樣率範圍：8 kHz（窄頻）至 48 kHz（全頻）
+- 框大小範圍：2.5 ms 至 60 ms
+- 支持固定位元率（constant bitrate,CBR）和可變位元率（variable bitrate,VBR）
+- 音頻帶寬範圍：從窄頻到全頻
+- 支持語音和音樂
+- 支持單聲道和立體聲
+- 支持最多 255 通道（multistream frames）
+- 動態調整位元率、音頻帶寬和框大小
+- 良好的損失穩定性和封包丟失隱藏（packet loss concealment,PLC）
+- 支持浮點和定點實現
 
-*via opus-codec.org and wiki.hydrogenaud.io*.
+*資料來源：opus-codec.org 和 wiki.hydrogenaud.io*。
 
-## Format Breakdown
+## 格式分析
 
-Opus is a hybrid audio codec, composed of two codecs as mentioned above. These are Skype's SILK codec for voice & Xiph.Org's CELT codec. Opus's initial name, Harmony, may have been because of the "harmony" of these two codecs and the musical connotation of harmony.
+Opus 是一款混合音頻編碼器，由上述兩個編碼器組成。這些編碼器包括 Skype 的 SILK 編碼器和 Xiph.Org 的 CELT 編碼器。Opus 的初始名稱 Harmony，可能因為這兩個編碼器的「和諧」以及音樂上和諧的含義而得名。
 
 ### SILK
 
-SILK, initially from Skype, was designed to be used for voice calls on Microsoft products like Skype. The first stable release of the codec was in 2009, and since then it has been freely licensed under the BSD 2-Clause license which has allowed for its adoption into Opus. The version of SILK used in Opus is substantially modified from - and not compatible with - the standalone SILK codec previously described here.
+SILK，最初由 Skype 開發，旨在用於 Microsoft 產品如 Skype 的語音通話。該編碼器的首個穩定版本於 2009 年推出，並且自那時以來一直在 BSD 2-Clause 許可下免費授權，這使得它得以被納入 Opus。Opus 中使用的 SILK 版本已大幅修改，與之前描述的獨立 SILK 編碼器不兼容。
 
-SILK is optimized for speech, and so has limited sample rates as follows:
-> Narrowband: 3-4000hz
-> Mediumband: 3-6000hz
-> Wideband: 3-8000hz
+SILK 優化了語音編碼，因此具有以下有限的取樣率：
+> 窄頻：3-4000hz
+> 中頻：3-6000hz
+> 寬頻：3-8000hz
 
-SILK's latency is 10 to 60ms based on the desired framesize + 5ms lookahead to estimate noise shaping + (potentially) 1.5ms sampling rate conversion overhead if the input audio needs to be resampled.
+SILK 的延遲為 10 至 60ms，根據所需的框大小加上 5ms 的前瞻時間以估算噪音整形，再加上（如果輸入音頻需要重新取樣）可能的 1.5ms 取樣率轉換開銷。
 
 ### CELT
 
-Much like SILK, CELT is under the BSD 2-Clause license. The preview release came out in 2011. CELT stands for "Code-Excited Lapped Transform" and was designed to be the true successor to Vorbis, even being dubbed as "Vorbis II" during its initial development as part og Xiph.Org's "Ghost" project in 2005.
+CELT（Code-Excited Lapped Transform）也是以 BSD 2-Clause 許可證授權。其預覽版於 2011 年推出。CELT 被設計為 Vorbis 的真正繼任者，甚至在其初期開發階段被稱為「Vorbis II」，並且是 Xiph.Org 「Ghost」項目的一部分，開始於 2005 年。
 
-CELT was designed to be a full-band general purpose codec without a particular specialization for a certain kind of audio, making it distinctly different from Xiph's [Speex](../audio/Speex.mdx) codec & more similar to Vorbis. It is computationally simple relative to competing codec technologies like [AAC](../audio/AAC.mdx) & even Vorbis, enabling extremely low latency that is competitive with [AAC-LD](../audio/AAC.mdx#aac-ld--aac-eld).
+CELT 設計為全頻通用編碼器，沒有專門針對某種音頻類型的特化，使其與 Xiph 的 [Speex](../audio/Speex.mdx) 編碼器明顯不同，更類似於 Vorbis。相較於 [AAC](../audio/AAC.mdx) 和甚至 Vorbis，CELT 在計算上相對簡單，能夠實現極低的延遲，這在 [AAC-LD](../audio/AAC.mdx#aac-ld--aac-eld) 的編碼器中也具備競爭力。
 
-CELT can work with the following sample rates:
-> Narrowband: 3-4000hz
-> Mediumband: 3-6000hz
-> Wideband: 3-8000hz
-> SuperWideband: 3-12000hz
-> Fullband: 3-20000hz
+CELT 可以處理以下取樣率：
+> 窄頻：3-4000Hz
+> 中頻：3-6000Hz
+> 寬頻：3-8000Hz
+> 超寬頻：3-12000Hz
+> 全頻：3-20000Hz
 
-## Encoders
+## 編碼器
 
 ### Opusenc
 
-Opus's reference encoder is [opusenc](https://github.com/xiph/opus), which is known for its fantastic performance and versatility. It is licensed under the BSD 3-clause license as part of the reference libopus library. There are a myriad of options that may be used to encode with opusenc, but the utility is considered to have sane encoding defaults for local storage & playback. The best options will be outlined below.
+Opus 的參考編碼器是 [opusenc](https://github.com/xiph/opus)，以其出色的性能和靈活性而聞名。它以 BSD 3-Clause 許可證授權，作為 libopus 庫的一部分。opusenc 提供了眾多選項用於編碼，但其預設值已經對於本地儲存和播放進行了合理的設定。以下是一些最佳選項：
 
-Usage: `opusenc [options] input_file output_file.opus`
+使用方法：`opusenc [options] input_file output_file.opus`
 
-- `--bitrate #.###` Sets the overall target bitrate in kbit/s. Most encoders use *bits* per second, meaning you have to specify "128K" for 128kbit/s for example. Opus doesn't follow this, so you'd just have to type "128" though keep in mind using efficient VBR encoding means the final bitrate may be different than the target. Opus supports bitrates from 6 kb/s to 510 kb/s.
+- `--bitrate #.###` 設定整體目標位元率，單位為 kbit/s。大多數編碼器使用 *比特* 每秒，所以你需要指定「128K」來表示 128 kbit/s。例如，Opus 不遵循這一點，所以你只需輸入「128」，但請注意，使用高效的 VBR 編碼可能最終位元率會不同於目標。Opus 支持的位元率範圍為 6 kb/s 至 510 kb/s。
 
-- `--vbr` Tells the encoder to encode using a variable bit rate, allocating more or less bits when necessary to preserve overall fidelity per bit. This is the best option for local storage & playback, and is *enabled by default.*
+- `--vbr` 告訴編碼器使用可變位元率，根據需要分配更多或更少的比特以保留每比特的整體音質。這是本地儲存和播放的最佳選擇，並且 *默認啟用*。
 
-- `--cvbr` Tells the encoder that it is allowed to vary the bitrate like with VBR, but it must constrain the maximum bitrate at any given moment to the value provided.
+- `--cvbr` 告訴編碼器可以像 VBR 一樣變化位元率，但必須限制任何時刻的最大位元率到提供的值。
 
-- `--hard-cbr` Tells the encoder to use a constant bitrate the whole time.
+- `--hard-cbr` 告訴編碼器始終使用固定位元率。
 
-- `--music` & `--speech` Forces the AI content-detector built into opusenc to treat the input as either speech or music. The bitrate range where this is relevant is around 12-40kb/s.
+- `--music` 和 `--speech` 強制 opusenc 中的 AI 內容檢測器將輸入視為語音或音樂。這在位元率範圍約為 12-40kb/s 的範圍內是相關的。
 
-- `--comp #` Sets the encoder complexity to a value from 0 to 10, 0 being the least complex & 10 being the most. *The default is 10.*
+- `--comp #` 設定編碼器複雜度的值，範圍從 0 到 10，0 為最簡單，10 為最複雜。*默認為 10*。
 
-- `--framesize #` Sets the maximum encoder frame size in milliseconds. Lowering this is useful for improving latency at the expense of audio quality per bit. It is worth noting that 40 & 60ms framesizes are just multiple 20ms frames stitched together via opusenc's default behavior, and are not considered useful as they just lower the encoder's adaptability which can worsen both latency & coding efficiency. *The default value is 20.*
+- `--framesize #` 設定最大編碼器框大小，單位為毫秒。降低此值有助於改善延遲，但會犧牲每比特的音質。值得注意的是，40ms 和 60ms 框大小只是多個 20ms 框的組合，通過 opusenc 的默認行為處理，它們不被認為有用，因為它們會降低編碼器的適應性，可能會使延遲和編碼效率變差。*默認值為 20ms*。
 
-- `--expect-loss #` Percentage value for expected packet loss. Not useful for local encoding & playback, but useful for real-time applications. *Default value is 0.*
+- `--expect-loss #` 預期的封包丟失百分比。對於本地編碼和播放不太有用，但對於實時應用有用。*默認值為 0*。
 
-- `--downmix-mono` Downmixes multiple channels into a single channel.
+- `--downmix-mono` 將多通道音頻降混為單聲道。
 
-- `--downmix-stereo` Downmixes multiple channels into two channels, left & right, given more than two channels are provided to the encoder.
+- `--downmix-stereo` 將多通道音頻降混為兩個通道，即左聲道和右聲道，前提是提供給編碼器的通道數超過兩個。
 
-- `--no-phase-inv` Disables phase inversion. Helpful when downmixing stereo to mono, although this is the default behavior in that scenario since libopus 1.3. Slightly decreases stereo audio quality.
+- `--no-phase-inv` 禁用相位反轉。當將立體聲降混為單聲道時有幫助，雖然在這種情況下這是默認行為，自 libopus 1.3 起。略微降低立體聲音質。
 
-- `--max-delay #` Sets maximum container delay in milliseconds, from 0-1000. *Default is 1000.*
+- `--max-delay #` 設定最大容器延遲，單位為毫秒，範圍為 0-1000。*默認為 1000ms*。
 
-Looking at the default values for the encoder flags, opusenc almost always follows the best practices for every default value. This makes it very easy to use, and it is as simple as plugging in a source of some kind and using only the most basic commands to encode with opus.
-
+查看編碼器標誌的默認值，opusenc 幾乎總是遵循最佳實踐進行設定。這使得使用非常簡單，只需插入某種來源並使用最基本的命令即可進行 Opus 編碼。
+---
 An example opusenc command:
 ```bash
 opusenc "input.wav" "output.opus" --bitrate 96
