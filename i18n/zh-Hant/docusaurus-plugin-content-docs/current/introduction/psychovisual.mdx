@@ -1,24 +1,23 @@
----
+﻿---
 sidebar_position: 5
 ---
 
-# Psychovisual
+# 心理視覺
 
-:::info Under Maintenance
-The content in this entry is incomplete & is in the process of being completed.
+:::info 維護中
+此條目內容尚不完整，目前正在進行完善。
 :::
 
-:::danger Pending Review
-The content in this entry may not be entirely accurate, & is pending further review to assess the quality of the information.
+:::danger 待審核
+此條目內容可能尚未完全準確，正在等待進一步審核以評估信息的品質。
 :::
 
-"*Traditionally, the encoder tends to favor blurred reconstructed blocks over blocks which have wrong motion. The human eye generally prefers the wrong motion over the blur. Psycho-visual options combat this. While technically less “correct”, which is why they are disabled for research purposes, they should be enabled for content intended for “human eyes”.* "
+"*傳統上，編碼器常常偏向於使用模糊的重建區塊，而非具有錯誤運動的區塊。人眼通常會更喜歡錯誤運動的效果而非模糊。心理視覺選項用於解決這個問題。雖然這些選項在技術上可能不是最“正確”的，因此通常在研究中會被禁用，但對於針對“人眼”觀看的內容來說，應該啟用這些選項。*"
 
--- Kokomins' x265 [guide](https://kokomins.wordpress.com/2019/10/10/anime-encoding-guide-for-x265-and-why-to-never-use-flac)
+-- Kokomins' x265 [指南](https://kokomins.wordpress.com/2019/10/10/anime-encoding-guide-for-x265-and-why-to-never-use-flac)
 
+## 解析
 
-## Breakdown
+傳統編碼器會優先考慮將細節模糊化，以保持在像 [PSNR](../metrics/PSNR.mdx) 這樣的簡單度量上的性能，但人類視覺系統的複雜程度遠超過這些度量。這種差異可能導致編碼器排除那些與鄰近區塊不完全匹配的清晰區塊，從而造成細節的損失。心理視覺選項通過讓編碼器更“自信”地包含這些清晰的區塊來解決這個問題，即使這些區塊在度量性能上不夠完美。
 
-Traditionally, encoders prioritize blurring out fine details to maintain performance on simple metrics like [PSNR](../metrics/PSNR.mdx), but the human visual system is much more complex. This discrepancy can lead to encoders rejecting sharp blocks that don't fit perfectly with adjacent blocks, resulting in a loss of detail. Psychovisual options address this issue by providing the encoder with the necessary "confidence" to incorporate these sharper blocks, even if they don't strictly adhere to metric performance.
-
-Blurring can be beneficial at lower bitrates to help reduce the visibility of blocking artifacts, and it is generally preferable to view a slightly blurry image rather than a blocky one with distracting artifacts. However, it is essential to strike a balance when setting psychovisual options, as over-reliance on these settings can also have negative consequences. Experimentation is key to finding the optimal sweet spot for specific types of content.
+在較低位元率下，模糊處理有助於減少影像瑕疵，通常相比明顯的區塊化影像，稍微模糊的影像會更加令人滿意。然而，在設置心理視覺選項時，必須謹慎平衡，過度依賴這些設定可能會帶來負面效果。實驗是找到最佳設定點的關鍵。

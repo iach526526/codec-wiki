@@ -65,12 +65,12 @@ Bitstream filter 是一種直接應用於 [bitstream](#bitstream) 的濾鏡，�
 
 ## RDO
 
-RDO，即 Rate-Distortion Optimization（比特率-失真優化），是一種技術，用來找到比特率與有損編碼內容質量之間的最佳平衡點。RDO 的優化可以基於各種度量，例如 [PSNR](../metrics/PSNR.mdx) 和 [SSIM](../metrics/SSIM.mdx)，來達到最佳的效果。
+RDO，即 Rate-Distortion Optimization（位元率-失真優化），是一種技術，用來找到位元率與有損編碼內容品質之間的最佳平衡點。RDO 的優化可以基於各種度量，例如 [PSNR](../metrics/PSNR.mdx) 和 [SSIM](../metrics/SSIM.mdx)，來達到最佳的效果。
 
 ## Perceptual / Psychovisual / Psychoacoustic
 
-“Psychovisual quality”（視訊感知質量）、“Psychoacoustic quality”（音訊感知質量）或“perceptual quality”（感知質量）是用來描述人類感官如何感知扭曲媒體質量的術語。任何多媒體編碼器的目標都是在保持感知質量的同時減少數據量，並圍繞人類感知進行優化，這樣理論上能在有限的編碼技術中實現最佳性能。由於我們對人類感知的理解不斷演進，建模感知質量變得非常困難。目前，[SSIMULACRA2](../metrics/SSIMULACRA2.mdx)（用於圖像/視訊）和 [Butteraugli](../metrics/butteraugli.mdx)（用於視訊）被認為是最符合我們視覺系統的度量標準。
+“Psychovisual quality”（視訊感知品質）、“Psychoacoustic quality”（音訊感知品質）或“perceptual quality”（感知品質）是用來描述人類感官如何感知扭曲媒體品質的術語。任何多媒體編碼器的目標都是在保持感知品質的同時減少資料量，並圍繞人類感知進行優化，這樣理論上能在有限的編碼技術中實現最佳性能。由於我們對人類感知的理解不斷演進，建模感知品質變得非常困難。目前，[SSIMULACRA2](../metrics/SSIMULACRA2.mdx)（用於圖像/視訊）和 [Butteraugli](../metrics/butteraugli.mdx)（用於視訊）被認為是最符合我們視覺系統的度量標準。
 
 ## Discrete Cosine Transform (DCT)
 
-離散餘弦變換（DCT）是一種數學變換，用於將離散數據轉換到頻率域。這些數據可以是圖像或視訊壓縮區塊中的像素，或者是音訊錄製的時間序列數據。DCT 是一種特別適合用於圖像、視訊、音樂和語音壓縮的算法，因為它在保持信號的忠實度方面具有高能量壓縮能力。這意味著 DCT 可以用少量的重要係數來準確表示信號。
+離散餘弦變換（DCT）是一種數學變換，用於將離散資料轉換到頻率域。這些資料可以是圖像或視訊壓縮區塊中的像素，或者是音訊錄製的時間序列資料。DCT 是一種特別適合用於圖像、視訊、音樂和語音壓縮的算法，因為它在保持信號的忠實度方面具有高能量壓縮能力。這意味著 DCT 可以用少量的重要係數來準確表示信號。
