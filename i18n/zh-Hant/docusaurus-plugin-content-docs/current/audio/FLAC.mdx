@@ -1,32 +1,34 @@
----
+﻿---
 title: FLAC
 sidebar_position: 7
 ---
 
 # FLAC
 
-:::danger Help Wanted
-This section is in need of contributions. If you believe you can help, please see our [Contribution Guide](../contribution-guide.mdx) to get started as a contributor!
+:::danger 尋求幫助
+本部分內容需要補充。如果你願意提供幫助，請參閱我們的[貢獻指南](../contribution-guide.mdx)來瞭解如何成為貢獻者！
 :::
 
-FLAC (Free Lossless Audio Coding) is an open-source lossless audio codec with widespread support & compatibility released in 2001. It represents the most efficent lossless audio format in common use today.
+FLAC（Free Lossless Audio Coding）是一種開源的無損音訊編碼格式，於 2001 年推出，具備廣泛的支援與相容性。FLAC 目前是常用的無損音訊格式中最為高效的。
 
-FLAC is commonly contained in a ogg container with either a `.flac` or `.ogg` extension. It can less commonly be used within a matroska container (`.mkv` or `.mka`) for mixing with a video stream.
+FLAC 通常包含在 ogg 容器中，副檔名為 `.flac` 或 `.ogg`。它也可以較少見地與視訊流混合使用在 matroska 容器中（副檔名 `.mkv` 或 `.mka`）。
 
-:::caution
-It is not recommended to transcode a lossily encoded file to FLAC as the file size will grow tremendously while any quality loss from lossy encoding will remain. FLAC is best if you need to preserve existing lossless audio.
+:::caution 注意
+不建議將已經經過有損編碼的檔案轉碼為 FLAC，因為這樣做檔案大小會顯著增大，而之前有損編碼所導致的任何品質損失仍會保留。FLAC 最適合用於保存現有的無損音訊。
 :::
-## Software support
-FLAC is supported by the majority of web browsers and media players in common use as of 2024.
 
-### WAV to FLAC using [FFmpeg](../utilities/ffmpeg.mdx):
+## 軟體支援
+截至 2024 年，FLAC 已被大多數常用的網頁瀏覽器和媒體播放器支援。
+
+### 使用 [FFmpeg](../utilities/ffmpeg.mdx) 將 WAV 轉換為 FLAC：
 
 ```bash
 ffmpeg -i example.wav -c:a flac example.flac
 ```
 
-### WAV to FLAC using FLAC command-line tool:
-You can include an argument of a number 0-8 to specify the compression effort, 0 being fastest and 8 having the highest compression.
+### 使用 FLAC 命令行工具將 WAV 轉換為 FLAC：
+你可以添加一個 0 到 8 之間的參數來指定壓縮力度，0 為最快速壓縮，8 為最高壓縮。
+
 ```bash
 flac example.wav -8 -o example.flac
 ```
