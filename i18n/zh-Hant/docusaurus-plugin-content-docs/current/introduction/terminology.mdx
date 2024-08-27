@@ -1,31 +1,32 @@
----
-title: Terminology
+﻿---
+title: 術語
 sidebar_position: 2
 ---
 
-# Terminology
-When learning about encoding technology, it is important to understand the vast terminology that is often used to describe concepts that are often not very complex to understand.
+# 術語
+在學習編碼技術時，理解這些用來描述概念的專業術語非常重要，儘管這些概念本身通常並不難理解。
 
 ## Bitstream
-A *bitstream* or *bit stream* is a media file, the kind that is played in a media player. It consists of a [container](#container) wrapping multiple [elementary streams](#elementary-stream)
+*Bitstream* 或稱 *bit stream* 是一種媒體檔案，可以在媒體播放器中播放。它包含一個[容器](#container)，包裹了多個[基本流](#elementary-stream)。
 
 ## Lossy / Lossless
-*Lossy* encoding throws out some of the detail to achieve a smaller size. Often, this is an acceptable trade-off, but if you need a perfect recreation of the data, you need *lossless* encoding.
+*Lossy* 編碼會捨棄部分細節以縮小檔案大小。這種取捨通常是可以接受的，但如果你需要完美還原資料，那麼就需要選擇 *lossless* 編碼。
 
 ## Elementary stream
-An elementary stream is an audio, video, or subtitle track. Basically, it's the compressed data you want to [mux](#muxing) into the container.
+基本流是一個音訊、視訊或字幕軌道。它是你希望封裝到容器中的壓縮資料。
 
 ## Muxing
-Putting elementary streams into a container, which preserves them without making any changes to the data.
+將基本流封裝到容器中，這個過程不會改變資料本身。
 
 ## Codec
-A codec (**co**der/**dec**oder) is the piece of code that actually encodes the data you put in. It takes as input and produces as output an elementary stream. More information is provided [in the prologue](./prologue.mdx#what-is-a-codec) under "What is a Codec".
+編解碼器（**co**der/**dec**oder）是實際負責編碼你輸入資料的程式碼。它接收資料並生成基本流作為輸出。更多資訊可參考[序章](./prologue.mdx#what-is-a-codec)中的「什麼是編解碼器」部分。
 
 ## Filter
-A filter is a piece of code you can apply to the data to make something about it different, for instance sharpening, removing artifacts, shakiness, denoising, scaling, overlay, etc.
+Filter 是一段程式碼，用來對資料進行處理，使其具備不同的效果，例如銳化、去除雜訊、穩定畫面、去噪、縮放或疊加等。
 
 ## Muxer/Demuxer
-The pieces of code that [mux](#muxing) or do the reverse, getting elementary streams from the container.
+這些程式碼用來進行[封裝](#muxing)操作，或反向操作以從容器中提取 elementary stream。
+
 
 ## Bitstream filter
 A bitstream filter is a filter that is directly applied to the [bitstream](#bitstream) in order to change something about the container, for instance, convert frame types, or corrupt some packets.

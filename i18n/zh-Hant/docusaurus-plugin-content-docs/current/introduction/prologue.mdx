@@ -1,41 +1,41 @@
----
-title: Prologue
+﻿---
+title: 序章
 sidebar_position: 1
 ---
+# 序章
 
-# Prologue
+多媒體壓縮技術的發展，徹底改變了我們在網路及其他平台上的溝通方式。這項技術的應用，成就了許多突破性的平臺，使它們成為可能，並且促進了我們以嶄新的方式來傳遞資訊、表達情感，並在人與人之間建立連結。它是現代網路中無名的英雄。儘管如此，準確且具有實戰經驗的編解碼技術資料，卻往往難以獲得。這個維基旨在揭開多媒體壓縮領域的神秘面紗，並將編解碼愛好者聯繫起來，為所有人創建一個知識匯集的平台。
 
-Multimedia compression as a whole has revolutionized our ability to communicate on the Web & beyond. It has enabled rich experiences across many breakthrough platforms that wouldn't have been feasible otherwise, and it has allowed us to communicate information, expression, and human connection in novel ways. It is the unsung hero of the modern Web. Despite this, it is often difficult to uncover information about codec technology that is accurate, informed, and battle-tested by passionate individuals who care about the proliferation of knowledge. This wiki aims to demystify the realm of multimedia compression while connecting codec enthusiasts to create a sink of knowledge for the benefit of everyone.
+### 這「不是」什麼
 
-### What This Isn't
+這個編解碼器維基並**不是用來深入解析數學理論、研究、專利政治或特定編解碼器規範的準確來源**。像 Wikipedia 這樣的網站已經以極高的準確性涵蓋了這些細節。我們專注於的是更高層次的資訊——尤其是與壓縮工具的使用和應用相關的內容——讓其更容易理解；我們目前的重點是應用，而非理論。了解編解碼器在理論上如何運作與知道何時及如何最佳使用編解碼器及其工具是不同的。
 
-The Codec Wiki is **not a highly accurate source for understanding the mathematics, research, adoption/patent politics, or specifications of specific coder/decoder implementations**. Sources like Wikipedia cover these details with great accuracy & reliability. What we *are* focused on is making higher level information - especially related to the usage & application of compression tools - highly accessible; we are focused on application, not theory, for the time being. Knowing how a codec works in theory is different than knowing when and how to best use a codec and its accompanying tools.
+### 什麼是編解碼器
 
-### What is a Codec
+編解碼器（codec）是編碼器/解碼器的簡稱，是一種根據特定規範處理數位媒體或資料的系統。通常，它負責壓縮和解壓數位媒體。編解碼器可用於將媒體進行編碼以便儲存與傳輸，或其他用途，並在播放或編輯時進行解碼。多媒體編解碼器可通過[丟棄不太顯著的資料](../introduction/psychovisual.mdx)使用[有損](../introduction/video-artifacts.mdx)壓縮來減少檔案大小，或使用巧妙的無損壓縮技術來保持與原始資料相同的資料流，同時減少檔案大小。無損壓縮可以還原回與原始資料完全一致，而有損壓縮則因為丟棄部分資料而無法還原。編解碼器的常見應用包括：
 
-A codec, shortened from coder/decoder, is a system that handles digital media or data according to a specification. Usually, this means it compresses and decompresses digital media. Codecs are used to encode media for storage and transmission - among other things - and then decode that media for playback, editing, etc. Multimedia codecs compress by either [discarding less salient data](../introduction/psychovisual.mdx) using [lossy](../introduction/video-artifacts.mdx) compression to reduce filesize, or they use clever lossless compression tricks to maintain a mathematically identical stream to the input media while still reducing filesize. Lossless compression can be reversed to be the exact same as the input data, while lossy compression does not share this quality as it discards data for smaller filesizes. Some common uses of codecs include:
+- 影片壓縮：影片編解碼器如 [H.264](../video/AVC.mdx)、[VP9](../video/VP9.mdx) 和 [AV1](../video/AV1.mdx)，允許數位影片檔案壓縮成更小的尺寸，便於串流、儲存等。影片編解碼器可以在錄製時對影片流進行編碼，也可以在分發前進行編碼，並在播放時解碼，這使得影片更快地分享並且減少了儲存與帶寬的需求。
+- 音頻壓縮：音頻編解碼器如 [MP3](../audio/MP3.mdx)、[AAC](../audio/AAC.mdx) 和 [Opus](../audio/Opus.mdx)，可壓縮音頻檔案，如歌曲與播客，便於分發和儲存。
+- 圖像壓縮：無論是傳統的 [JPEG](../images/JPEG.mdx) 還是新穎的 [JPEG-XL](../images/JXL.mdx)，圖像編解碼器的核心目標都是：在保有多樣化功能的同時，能夠有效地壓縮圖像。當處理圖像時，色深、HDR、透明度、色彩空間資訊、EXIF資料等許多因素都在起作用，這使得圖像壓縮並非易事。
+- 資料壓縮：像 [ZIP](../data/zip.mdx) 和 [zstd](../data/zstd.mdx) 這類通用壓縮算法，設計目的是壓縮*任何*種類的資料，而不僅僅是多媒體特定的資料。這包括網頁資源、可執行檔案、文本檔案，甚至整個檔案系統。
 
-- Video compression: Video codecs like [H.264](../video/AVC.mdx), [VP9](../video/VP9.mdx) & [AV1](../video/AV1.mdx) allow digital video files to be compressed to much smaller sizes for streaming & storage, among other things. A video codec can encode a video stream while it is being recorded or before it is distributed, and decode it when it is played back. This allows videos to be shared more quickly and use less storage & bandwidth.
-- Audio compression: Audio codecs like [MP3](../audio/MP3.mdx), [AAC](../audio/AAC.mdx), and [Opus](../audio/Opus.mdx) compress audio files like songs & podcasts. This allows them to be easily distributed & stored. 
-- Image Compression: Image codecs, whether tried and true like [JPEG](../images/JPEG.mdx) or brand new like [JPEG-XL](../images/JXL.mdx), have fundamentally the same goal: compress images well while maintaining a versatile featureset for the myriad of ways one may decide they'd like to compress an image. Color depth, HDR, transparency, color space information, EXIF data, and many other factors are at play when working with images that make compressing them easier said than done.
-- Data Compression: General compression algorithms like [ZIP](../data/zip.mdx) & [zstd](../data/zstd.mdx) are designed to compress *any* kind of data, not just multimedia specific data. This includes web assets, executables, text archives, and even entire filesystems.
 
-In summary, **codecs use complex algorithms to encode and decode media for efficient storage and transmission**. They are essential for recording, compressing, delivering and playing back digital media. Different codecs balance factors like compression efficiency, quality, computational requirements, compatibility, & features depending on their application.
+總結來說，**編解碼器通過複雜的算法來編碼與解碼媒體，以實現更有效的儲存和傳輸**。它們是錄製、壓縮、傳遞與播放數位媒體的關鍵工具。根據應用需求，不同的編解碼器會在壓縮效率、品質、計算需求、兼容性與功能之間進行平衡。
 
-### What You Need
+### 你需要準備的事項
 
-A rather informal list of requirements follows.
+以下是一份較非正式的需求清單。
 
-You will benefit greatly from:
-- Patience.
-- A willingness to learn, engage in curiousity, & follow instructions
-- Basic to intermediate computer proficiency.
+這些將大大提升你的體驗：
+- 耐心
+- 學習與探究的意願，並且願意遵循指導
+- 基本到中等的電腦操作技能
 
-If you're only here to learn the tools, it will be very beneficial to have:
-- Higher-end CPU hardware, which will decrease wait times for some larger encoding workloads discussed here.
-- A level of comfort with CLI utilities, or enough motivation to engage with them in the absence of background knowledge.
-- A device running an Arch-based Linux distribution, excluding Manjaro
+如果你只想學習使用這些工具，那麼以下項目會特別有幫助：
+- 高階 CPU 硬體，這將減少某些大型編碼工作時的等待時間。
+- 對 CLI 工具有一定的熟悉程度，或願意在缺乏背景知識的情況下投入學習。
+- 一台運行基於 Arch 的 Linux 系統的設備（不包括 Manjaro）
 
-:::info Why Arch?
-Most encoding tools are readily available in the package manager, & it is a bleeding edge Linux distribution which ensures your utilities are always kept up to date. For filtering, all Vapoursynth plugins are already available in the Arch User Repository (AUR) which makes it extremely easy to install and version control with an AUR helper [like `yay`](https://github.com/Jguer/yay)
+:::info 為什麼選擇 Arch？
+大多數編碼工具都能通過套件管理器輕鬆安裝，而且 Arch 是一個更新速度非常快的 Linux 發行版，保證你的工具始終保持最新。對於過濾來說，所有的 Vapoursynth 擴充套件都已經可以在 Arch User Repository（AUR）中找到，這使得使用 AUR 助手 [如 `yay`](https://github.com/Jguer/yay) 進行安裝與版本控制變得非常方便。
 :::
