@@ -1,65 +1,67 @@
----
+﻿---
 title: AAC
 description: Explore the AAC audio codec, including its various profiles, encoders, & use cases.
 keywords: [AAC, Advanced Audio Coding, audio codec, audio, codec, audio encoding, audio decoding, audio compression, audio quality, audio formats, audio file formats, audio file, audio file type, audio file extension, audio file format, audio file types, audio file extensions, audio file formats]
 sidebar_position: 2
 ---
 
-# AAC
+## AAC
 
-AAC, or Advanced Audio Coding, is an umbrella for a number of different codecs. When people refer to AAC, they are often referring to the commonly used AAC-LC profile developed as part of the original AAC standard in 1997 (although there is a distinction between this version of AAC-LC, called MPEG-2 AAC, & MPEG-4 AAC which is newer). However, there are a number of other variants that have been created over time. These include:
-- AAC-LC (low-complexity AAC)
-- AAC-LD (low delay AAC)
-- AAC-ELD (enhanced low delay AAC)
-- HE-AAC (high efficiency AAC, uses Spectral Band Replication)
-- HE-AACv2 (high efficiency AAC v2, uses Spectral Band Replication + Parametric Stereo)
-- xHE-AAC (extended high efficiency AAC (kinda), uses USAC (Unified Speech & Audio Coding))
+AAC（Advanced Audio Coding，高級音頻編碼）是多種編解碼器的總稱。當人們提到AAC時，他們通常指的是1997年原始AAC標準中開發的常用AAC-LC（低複雜度AAC）配置檔案（儘管這版本的AAC-LC與更新的MPEG-4 AAC有區別）。然而，隨著時間的推移，還創建了許多其他變體。這些變體包括：
+- AAC-LC（低複雜度AAC）
+- AAC-LD（低延遲AAC）
+- AAC-ELD（增強型低延遲AAC）
+- HE-AAC（高效能AAC，使用頻譜帶複製）
+- HE-AACv2（高效能AAC v2，使用頻譜帶複製+參數立體聲）
+- xHE-AAC（擴展高效能AAC（類似），使用USAC（統一語音與音頻編碼））
 
-AAC is even used as a Bluetooth audio codec for encoding audio streams & sending them to a Bluetooth audio device. Encoding & even decoding some of the above formats can prove to be difficult, so it is worth exploring each codec individually.
+AAC甚至用作藍牙音頻編解碼器，用於編碼音頻流並將其發送到藍牙音頻設備。編碼甚至解碼某些上述格式可能會很困難，因此值得逐一探索每個編解碼器。
 
-## Format Breakdown
+## 格式拆解
 
-Let's explore each codec individually.
+讓我們逐一探索每個編解碼器。
 
 ### AAC-LC
 
-While AAC-LC was introduced alongside two higher complexity profiles (AAC Main & AAC-SSR), AAC-LC has seen much more widespread adoption through various distribution mediums for video (often paired with AVC video) & audio alike. AAC-LC is ubiquitous within the Apple ecosystem & was (& still is) used on YouTube before their switch to primarily using Opus. Encoding AAC-LC can be done with relative ease, accessible through nearly every encoder in the "Encoders" section.
+雖然AAC-LC與兩個更高複雜度的配置檔案（AAC Main和AAC-SSR）一起推出，但AAC-LC在影片（通常與AVC影片搭配使用）和音頻的各種分發介質中得到了更廣泛的採用。AAC-LC在Apple生態系統中無處不在，並且曾（仍然）用於YouTube，直到他們轉向主要使用Opus。AAC-LC的編碼相對簡單，幾乎所有的編碼器都可以處理，詳情見“編碼器”部分。
 
-### AAC-LD & AAC-ELD
+### AAC-LD與AAC-ELD
 
-AAC-LD & AAC-ELD are both designed to transmit audio in instances where latency is very important. Both are far more efficient than previous low-latency audio coding offerings. Over AAC-LD, AAC-ELD offers better audio quality through Spectral Band Replication, lower latency, & a greater quality range with a lower bitrate minimum & higher maximum.
+AAC-LD和AAC-ELD設計用於延遲非常重要的音頻傳輸場景。兩者在低延遲音頻編碼方面比之前的選擇更有效。AAC-ELD相對於AAC-LD，通過頻譜帶複製提供了更好的音質、更低的延遲，以及更大的品質範圍，具有更低的位元率最小值和更高的最大值。
 
 ### HE-AAC
 
-High Efficiency AAC introduces Spectral Band Replication (SBR) to the AAC specification for the purpose of higher quality audio at lower bitrates. SBR is an encoding technique that allows the decoder to reconstruct higher frequencies from an audio signal given lower frequencies & data that informs the decoder about information in the higher frequencies, allowing them to be effectively restored from this helper data. In short, lower frequencies are encoded with extra detail incorporated to allow the reconstruction of higher frequency information in an audio signal. This feature alone allows HE-AAC to be much more efficient than AAC-LC at lower bitrates; the gap closes substantially at higher bitrates, however.
-
+高效能AAC在AAC規範中引入了頻譜帶複製（SBR），旨在以較低的位元率實現更高的音質。SBR是一種編碼技術，允許解碼器從音頻信號的低頻部分和提供有關高頻信息的資料中重建高頻。簡而言之，低頻部分以額外的細節進行編碼，允許從這些輔助資料中重建高頻信息。這一特性使得HE-AAC在較低位元率下比AAC-LC更高效；然而，在較高位元率下，兩者之間的差距會顯著縮小。
 ### HE-AACv2
 
-High Efficiency AAC v2 introduces Parametric Stereo (PS), which further increases audio quality with an emphasis on lower bitrates. PS uses a mono signal downmixed from a multichannel stereo input alongside information about the spatial properties of the stereo input to allow the decoder to reconstruct a left & right channel using salient spatial data from the mono signal. HE-AACv2 combine PS with SBR for greater efficiency gains over HE-AAC & AAC-LC, although again the gap closes at higher bitrates.
+高效能AAC v2引入了參數立體聲（Parametric Stereo，PS）技術，進一步提升了在低位元率下的音質。PS利用從多聲道立體聲輸入中降混出的單聲道信號，再加上有關立體聲輸入空間特性的資訊，使解碼器能夠使用單聲道信號中的空間資料重建左右聲道。HE-AACv2將PS與SBR（頻譜帶複製）結合，相比於HE-AAC和AAC-LC，能在低位元率下取得更大的效能提升，但在較高位元率下，效果的差距會縮小。
 
 ### xHE-AAC
 
-Extended High Efficiency AAC is actually slightly different from xHE-AAC. While Extended High Efficiency AAC specifically includes all of HE-AACv2's coding techniques as well as compression techniques from the USAC specification, the Extended High Efficiency AAC profile was designed in such a manner that building an encoder for the format would allow it to be perfectly backwards compatible with past variations of AAC. xHE-AAC is a codec that combines the Extended High Efficiency AAC profile with further USAC coding techniques, specifically within the *MPEG-D DRC Loudness Control Profile*. For all intents and purposes, when someone refers to "USAC audio," they probably mean xHE-AAC. xHE-AAC further extends performance at lower bitrates compared to past variants of AAC. USAC's specialty & purpose was to create an audio codec that didn't compromise music performance for speech & vice versa, but rather automatically tuned its coding technique selection to perform the best on any given source.
+擴展高效能AAC（Extended High Efficiency AAC，xHE-AAC）與擴展高效能AAC略有不同。雖然擴展高效能AAC具備HE-AACv2所有的編碼技術，以及USAC（統一語音與音頻編碼）規範中的壓縮技術，但該編碼器的設計使其能夠與過去的AAC版本完全向下兼容。xHE-AAC是將擴展高效能AAC檔案與進一步的USAC編碼技術結合的編碼器，尤其是*MPEG-D DRC響度控制檔案*中的技術。實際上，當提到「USAC音頻」時，通常指的是xHE-AAC。xHE-AAC在低位元率下相比於過去的AAC版本進一步提升了性能。USAC的目標是創造一個不會在音樂表現與語音表現之間妥協的音頻編碼器，而是自動調整其編碼技術以最佳化任何來源的性能。
 
-xHE-AAC is not widely supported. On a Mac, playback is only possible through QuickTime Player & other utilities which use CoreAudio for decoding. Windows 11 & Android support xHE-AAC natively, but Windows 10 & Linux will not allow you to play it back without some grief. The most effective way currently is to use an AAC plugin with foobar2000, although this plugin is 32-bit only, so you'll need 32-bit foobar2000. This works on Linux under WINE.
+xHE-AAC的支援範圍並不廣泛。在Mac上，僅能通過QuickTime Player及其他使用CoreAudio解碼的工具進行播放。Windows 11和Android原生支援xHE-AAC，但Windows 10和Linux在播放方面會遇到困難。目前最有效的方法是使用foobar2000的AAC擴充套件，但該擴充套件僅支援32位元版本的foobar2000，並且在Linux下通過WINE可以使用。
 
-## Encoders
-There are a number of ways to encode each format, which I'll outline below.
+## 編碼器
+
+有多種方式可以編碼每種格式，以下是一些介紹。
 
 ### Fraunhofer FDK AAC
-Fraunhofer FDK AAC is a high quality, open-source AAC encoder by [Fraunhofer IIS](https://en.wikipedia.org/wiki/Fraunhofer_Society). It was introduced with the release of Android 4.1 and has since been forked to a [seperate repository](https://github.com/mstorsjo/fdk-aac). Issues regarding the legality of its distribution have arisen since the Free Software Foundation declared the license incompatible with the GPL. The license does not grant the user rights to the patented technologies used in the source code, and therefore restricts its use. However, this topic is still debated as Debian does not consider FDK AAC free software while Red Hat does.
 
-Another similar tool, FhG-AAC, performs similarly to FDK-AAC but with greater precision as it performs floating point operations. It can be used through the proprietary Windows media player Winamp.
+Fraunhofer FDK AAC是由[Fraunhofer IIS](https://en.wikipedia.org/wiki/Fraunhofer_Society)開發的高品質開源AAC編碼器。該編碼器隨Android 4.1的發布而引入，並已經被分支到一個[獨立的倉庫](https://github.com/mstorsjo/fdk-aac)。由於自由軟體基金會（Free Software Foundation）認為其授權條款與GPL不兼容，因此其分發的合法性問題引起了關注。該授權未授予用戶對源代碼中所使用的專利技術的權利，從而限制了其使用。不過，這一議題仍在討論中，Debian不認為FDK AAC是自由軟體，而Red Hat則認為它是。
 
-FDK-AAC can encode the following formats:
+另一類似的工具FhG-AAC，其表現與FDK-AAC類似，但由於進行了浮點運算，精度更高。可以通過專有的Windows媒體播放器Winamp使用。
+
+FDK-AAC可以編碼以下格式：
 `AAC-LC AAC-LD AAC-ELD HE-AAC HE-AACv2`
 
 ### Core Audio
-Apple's proprietary Core Audio Toolbox encoder is a popular, high-quality choice for encoding AAC. This encoder can be used in macOS via Apple's own `afconvert` utility, or in FFmpeg by specifying `aac_at` as the audio encoder. Windows users can also take advantage of Core Audio by using the free [qaac](https://github.com/nu774/qaac) command-line utility, but users will need to either have [iTunes](https://support.apple.com/en-ca/HT210384) installed, or extract the libraries from said installer, using the [makeportable](https://github.com/nu774/makeportable) script.
 
-Core Audio can encode the following formats: `AAC-LC, HE-AAC, HE-AACv2`*
+蘋果的專有Core Audio Toolbox編碼器是一個受歡迎的高品質AAC編碼選擇。該編碼器可以通過蘋果的`afconvert`工具在macOS上使用，或者在FFmpeg中通過指定`aac_at`作為音頻編碼器來使用。Windows用戶也可以通過免費的[qaac](https://github.com/nu774/qaac)命令行工具來利用Core Audio，但用戶需要安裝[iTunes](https://support.apple.com/en-ca/HT210384)或從該安裝程序中提取庫，使用[makeportable](https://github.com/nu774/makeportable)腳本。
 
-*`HE-AACv2` encoding is only supported on macOS.
+Core Audio可以編碼以下格式：`AAC-LC, HE-AAC, HE-AACv2`*
+
+*`HE-AACv2`編碼僅在macOS上受支援。
 
 ### FFmpeg AAC
 FFmpeg's native AAC encoder is known for being completely free & open source, licensed under the GNU General Public License (or LGPL, depending on how FFmpeg is configured). If you want a completely FOSS solution for encoding AAC, FFmpeg AAC is one of the only places you'll find this. It is not known for being particularly feature rich or high quality & doesn't support the entire profile of the AAC variants it can encode, but it gets the job done in most scenarios.
