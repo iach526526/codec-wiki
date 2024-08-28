@@ -1,27 +1,29 @@
----
+﻿---
 title: UT Video
 sidebar_position: 13
 ---
 
 # UT Video Codec Suite
 
-:::danger Help Wanted
-This section is in need of contributions. If you believe you can help, please see our [Contribution Guide](/docs/contribution-guide) to get started as a contributor!
+:::danger 我們需要你！
+此部分需要更多內容。如果你有意協助，請參考我們的 [貢獻指南](../contribution-guide.mdx) 並開始貢獻！
 :::
 
-UT Video Codec Suite is a fast, lossless video codec, developed by Takeshi Umezawa (梅澤 威志, Umezawa Takeshi) and released under the free GNU General Public License. The algorithm of UT video is based on the Huffman code.
+UT Video Codec Suite 是一款快速、無失真的影片編解碼器，由 梅澤威志（Takeshi Umezawa）開發，並以 GNU 通用公共許可證（GPL）免費發布。UT Video 的算法基於霍夫曼編碼（Huffman code）。
 
-UT Video was developed as an alternative to HuffYUV, in order to achieve better compression. It can handle color spaces such as YUV422 (ULY2), RGB (ULRG), RGBA (ULRA) and, most recently, YUV420 (ULY0).
+UT Video 是為了替代 HuffYUV 而開發的，目的是實現更好的壓縮效果。它可以處理多種色彩空間，例如 YUV422 (ULY2)、RGB (ULRG)、RGBA (ULRA)，以及最近新增的 YUV420 (ULY0)。
 
-It has both x86 and x64 builds. Due to its multithreading support, this codec is also capable of encoding HDTV material in real time. The codec requires support for the SSE2 instruction set because it is heavily used for speed optimizations.
+該編解碼器有 x86 和 x64 版本，由於其支援多執行緒，該編解碼器還能夠實時編碼 HDTV 素材。此外，由於該編解碼器高度依賴於 SSE2 指令集進行速度優化，因此需要支援 SSE2 的硬體平台。
 
-There are various predction modes, which can be used via [FFmpeg](/docs/utilities/ffmpeg):
-- no prediction employed
-- left neighbour prediction (continuous for the whole slice)
-- gradient prediction
-- median prediction
+UT Video Codec Suite 提供了多種預測模式，可以通過 [FFmpeg](/docs/utilities/ffmpeg) 使用：
+- 無預測模式
+- 左鄰預測（對整個片段進行連續預測）
+- 梯度預測
+- 中值預測
 
-You can use FFmpeg to encode utvideo as follows:
-`ffmpeg -i [input] -c:v utvideo -pred [0,1,2,3] [output]`
+你可以使用以下 FFmpeg 命令來編碼 utvideo：
+```bash
+ffmpeg -i [輸入檔案] -c:v utvideo -pred [0,1,2,3] [輸出檔案]
+```
 
-*References: [Wikipedia](https://en.wikipedia.org/wiki/Ut_Video_Codec_Suite)*
+*參考資料: [維基百科](https://en.wikipedia.org/wiki/Ut_Video_Codec_Suite)*

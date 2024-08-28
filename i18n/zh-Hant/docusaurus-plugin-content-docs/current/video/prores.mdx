@@ -9,7 +9,7 @@ ProRes 是由 Apple Inc. 開發的一系列有損視訊壓縮編碼格式。ProR
 
 ProRes 使用 4:2:2 或 4:4:4 色彩採樣，具體取決於使用的 ProRes 子集。這比典型的 8-bit 4:2:0 編碼格式（如常見於 [AVC](../video/AVC.mdx) 的編碼格式）提供更高的色彩保真度和精確度。
 
-ProRes 壓縮使用了[離散餘弦變換](../introduction/terminology.mdx#discrete-cosine-transform-dct)（DCT）和幀內壓縮技術。與此同時，它不採用幀間壓縮，即不利用幀與幀之間的冗餘來提升壓縮效率。這種方式減輕了解碼的負擔，並簡化了編解碼的過程。ProRes 在提供極高影像品質的同時，能夠保持相對較低的數據速率，根據解析度和具體的 ProRes 變體，數據速率通常約為 100-400 MB/s。
+ProRes 壓縮使用了[離散餘弦變換](../introduction/terminology.mdx#discrete-cosine-transform-dct)（DCT）和幀內壓縮技術。與此同時，它不採用幀間壓縮，即不利用幀與幀之間的冗餘來提升壓縮效率。這種方式減輕了解碼的負擔，並簡化了編解碼的過程。ProRes 在提供極高影像品質的同時，能夠保持相對較低的資料速率，根據解析度和具體的 ProRes 變體，資料速率通常約為 100-400 MB/s。
 
 ## 格式詳解
 
@@ -28,12 +28,12 @@ ProRes 提供多種不同的變體，這些變體在影像品質和壓縮率之�
 \*ProRes 4444 XQ 和 ProRes 4444 支援 12-bit 色深，但如果包含無損透明通道，透明通道的色深為 16-bit。
 
 較高資料率的變體如 4444 XQ 和 HQ 優先考量最大保真度，這是以較大的檔案大小為代價的。而較低資料率的變體則在略微犧牲品質的同時，大幅縮小檔案大小，適合於儲存空間受限的編輯環境。
-## Usage
+## 使用情境
 
-Apple ProRes Raw is available in LUMIX cameras & the Sony Alpha FX3 via Atomos Ninja V. Both cameras are capable of recording 12-bit uncompressed RAW video in the ProRes RAW format.
+Apple ProRes Raw 可在 LUMIX 相機與 Sony Alpha FX3 上透過 Atomos Ninja V 使用。這兩款相機都能夠以 ProRes RAW 格式錄製 12-bit 無壓縮的 RAW 影片。
 
-ProRes has become widely adopted in professional video post-production workflows due to its quality, performance, metadata handling, and tight integration with Apple's Final Cut Pro editing software & ecosystem.
+由於 ProRes 的高品質、優異的性能、元資料處理能力，以及與 Apple Final Cut Pro 編輯軟體與其生態系統的緊密整合，ProRes 已被廣泛應用於專業影片後期製作工作流程中。
 
-ProRes is supported by most major non-linear editing systems beyond just Final Cut Pro, including Adobe Premiere Pro & BlackMagic's DaVinci Resolve. This cross-platform compatibility makes it a convenient codec for exchange between different video editing applications.
+ProRes 不僅受到 Final Cut Pro 的支援，還被多數主要的非線性編輯系統所支援，包括 Adobe Premiere Pro 和 BlackMagic 的 DaVinci Resolve。這種跨平台兼容性使其成為不同影片編輯應用程序之間交換影片的便捷編解碼器。
 
-While designed primarily as an editing codec, Apple has also implemented hardware acceleration for ProRes encode & decode in recent Mac devices via Apple Silicon starting with the M2 chip. This hardware acceleration enables higher performance for tasks like playback, transcoding, and export compared to software-only implementations.
+雖然 ProRes 主要被設計為編輯編解碼器，但 Apple 也在最近的 Mac 設備中通過自 M2 晶片開始的 Apple Silicon 實現了對 ProRes 編碼和解碼的硬體加速。這種硬體加速使得播放、轉碼和匯出等任務的性能比僅依賴軟體的實現要高得多。
