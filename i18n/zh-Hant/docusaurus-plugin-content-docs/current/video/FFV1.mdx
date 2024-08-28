@@ -1,4 +1,4 @@
----
+﻿---
 title: FFV1
 sidebar_position: 12
 ---
@@ -9,53 +9,52 @@ sidebar_position: 12
 此部分需要更多內容。如果你有意協助，請參考我們的 [貢獻指南](../contribution-guide.mdx) 並開始貢獻！
 :::
 
-[FFV1](https://datatracker.ietf.org/doc/html/rfc9043) 是一款無損的intra-frame編碼器，專為存檔與保存用途設計。這個編碼器由 Michael Niedermayer 創建，並且是 [FFmpeg](../utilities/ffmpeg.mdx) 項目的一部分。FFV1 支援廣泛的色彩空間，能夠處理 YUV 和 RGB 內容，也包括透明度通道，色彩深度範圍從 8 位元到 16 位元（對於 RGB 則只支援到 14 位元）。相比其他無損視訊編碼器如 [UT Video](../video/utvideo.mdx)，FFV1 的平行化支持良好，並且壓縮率極高，但相對而言會消耗更多資源。
+[FFV1](https://datatracker.ietf.org/doc/html/rfc9043) 是一款無損的intra-frame編碼器，專為存檔與保存用途設計。這個編碼器由 Michael Niedermayer 創建，並且是 [FFmpeg](../utilities/ffmpeg.mdx) 項目的一部分。FFV1 支援廣泛的色彩空間，能夠處理 YUV 和 RGB 內容，也包括透明度通道，色彩深度範圍從 8 位元到 16 位元（對於 RGB 則只支援到 14 位元）。相比其他無損視訊編碼器如 [UT Video](../video/utvideo.mdx)，FFV1 的平行化支援良好，並且壓縮率極高，但相對而言會消耗更多資源。
 
 ## 歷史
 
-FFV1 編碼器於 2003 年被合併進 FFmpeg 專案，然而其比特流規範在 2006 年被凍結（正式定為 FFV1 版本 0）。隨後在 2009 年發布了版本 1，擴展了對更多視訊位深的支援。
+FFV1 編碼器於 2003 年被合併進 FFmpeg 專案，然而其位元流規範在 2006 年被凍結（正式定為 FFV1 版本 0）。隨後在 2009 年發布了版本 1，擴展了對更多視訊位深的支援。
 
 版本 2 從未正式發布，只存在於實驗形式。
 
-第三個比特流版本於 2013 年被凍結，並且截至 2024 年仍然是最新版本。此版本增加了多執行緒支持和幀完整性檢查。
+第三個位元流版本於 2013 年被凍結，並且截至 2024 年仍然是最新版本。此版本增加了多執行緒支援和幀完整性檢查。
 
-第四個版本 [即將推出](https://datatracker.ietf.org/doc/draft-ietf-cellar-ffv1-v4/)，可能會帶來對更多色彩空間的更好支持、壓縮改進以及 [可能](https://mailarchive.ietf.org/arch/msg/cellar/gFydpu8BKAgzspvy6Mvbpsrg5yY/) 的正式幀間預測支持。
-## Usage
+第四個版本 [即將推出](https://datatracker.ietf.org/doc/draft-ietf-cellar-ffv1-v4/)，可能會帶來對更多色彩空間的更好支援、壓縮改進以及 [可能](https://mailarchive.ietf.org/arch/msg/cellar/gFydpu8BKAgzspvy6Mvbpsrg5yY/) 的正式幀間預測支援。
+## 使用方法
 
-```bash title="Fast, heavily multithreaded"
+```bash title="快速、多執行緒"
 ffmpeg -i input.mkv -c:v ffv1 -slices 16 out.mkv
 ```
 
-```bash title="Slow, highest compression"
+```bash title="慢速、最高壓縮率"
 ffmpeg -i input.mkv -c:v ffv1 -g 60 -slices 4 -context 1 -coder 2 out.mkv
 ```
 
-```bash title="Recommended for archival purposes, high compression, multithreaded"
+```bash title="適用於存檔目的，高壓縮率，多執行緒"
 ffmpeg -i input.mkv -c:v ffv1 -g 1 -slices 16 -slicecrc 1 -context 1 -coder 2 out.mkv
 ```
 
-### Options
-- `slices` - Slices divide frame into multiple parts that can be encoded and decoded in parallel. Can only be one of: [`4`, `6`, `9`, `12`, `16`, `24`, `30`] where `4` is the default.
-- `slicecrc` - Setting it to `1` will enable decoder to detect errors in the bitstream. Must be enabled for archival use. Can be eitner `0` or `1`.
-- `context` - Setting it to `1` will make encoder use larger context size which usually leads to better compression. Can be eitner `0` or `1`.
-- `coder` - Sets entropy coding method:
-  - `0` - Golomb-Rice (faster, default)
-  - `1` - Range Coder (used for higher bit depths and better compression)
-  - `2` - Range Coder with custom state transition table (almost the same as `1`)
-- `g` - Sets `GOP size`. Must be `1` for archival use. [see below](#intra-frame-only-catch)
+### 選項說明
+- `slices` - 將幀劃分為多個部分，可以並行編碼和解碼。可選值為：[`4`, `6`, `9`, `12`, `16`, `24`, `30`]，預設值為 `4`。
+- `slicecrc` - 將其設為 `1` 可使解碼器檢測位元流中的錯誤。存檔時必須啟用。可選值為 `0` 或 `1`。
+- `context` - 將其設為 `1` 將使編碼器使用更大的上下文大小，通常能達到更好的壓縮效果。可選值為 `0` 或 `1`。
+- `coder` - 設定熵編碼方法：
+  - `0` - Golomb-Rice（速度較快，預設值）
+  - `1` - Range Coder（用於更高位深和更好的壓縮）
+  - `2` - 帶有自定義狀態轉換表的 Range Coder（與 `1` 幾乎相同）
+- `g` - 設定 `GOP 大小`。存檔時必須設為 `1`。[詳情見下文](#intra-frame-only-catch)
 
-## intra-frame only catch
+## 僅 intra-frame 編碼的注意事項
 
-Intra-frame only codecs do not use common *inter*-frame video coding techniques such as [motion compensation](#TODO), reusing parts of surrounding frames or adapting encoding context based on them. Every frame is independent from one another. Common Intra-frame only codecs may include Motion JPEG (Lossy), Motion JPEG 2000 (Both) or [UT Video](../video/utvideo.mdx) (Lossless).
+僅 intra-frame 編碼器不使用常見的*幀間*視訊編碼技術，例如 [運動補償](#TODO)、重用周圍幀的部分或根據它們調整編碼上下文。每個幀彼此獨立。常見的僅 intra-frame 編碼器可能包括 Motion JPEG（有損）、Motion JPEG 2000（兩者皆有）或 [UT Video](../video/utvideo.mdx)（無損）。
 
-If you're careful reader you might have noticed that setting `GOP size` isn't a common characteristic amongst intra-frame only codecs.
+如果你是仔細的讀者，你可能已經注意到設定 `GOP 大小` 並不是僅 intra-frame 編碼器的常見特徵。
 
-In fact FFV1 can be considered an intra-frame codec only if `GOP size` is set to `1`. When it's larger than that, its context model depends on other frames found within the `GOP` which contradicts the definition of intra-frame only codec. The main reason why it's strongly recommended to set `GOP size` to `1` for archival purposes is that if one frame gets somehow corrupted, we only lost one frame. If `GOP size` was big we could loose much larger part of the video.
+事實上，只有當 `GOP 大小` 設為 `1` 時，FFV1 才能被認為是僅 intra-frame 編碼器。當該值大於 1 時，其上下文模型依賴於 `GOP` 中的其他幀，這與僅 intra-frame 編碼器的定義相矛盾。建議在存檔時將 `GOP 大小` 設為 `1` 的主要原因是，如果某一幀損壞，我們只會丟失這一幀。如果 `GOP 大小` 設為較大，我們可能會丟失更大部分的影片。
+# 參考資料
 
-References:
-- [Wikipedia](https://en.wikipedia.org/wiki/FFV1)
+- [維基百科](https://en.wikipedia.org/wiki/FFV1)
 - [RFC9043](https://datatracker.ietf.org/doc/html/rfc9043)
-- [FFmpeg Docs](https://trac.ffmpeg.org/wiki/Encode/FFV1)
-- [This Thread](https://forum.shotcut.org/t/exporting-as-ffv1-change-form-to-support-lossless-parameters/41230/19?page=2)
-- [This Question](https://video.stackexchange.com/questions/24874/what-does-the-context-parameter-mean-when-using-ffv1-in-ffmpeg)
-
+- [FFmpeg 檔案](https://trac.ffmpeg.org/wiki/Encode/FFV1)
+- [這個討論串](https://forum.shotcut.org/t/exporting-as-ffv1-change-form-to-support-lossless-parameters/41230/19?page=2)
+- [這個問題](https://video.stackexchange.com/questions/24874/what-does-the-context-parameter-mean-when-using-ffv1-in-ffmpeg)

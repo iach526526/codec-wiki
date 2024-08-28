@@ -1,34 +1,33 @@
----
+﻿---
 title: ProRes
 sidebar_position: 14
 ---
 
 # ProRes
 
-ProRes is a family of lossy video compression codecs developed by Apple Inc. ProRes is designed to serve as a high-quality "visually lossless" video editing codec that offers superior image quality compared to many other editing codecs while still maintaining a relatively compact file size compared to uncompressed video.
+ProRes 是由 Apple Inc. 開發的一系列有損視訊壓縮編碼格式。ProRes 的設計目標是成為一種高品質的「視覺無損」影片編輯編碼格式，在保持相對緊湊的檔案大小的同時，提供比許多其他編輯編碼格式更優異的影像品質。
 
-ProRes uses 4:2:2 or 4:4:4 chroma subsampling depending on the specific subset. This provides greater color fidelity and precision than typical 8-bit 4:2:0 codecs like what can commonly be seen with [AVC](../video/AVC.mdx).
+ProRes 使用 4:2:2 或 4:4:4 色彩採樣，具體取決於使用的 ProRes 子集。這比典型的 8-bit 4:2:0 編碼格式（如常見於 [AVC](../video/AVC.mdx) 的編碼格式）提供更高的色彩保真度和精確度。
 
-ProRes compression uses the [Discrete Cosine Transform](../introduction/terminology.mdx#discrete-cosine-transform-dct) and intra-frame compression techniques; there is no inter-frame compression applied, meaning redundancy between frames isn't utilized to increase compression efficiency; this keeps decoding light, and simplifies the codec. ProRes is able to achieve very high quality video with relatively low data rates around 100-400 MB/s depending on the resolution and specific ProRes variant.
+ProRes 壓縮使用了[離散餘弦變換](../introduction/terminology.mdx#discrete-cosine-transform-dct)（DCT）和幀內壓縮技術。與此同時，它不採用幀間壓縮，即不利用幀與幀之間的冗餘來提升壓縮效率。這種方式減輕了解碼的負擔，並簡化了編解碼的過程。ProRes 在提供極高影像品質的同時，能夠保持相對較低的數據速率，根據解析度和具體的 ProRes 變體，數據速率通常約為 100-400 MB/s。
 
-## Format Breakdown
+## 格式詳解
 
-There are multiple variants of ProRes that offer different combinations of image quality and compression ratios:
+ProRes 提供多種不同的變體，這些變體在影像品質和壓縮率之間提供了不同的平衡：
 
-Format | Chroma Subsampling | Supported Bit Depth(s)
---- | :---: | ---:
-[ProRes RAW](https://www.apple.com/final-cut-pro/docs/Apple_ProRes_RAW.pdf) | N/A | 12-bit
-ProRes 4444 XQ | 4:4:4 | 10-bit, 12-bit\*
-ProRes 4444 | 4:4:4 | 10-bit, 12-bit\*
-ProRes HQ | 4:2:2 | 10-bit
-ProRes | 4:2:2 | 10-bit
-ProRes LT | 4:2:2 | 10-bit
-ProRes Proxy | 4:2:2 | 10-bit
+| 格式 | 色彩採樣 | 支援的色深 |
+| --- | :---: | ---: |
+| [ProRes RAW](https://www.apple.com/final-cut-pro/docs/Apple_ProRes_RAW.pdf) | 不適用 | 12-bit |
+| ProRes 4444 XQ | 4:4:4 | 10-bit, 12-bit\* |
+| ProRes 4444 | 4:4:4 | 10-bit, 12-bit\* |
+| ProRes HQ | 4:2:2 | 10-bit |
+| ProRes | 4:2:2 | 10-bit |
+| ProRes LT | 4:2:2 | 10-bit |
+| ProRes Proxy | 4:2:2 | 10-bit |
 
-\**ProRes 4444 XQ and 4444 support 12-bit color depth, but the lossless alpha channel is 16-bit if included.*
+\*ProRes 4444 XQ 和 ProRes 4444 支援 12-bit 色深，但如果包含無損透明通道，透明通道的色深為 16-bit。
 
-The higher data rate variants like 4444 XQ and HQ prioritize maximum fidelity at the expense of larger file sizes. The lower data rate variants trade off some quality for much smaller file sizes suitable for editing where storage space is constrained.
-
+較高資料率的變體如 4444 XQ 和 HQ 優先考量最大保真度，這是以較大的檔案大小為代價的。而較低資料率的變體則在略微犧牲品質的同時，大幅縮小檔案大小，適合於儲存空間受限的編輯環境。
 ## Usage
 
 Apple ProRes Raw is available in LUMIX cameras & the Sony Alpha FX3 via Atomos Ninja V. Both cameras are capable of recording 12-bit uncompressed RAW video in the ProRes RAW format.
