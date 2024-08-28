@@ -1,4 +1,4 @@
----
+﻿---
 title: aomenc
 sidebar_position: 4
 keywords: [AV1, encoding, video encoding, AOM AV1]
@@ -9,17 +9,17 @@ import TabItem from '@theme/TabItem';
 
 # aomenc
 
-[aomenc](https://aomedia.googlesource.com/aom/), AOM-AV1, or just **libaom** is a command line application for encoding AV1 written in C and Assembly developed by AOMedia, which is also the reference encoder for AV1.
+[aomenc](https://aomedia.googlesource.com/aom/)，又稱 AOM-AV1 或 **libaom**，是一款由 AOMedia 開發的命令列工具，專門用於編碼 AV1 影片格式。此工具是以 C 和 Assembly 語言編寫的，並且是 AV1 的官方參考編碼器。
 
-## FFmpeg
+## 在 FFmpeg 中使用
 
-aomenc is available in FFmpeg via ``libaom-av1``, check if you have it by running ``ffmpeg -h encoder=libaom-av1``. You can input non-FFmpeg standard aomenc parameters via ``-aom-params``.
+aomenc 可以在 FFmpeg 中透過 ``libaom-av1`` 進行使用。你可以透過執行 ``ffmpeg -h encoder=libaom-av1`` 來確認是否已安裝該編碼器。此外，你還可以使用 ``-aom-params`` 來輸入非 FFmpeg 標準的 aomenc 參數。
 
-## Supported Color Space
+## 支援的色彩空間
 
-aomenc supports the following color spaces:
+aomenc 支援以下色彩空間格式：
 
-| Format           | Chroma Subsampling | Supported Bit Depth(s) |
+| 格式             | 色度抽樣         | 支援的位元深度       |
 |------------------|:------------------:|-----------------------|
 | YUV420P          | 4:2:0              | 8-bit                 |
 | YUV422P          | 4:2:2              | 8-bit                 |
@@ -38,168 +38,231 @@ aomenc supports the following color spaces:
 | GRAY12LE         | -                  | 12-bit                |
 
 
-## Installation
+## 安裝
 
 <Tabs>
     <TabItem value="unixlike" label="Linux & macOS" default>
-        1. Clone the mainline aom repo:
-        ```bash title="Clone the aom repo"
+        1. 複製主線 aom 儲存庫：
+        ```bash title="複製 aom 儲存庫"
         git clone https://aomedia.googlesource.com/aom
         cd aom && mkdir aom_build && cd aom_build
         ```
 
-        2. Configure compilation. The following flags are set to ensure the `aomenc` binary is build for optimal performance:
-        ```bash title="Set CMake flags"
+        2. 配置編譯。以下標誌設定為確保 `aomenc` 二進制檔案針對最佳性能進行構建：
+        ```bash title="設定 CMake 標誌"
         cmake .. -DBUILD_SHARED_LIBS=0 -DENABLE_DOCS=0 -DCONFIG_TUNE_BUTTERAUGLI=0 -DCONFIG_TUNE_VMAF=0 -DCONFIG_AV1_DECODER=0 -DENABLE_TESTS=0 -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-flto -O3 -march=native" -DCMAKE_C_FLAGS="-flto -O3 -march=native -pipe -fno-plt" -DCMAKE_LD_FLAGS="-flto -O3 -march=native"
         ```
 
-        3. Compile:
-        ```bash title="Compile"
+        3. 編譯：
+        ```bash title="編譯"
         make -j$(nproc)
         ```
 
-        4. Install to your system. This may require elevated privileges:
-        ```bash title="Install"
+        4. 安裝到你的系統。這可能需要提升的權限：
+        ```bash title="安裝"
         make install
         ```
     </TabItem>
     <TabItem value="wind" label="Windows">
-        **MSYS2** is the best option for building in Windows, as it provides a Unix-like environment for compilation.
+        **MSYS2** 是在 Windows 中構建的最佳選擇，因為它提供了類似 Unix 的編譯環境。
 
-        0. Make sure you have downloaded & installed MSYS2 from [the MSYS2 website](https://www.msys2.org/) before beginning the build process.
+        0. 在開始構建過程之前，請確保你已經從 [MSYS2 網站](https://www.msys2.org/) 下載並安裝了 MSYS2。
 
-        1. Start the UCRT64 console & install the required dependencies:
+        1. 啟動 UCRT64 控制台並安裝所需的依賴項：
         ```bash
         pacman -S cmake git perl yasm nasm python3 doxygen mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake base-devel
         ```
 
-        2. Clone the mainline aom repo:
-        ```bash title="Clone the aom repo"
+        2. 複製主線 aom 儲存庫：
+        ```bash title="複製 aom 儲存庫"
         git clone https://aomedia.googlesource.com/aom
         cd aom && mkdir aom_build && cd aom_build
         ```
 
-        2. Configure compilation. The following flags are set to ensure the `aomenc` binary is build for optimal performance:
-        ```bash title="Set CMake flags"
-        cmake .. -DBUILD_SHARED_LIBS=0 -DENABLE_DOCS=0 -DCONFIG_TUNE_BUTTERAUGLI=0 -DCONFIG_TUNE_VMAF=0 -DCONFIG_AV1_DECODER=0 -DENABLE_TESTS=0 -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-flto -O3 -march=native" -DCMAKE_C_FLAGS="-flto -O3 -march=native -pipe -fno-plt" -DCMAKE_LD_FLAGS="-flto -O3 -march=native"
+        2. 配置編譯。以下標誌設定為確保 `aomenc` 二進制檔案針對最佳性能進行構建：
+        ```bash title="設定 CMake 標誌"
+        cmake .. -DBUILD_SHARED_LIBS=0 -DENABLE_DOCS=0 -DCONFIG_TUNE_BUTTERAUGLI=0 -DCONFIG_TUNE_VMAF=0 -DCONFIG_AV1_DECODER=0 -ENABLE_TESTS=0 -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-flto -O3 -march=native" -DCMAKE_C_FLAGS="-flto -O3 -march=native -pipe -fno-plt" -DCMAKE_LD_FLAGS="-flto -O3 -march=native"
         ```
 
-        3. Compile:
-        ```bash title="Compile"
+        3. 編譯：
+        ```bash title="編譯"
         make -j$(nproc)
         ```
 
-        The resulting binary will be available within the home folder of the location where you installed MSYS2 (usually `C:`). Navigate there, and then to the `aom` folder; the binary should be there.
+        最終的二進制檔案將在你安裝 MSYS2 的位置（通常在 `C:`）的主目錄內可用。進入該目錄，然後進入 `aom` 檔案夾；二進制檔案應該位於其中。
 
-        Built files should be in the "Debug" folder.
+        構建檔案應位於 "Debug" 檔案夾中。
     </TabItem>
 </Tabs>
 
-:::warning Sharing Native Binaries
-Avoid sharing binaries compiled with native CPU optimizations unless the person you're sharing to has the same CPU architecture, as this can lead to incorrect encoder behavior.
+### 意譯
+
+這是意譯版本：
+
+## 安裝
+
+<Tabs>
+    <TabItem value="unixlike" label="Linux & macOS" default>
+        1. 複製 aom 的主線版本：
+        ```bash title="複製 aom 儲存庫"
+        git clone https://aomedia.googlesource.com/aom
+        cd aom && mkdir aom_build && cd aom_build
+        ```
+
+        2. 設定編譯環境。以下 CMake 參數可確保 `aomenc` 執行檔以最佳性能進行編譯：
+        ```bash title="設定 CMake 參數"
+        cmake .. -DBUILD_SHARED_LIBS=0 -DENABLE_DOCS=0 -DCONFIG_TUNE_BUTTERAUGLI=0 -DCONFIG_TUNE_VMAF=0 -DCONFIG_AV1_DECODER=0 -DENABLE_TESTS=0 -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-flto -O3 -march=native" -DCMAKE_C_FLAGS="-flto -O3 -march=native -pipe -fno-plt" -DCMAKE_LD_FLAGS="-flto -O3 -march=native"
+        ```
+
+        3. 編譯：
+        ```bash title="開始編譯"
+        make -j$(nproc)
+        ```
+
+        4. 安裝到系統中。這步可能需要管理員權限：
+        ```bash title="安裝"
+        make install
+        ```
+    </TabItem>
+    <TabItem value="wind" label="Windows">
+        **MSYS2** 是在 Windows 上編譯的最佳選擇，因為它提供了類似 Unix 的編譯環境。
+
+        0. 在開始之前，請確保你已從 [MSYS2 網站](https://www.msys2.org/) 下載並安裝了 MSYS2。
+
+        1. 啟動 UCRT64 終端，並安裝所需的依賴：
+        ```bash
+        pacman -S cmake git perl yasm nasm python3 doxygen mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake base-devel
+        ```
+
+        2. 複製 aom 的主線版本：
+        ```bash title="複製 aom 儲存庫"
+        git clone https://aomedia.googlesource.com/aom
+        cd aom && mkdir aom_build && cd aom_build
+        ```
+
+        3. 設定編譯環境。以下 CMake 參數可確保 `aomenc` 執行檔以最佳性能進行編譯：
+        ```bash title="設定 CMake 參數"
+        cmake .. -DBUILD_SHARED_LIBS=0 -DENABLE_DOCS=0 -DCONFIG_TUNE_BUTTERAUGLI=0 -DCONFIG_TUNE_VMAF=0 -DCONFIG_AV1_DECODER=0 -ENABLE_TESTS=0 -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-flto -O3 -march=native" -DCMAKE_C_FLAGS="-flto -O3 -march=native -pipe -fno-plt" -DCMAKE_LD_FLAGS="-flto -O3 -march=native"
+        ```
+
+        4. 編譯：
+        ```bash title="開始編譯"
+        make -j$(nproc)
+        ```
+
+        編譯好的執行檔會存放在你安裝 MSYS2 的主目錄內（通常位於 `C:`）。進入該目錄，再進入 `aom` 資料夾，你會找到編譯出來的檔案。
+
+        編譯好的檔案通常位於 "Debug" 資料夾中。
+    </TabItem>
+</Tabs>
+
+:::warning Sharing Native Binaries 
+避免分享帶有原生 CPU 優化的二進位檔，除非分享對象擁有相同的 CPU 架構，否則可能會導致編碼器行為不正確。 
 :::
 
-## Usage
+## 使用方法
 
-### AV1 Encoding
+### AV1 編碼
 
-:::note 2-Pass Encoding
-The way aomenc was developed requires 2-pass to take full advantage of its efficiency which include better rate controls and encoding features. So always specify the encoder to use 2 passes when encoding.
+:::note 兩遍編碼
+aomenc 的設計原理需要使用兩遍編碼才能最大化其效率，包括更好的速率控制與編碼功能。因此，在進行編碼時，應該始終指定使用兩遍編碼。
 :::
 
-```bash title="Simple Y4M input with CQ 22, 1 pass, and raw ivf bitstream output"
+```bash title="簡單的 Y4M 輸入，CQ 設定為 22，單遍編碼，輸出原始 ivf 位元流"
 aomenc --end-usage=q --cq-level=32 --bit-depth=10 --passes=1 --ivf -o output.ivf input.y4m
 ```
 
-```bash title="Pipe from FFmpeg"
+```bash title="從 FFmpeg 管道輸入"
 ffmpeg -v error -i input.mkv -f yuv4mpegpipe -strict -1 - | aomenc - --end-usage=q --cq-level=32 --bit-depth=10 --passes=1 --ivf -o output.ivf
 ```
 
-```bash title="Pipe from FFmpeg, 2-pass, pass 1"
+```bash title="從 FFmpeg 管道輸入，兩遍編碼，第一遍"
 ffmpeg -v error -i input.mkv -f yuv4mpegpipe -strict -1 - | aomenc - --end-usage=q --cq-level=32 --bit-depth=10 --passes=2 --pass=1 --fpf-log=aom-pass.log  --ivf -o output.ivf
 ```
-```bash title="Pipe from FFmpeg, 2-pass, pass 2"
+```bash title="從 FFmpeg 管道輸入，兩遍編碼，第二遍"
 ffmpeg -v error -i input.mkv -f yuv4mpegpipe -strict -1 - | aomenc - --end-usage=q --cq-level=32 --bit-depth=10 --passes=2 --pass=2 --fpf-log=aom-pass.log  --ivf -o output.ivf
 ```
 
-### AVIF Encoding
+### AVIF 編碼
 
-Using aomenc through avifenc is widely considered to be the best way to encode AVIF images, as SVT-AV1 only supports 4:2:0 chroma subsampling, rav1e isn't fast enough for still images, & the libaom team have put more effort into intra coding than the teams responsible for producing the other prominent open source AV1 encoders. A sample command for encoding AVIF looks like this:
+通過 avifenc 使用 aomenc 來編碼 AVIF 圖像，通常被視為最佳選擇，因為 SVT-AV1 僅支援 4:2:0 色度抽樣，而 rav1e 的編碼速度對於靜態圖像來說不夠快，且 libaom 團隊在內部編碼方面比其他主要的開源 AV1 編碼器團隊投入了更多精力。下面是一個 AVIF 編碼的範例命令：
 
 `avifenc -c aom -s 4 -j 8 -d 10 -y 444 --min 1 --max 63 -a end-usage=q -a cq-level=16 -a tune=ssim [input] output.avif`
 
-Where:
+其中：
 
-- `-c aom` is the encoder
-- `-s 4` is the speed. Speeds 4 & below offer the best compression quality at the expense of longer encode times.
-- `-j 8` is the number of threads the encoder is allowed to use. Increasing this past 12 will sometimes hurt encode times, as AVIF encoding via aomenc doesn't parallelize perfectly. Test using a speed benchmark to verify which value works best for you.
-- `-d 10` is the bit depth. Specifying a value below 10 isn't recommended, as it will hurt coding efficiency even with an 8-bit source image.
-- `-y 444` is the chroma subsampling mode. 4:4:4 chroma subsampling tends to provide better compression than 4:2:0 with AVIF, though on some images 4:2:0 chroma subsampling might be the better choice.
-- `cq-level=16` is how you specify quality. Lower values correspond to higher quality & filesize, while higher values mean a smaller, lower-quality output is desired. This is preceded by `-a` because it is an aomenc option, not an avifenc one.
-- `tune=ssim` is how the encoder handles RDO (rate-distortion optimization). This may be redundant with the default aomenc parameters, but specifying doesn't hurt to avoid an unintended change if a default is modified sometime in the future.
+- `-c aom` 指定編碼器
+- `-s 4` 是速度設定，4 以下的速度可以提供最佳的壓縮品質，但會增加編碼時間。
+- `-j 8` 是允許編碼器使用的執行緒數。超過 12 的值有時會反而延長編碼時間，因為 aomenc 進行 AVIF 編碼時無法完美平行化。建議你測試最佳值。
+- `-d 10` 是位元深度設定。若設定低於 10，將降低編碼效率，即使原始圖像為 8 位元也不建議如此設定。
+- `-y 444` 是色度抽樣模式。4:4:4 色度抽樣通常提供更好的壓縮效果，但在某些圖像上，4:2:0 色度抽樣可能是更好的選擇。
+- `cq-level=16` 是品質等級。較低的值代表更高的品質和更大的檔案大小，較高的值則代表較低的品質與較小的檔案大小。由於這是 aomenc 的參數，因此需在前方加上 `-a`。
+- `tune=ssim` 表示編碼器如何處理 RDO（速率失真優化）。這可能與 aomenc 的預設參數重複，但指定它可以避免預設值改變後出現意料之外的變動。
 
-## Recommendations
+## 推薦參數設定
 
-aomenc is largely lacking in its ability to take advantage of multiple threads, so a tool like [Av1an](/docs/utilities/av1an) should be utilized for effective parallelization. The parameters shown will be biased towards Av1an and [aom-av1-lavish](./aom-av1-lavish.mdx) usage, so if you plan on using standalone aomenc please adjust as needed.
+aomenc 在多執行緒利用方面表現較弱，因此建議使用像 [Av1an](/docs/utilities/av1an) 這樣的工具來有效地進行平行處理。本文中的參數會偏向於 Av1an 和 [aom-av1-lavish](./aom-av1-lavish.mdx) 的使用，如果你計劃單獨使用 aomenc，請根據需要進行調整。
 
-Here are some recommended parameters:
+以下是推薦的參數設定：
 
 `--bit-depth=10 --cpu-used=4 --end-usage=q --cq-level=24 --threads=2 --tile-columns=0 --tile-rows=0 --lag-in-frames=64 --tune=ssim --enable-keyframe-filtering=1 --disable-kf --kf-max-dist=9999 --enable-qm=1 --deltaq-mode=0 --aq-mode=0 --enable-fwd-kf=0 --arnr-strength=1 --sb-size=dynamic --enable-dnl-denoising=0 --denoise-noise-level=8`
 
-Now let's break it down.
+以下是這些參數的詳細說明：
 
-- `--bit-depth=10` We're using 10bit because weird linear algebra allows the video to become smaller and reduces banding.
+- `--bit-depth=10` 我們使用 10 位元深度是因為在編碼過程中，它可以減小影片檔案大小，並減少色彩分帶效應。
 
-- `--cpu-used=4` This is the preset which ranges from 0-9, you can go to 3 if you want more efficiency, 2 if you have a lot of time, 4 is the sweet spot, and 6 if you want speed. Don't go above 6 (Worst efficiency) or even 0 (It would take WEEKS to finish).
+- `--cpu-used=4` 這是預設值，範圍從 0 到 9。如果你需要更高的編碼效率，請選
 
-- `--end-usage=q --cq-level=24` This specifies that we are going to use a knockoff version of CRF level similar to x264/x265 encoders, in this case CRF 24.
+擇 3；如果有較長時間進行編碼，請選擇 2。4 是速度與效率的最佳平衡點；若需要更快的速度，請選擇 6。不建議選擇超過 6（效率最差）或 0（編碼時間過長）。
 
-- `--tile-columns=0 --tile-rows=0` This is the tiles options, where the encoder splits the videos into tiles to encode faster. See the image below (Yellow lines):
+- `--end-usage=q --cq-level=24` 此設定指定我們將使用類似於 x264/x265 編碼器的仿 CRF（固定品質）級別，這裡設定為 CRF 24。
+
+- `--tile-columns=0 --tile-rows=0` 這些參數設定影片分割為 tiles（ tile ），以加快編碼速度。如下圖所示（黃色線條）：
 
 <picture>
     <source srcset="https://raw.githubusercontent.com/av1-community-contributors/images/main/tiling_av1.avif?token=GHSAT0AAAAAACEZPDXIZARY5MGSTJW4SI22ZHY636A" type="image/avif" />
     <img src="https://autumn.revolt.chat/attachments/HwhZjoDsdzLZsJM2mjzX7lEDmJn1xcYNdrQqmOxPYW/tiling_av1.jpeg" alt="Tiling" loading="lazy" />
 </picture>
 
-:::note Tile usage
-Do NOT use tiles for 1080p and below, use 1 ``tile-columns`` at 1440p (2K), 2 ``tile-columns`` and 1 ``tile-rows`` for 2160p (4K).
+:::note  tile 使用建議
+不要對 1080p 或以下的影片使用 tiles，1440p（2K）時使用 1 個 ``tile-columns``，2160p（4K）時使用 2 個 ``tile-columns`` 和 1 個 ``tile-rows``。
 
-If you would like an easy way to calculate the necessary number of tiles for your video, you can use [the AV1 Encoding Calculator](https://autocompressor.net/tools/av1-calculator) online or run [this local tile calculator](https://github.com/gianni-rosato/av1-tile-calc).
+如果想要輕鬆計算所需的 tile 數量，你可以在線使用 [AV1 編碼計算器](https://autocompressor.net/tools/av1-calculator) 或執行 [本地計算器](https://github.com/gianni-rosato/av1-tile-calc)。
 :::
 
-- `--lag-in-frames=64` Similar to x264/x265 `rc-lookahead`. Sets a number of frames to look ahead for frametype and ratecontrol, allowing for better compression decision making. Setting to a value greater than 64 is generally not considered useful.
+- `--lag-in-frames=64` 類似於 x264/x265 的 `rc-lookahead`。此參數設定預讀幀數，以便更好地進行幀類型和位元率控制。通常設定超過 64 被認為沒有明顯好處。
 
-- `--aq-mode=0` adaptive quantization mode, a mostly debatable area nowadays. 0 is better most of the time but some say 1 is also good.
+- `--aq-mode=0` 適應性量化模式是目前備受爭議的領域。大多數情況下，0 是較佳選擇，但也有觀點認為 1 也表現不錯。
 
-- `--enable-keyframe-filtering=1` We're setting it to 1 because of compatibility reasons, 2 is more efficient but there are seeking issues and FFmpeg can't input it.
+- `--enable-keyframe-filtering=1` 出於兼容性原因，我們將此值設定為 1，儘管設為 2 可能會更有效，但會導致尋址問題，且 FFmpeg 也無法正常處理。
 
-- `--sb-size=dynamic` Allows the encoder to use 128x128 block partitioning besides 64x64 which gives an efficiency boost.
+- `--sb-size=dynamic` 此設定允許編碼器使用 128x128 的區塊分割，除 64x64 之外，這樣可以提升編碼效率。
 
-- `--deltaq-mode=0` This value has been tested to be more perceptually efficient.
+- `--deltaq-mode=0` 經過測試，此參數設定能提高感知上的編碼效率。
 
-- `--arnr-strength=1` Controls how strong the filtering (smoothing) will be, always been a hot topic. Most agree on the default of 4. Others think 1 is good for 3D Pixar CGI-like and 2D animation and 4 for live action content, and a higher value for lower bitrate encodes.
+- `--arnr-strength=1` 控制過濾（平滑）的強度，這一直是個熱門話題。大多數人建議使用默認的 4，一些人認為 1 適合 3D 像 Pixar CGI 和 2D 動畫，而 4 適合真人內容；對於低位元率編碼則使用更高的值。
 
-- `--disable-kf --enable-fwd-kf=0` We're disabling keyframes cause Av1an already did scene detection, so we wont have to. Plus it speeds things up.
+- `--disable-kf --enable-fwd-kf=0` 我們禁用了關鍵幀，因為 Av1an 已經進行了場景檢測，這樣可以加快編碼速度。
 
-- `--kf-max-dist=9999` Maximum keyframe interval, we're setting it at the highest possible value since Av1an's scene detection keyframe interval is already 240 by default
+- `--kf-max-dist=9999` 設定最大關鍵幀間隔為最大值，因為 Av1an 的場景檢測默認的關鍵幀間隔為 240。
 
-- `--enable-chroma-deltaq=1 --enable-qm=1` Parameters that give you free efficiency boost discovered via testing.
+- `--enable-chroma-deltaq=1 --enable-qm=1` 這些參數設定經過測試，能夠提升編碼效率。
 
-- `--enable-dnl-denoising=0` Disables the encoder's built-in denoising technique when grain synthesis is enabled, you can optionally set it to 1 when you have a pretty noisy video since it works quite well (NLMeans is the denoiser used).
+- `--enable-dnl-denoising=0` 當啟用穀物合成時，禁用內建去噪技術。若影片噪聲較大，可選擇設為 1，因為它表現不錯（NLMeans 是使用的去噪器）。
 
-- `--denoise-noise-level=8` AV1 grain synthesis, which is a technique where the encoder puts fake grain in so it looks more natural and potentially hiding video artifacts (cause grain is hard to encode and explodes bitrate usage because of their randomness). Don't attempt to use it at high values (>12) since it creates noticeable grain patterns.
+- `--denoise-noise-level=8` AV1 穀物合成是一種技術，編碼器添加假穀物來模擬自然雜訊，這樣可隱藏影片中的編碼瑕疵（因為穀物難以編碼且會增加位元率）。不建議將此值設定超過 12，因為會產生明顯的穀物圖案。
 
 :::info
-You can use photon noise tables as an alternative via `--film-grain-table`, which is also conveniently available in Av1an as `--photon-noise=X`
+你可以選擇使用 photon 噪聲表作為替代方案，透過 `--film-grain-table` 來實現，這在 Av1an 中也可以方便地使用 `--photon-noise=X` 來設定。
 :::
 
-## Community Forks
+## 社群開發的分支版本
 
-Mainline aomenc is unfortunately not perfect. It suffers from bad defaults, a heavy focus on the perceptually flawed [PSNR](../metrics/PSNR.mdx) metric, misleading settings, and other issues. Fortunately, there are a couple of forks developed by the encoding community that were created to combat aomenc's underlying issues.
+遺憾的是，主線版本的 aomenc 並不完美。它存在錯誤的默認設定、過度依賴感知上有缺陷的 [PSNR](../metrics/PSNR.mdx) 指標、誤導性設定及其他問題。幸運的是，程式社群開發了幾個分支來解決 aomenc 的根本問題。
 
-- [aom-av1-psy](https://github.com/BlueSwordM/aom-av1-psy) *No longer maintained as of 13th January 2023*
-- [aom-av1-lavish](./aom-av1-lavish.mdx) *No longer maintained as of 4th June 2024*
+- [aom-av1-psy](https://github.com/BlueSwordM/aom-av1-psy) *已於 2023 年 1 月 13 日停止維護*
+- [aom-av1-lavish](./aom-av1-lavish.mdx) *已於 2024 年 6 月 4 日停止維護*
 - [aom-psy101](./aom-psy101.mdx)
 - [aom-av1ador](https://github.com/porcino/aom-av1ador)
 
-These forks fix up the poor decisions made by the original AOM devs and most importantly introduce new parameters and tunes to help fine-tune the encoder even more.
+這些分支修復了原 AOM 開發者的錯誤決策，並且引入了新的參數與調整選項，以進一步優化編碼效果。

@@ -75,7 +75,7 @@ import TabItem from '@theme/TabItem';
 uavs3enc -i input.yuv -w 1920 -h 1080 -d 8 --fps_num 24000 --fps_den 1001 -q 20 -o output.avs3
 ```
 
-```bash title="速度 2，CRF 20，內部周期 120，多線程"
+```bash title="速度 2，CRF 20，內部周期 120，多執行緒"
 uavs3enc -i input.yuv -w 1920 -h 1080 -d 8 --fps_num 24000 --fps_den 1001 -p 120 --wpp_threads 8 --frm_threads 8 --speed_level 2 --rc_type 1 -q 20 -o output.avs3
 ```
 
