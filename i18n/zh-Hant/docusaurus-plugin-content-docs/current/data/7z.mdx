@@ -1,24 +1,24 @@
----
+﻿---
 title: 7z
 sidebar_position: 4
 ---
 
 # 7-zip (7z)
 
-:::danger Help Wanted
-This section is in need of contributions. If you believe you can help, please see our [Contribution Guide](../contribution-guide.mdx) to get started as a contributor!
+:::danger 我們需要你！
+此部分需要更多內容。如果你有意協助，請參考我們的 [貢獻指南](../contribution-guide.mdx) 並開始貢獻！
 :::
 
-7-zip (7z) is a file format that supports several different data compression, encryption, & pre-processing algorithms. It was created by the 7-Zip archiver, which is free and open-source software for dealing with various data compression formats including formats similar to 7z like [XZ](../data/xz.mdx).
+7-zip（7z）是一種支援多種資料壓縮、加密和預處理演算法的檔案格式。它由 7-Zip 壓縮工具創建，這是一款免費且開源的軟體，能處理多種資料壓縮格式，包括與 7z 類似的 [XZ](../data/xz.mdx) 格式。
 
-The 7-zip format has some noteworthy advantages over the popular [ZIP](../data/zip.mdx) format.
-- The 7-zip utility can compress files to the 7z format "30-70% better" than to ZIP format despite having a highly efficient ZIP encoder. It mainly uses the LZMA & LZMA2 algorithms, which are more modern than DEFLATE and usually compress better.
-- 7-zip can encrypt files with AES-256 using a user provided password. AES-256 is more secure than the ZipCrypto encryption often used by ZIP.
-- 7-zip can support files up to 16 exabytes in size, while traditional ZIP has a 4 GB limit (ZIP64, which is commonly used, does not suffer from this 4 GB limitation so this is less relevant now). 7-zip also supports various pre-processing filters, which can improve compression for certain types of data like executables and binaries.
+7-zip 格式相對於流行的 [ZIP](../data/zip.mdx) 格式具有一些顯著優勢：
+- 7-zip 工具能夠比 ZIP 格式壓縮檔案「提高 30-70%」的效率，即使 ZIP 格式也有高效的編碼器。它主要使用 LZMA 和 LZMA2 演算法，這些比 DEFLATE 更現代，通常壓縮效果更佳。
+- 7-zip 支援使用 AES-256 加密檔案，並使用用戶提供的密碼。AES-256 的安全性比 ZIP 常用的 ZipCrypto 加密更高。
+- 7-zip 支援大小達 16 Exabytes 的檔案，而傳統 ZIP 有 4 GB 的限制（ZIP64 目前常用，不受這一限制，因此現在這點不那麼相關）。7-zip 還支援各種預處理過濾器，能改善某些類型資料的壓縮效果，如可執行檔和二進位檔案。
 
-However, 7-zip also has some drawbacks and limitations.
-- 7-zip is not as widely supported as ZIP by other software and platforms. Some users may need to install additional programs or plugins to open or extract 7z files45.
-- Slower speed: 7-zip archives may take longer to compress or decompress compared to ZIP. This is somewhat mitigated by the 7-zip utility's effective parallelization when decoding, but this only affects real time as opposed to user time meaning it is still likely going to be more expensive to decompress than ZIP.
-- 7-zip does not have any built-in mechanism to repair corrupted or damaged archives. Users may need to use third-party tools or backup copies to recover their data1
+然而，7-zip 也有一些缺點和限制：
+- 7-zip 的支援程度不如 ZIP 廣泛，某些軟體和平台可能需要安裝額外的程序或擴充套件來打開或解壓 7z 檔案。
+- 壓縮或解壓速度較慢：與 ZIP 相比，7-zip 壓縮檔案可能需要更長的時間。雖然 7-zip 工具在解碼時有效地進行了平行處理，但這僅影響實際時間，而不是用戶時間，意味著解壓過程仍可能比 ZIP 更耗時。
+- 7-zip 沒有內建修復損壞檔案的機制。用戶可能需要使用第三方工具或備份副本來恢復資料。
 
-7z archives are supported natively by macOS & many Linux distributions.
+7z 檔案在 macOS 和許多 Linux 發行版中原生支援。

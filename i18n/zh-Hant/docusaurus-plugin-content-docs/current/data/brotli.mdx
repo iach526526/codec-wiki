@@ -1,16 +1,16 @@
----
+﻿---
 title: brotli
 sidebar_position: 6
 ---
 
 # Brotli
 
-:::danger Help Wanted
-This section is in need of contributions. If you believe you can help, please see our [Contribution Guide](../contribution-guide.mdx) to get started as a contributor!
+:::danger 我們需要你！
+此部分需要更多內容。如果你有意協助，請參考我們的 [貢獻指南](../contribution-guide.mdx) 並開始貢獻！
 :::
 
-Brotli was released by Google in late 2013, & it is commonly used on the Web for content delivery. It is a core part of the `.woff2` Web Open Font Format, allowing web fonts to be smaller when sent to users as part of a website. It is not very common to pass around `.tar.br` Brotli archives like you would with [gzip](../data/gzip.mdx) or [xz](../data/xz.mdx), so it is perfectly acceptable that such files aren't really compatible anywhere. Brotli is almost universally compatible across the Web, supported by as much as 96% of the World Wide Web's users.
+Brotli 由 Google 於 2013 年底發布，並廣泛應用於 Web 上的內容傳遞。它是 `.woff2` Web 開放字型格式的核心部分，允許網頁字型在發送給用戶時更小。雖然 `.tar.br` Brotli 壓縮檔案不像 [gzip](../data/gzip.mdx) 或 [xz](../data/xz.mdx) 那樣常見地被傳遞，但這樣的檔案不在廣泛使用的範圍內並不奇怪。Brotli 在網絡上的兼容性幾乎是普遍的，支援率高達 96%。
 
-Brotli is based on LZ77 & Huffman coding, much like ZIP. It also uses context modeling to allow the use of multiple Huffman trees for the same alphabet in the same block; this essentially means that based on the context of the data being compressed, it can be compressed more efficiently especially if it contains multiple different kinds of data.
+Brotli 基於 LZ77 和 Huffman 編碼，與 ZIP 類似。它還使用上下文建模，允許在同一區塊內使用多個 Huffman 樹來處理相同字母表。這意味著，根據壓縮資料的上下文，尤其是當資料包含多種不同類型的內容時，可以更有效地進行壓縮。
 
-Brotli was co-authored & partially developed by Jyrki Alakuijala, who also worked on [JPEG-XL](../images/JXL.mdx) & the efficient [JPEG](../images/JPEG.mdx) encoder jpegli. JPEG-XL's metadata information is usually Brotli-compressed.
+Brotli 由 Jyrki Alakuijala 共同編著和部分開發，他還參與了 [JPEG-XL](../images/JXL.mdx) 和高效 [JPEG](../images/JPEG.mdx) 編碼器 jpegli 的開發。JPEG-XL 的元資料信息通常會進行 Brotli 壓縮。
