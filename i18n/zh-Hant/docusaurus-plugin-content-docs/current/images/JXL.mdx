@@ -10,7 +10,7 @@ import TabItem from '@theme/TabItem';
 
 JPEG-XL（JXL）是一種圖像壓縮格式，由聯合攝影專家組（JPEG）於2020年開發。它旨在提供比傳統的 [JPEG](./JPEG.mdx) 格式更高的壓縮效率，同時保持圖像品質。JPEG-XL 結合了感知色彩編碼、高級熵編碼以及一種新的圖像預測方法來實現其改進的壓縮性能。它還具有無損 JPEG 重新壓縮模式，允許將現有的 JPEG 檔案轉換為 JXL 檔案，從而可以解碼為與原始 JPEG 完全相同的位元組副本。
 
-## 性能檢查表
+## 性能檢查
 
 - **無損？** *是*
 - **有損？** *是*
@@ -46,7 +46,7 @@ JPEG-XL 提供了出色的無損壓縮能力。雖然無損 WebP 在 8 位無損
 
 ### 有損壓縮
 
-JPEG-XL 在有損壓縮方面也非常擅長，尤其是在我們人類關心的質量水平上。它的壓縮效果比 JPEG 好約 60%。雖然基於視頻的編解碼器如 AVIF 在給予大量 CPU 時間的情況下可以具有競爭力，但 JPEG-XL 在中高保真度的攝影圖像中既快速又高效。
+JPEG-XL 在有損壓縮方面也非常擅長，尤其是在我們人類關心的品質水平上。它的壓縮效果比 JPEG 好約 60%。雖然基於影片的編解碼器如 AVIF 在給予大量 CPU 時間的情況下可以具有競爭力，但 JPEG-XL 在中高保真度的攝影圖像中既快速又高效。
 
 ### 支援的位元深度
 
@@ -54,19 +54,19 @@ JPEG-XL 支援高達 32 位元每通道的位元深度，使其未來可以應�
 
 ### 漸進解碼
 
-JPEG-XL 提供了實際的漸進解碼支持，你可以在支持的瀏覽器上進行實驗，如 Safari、Waterfox、Thorium、Mercury 或任何 iOS 上的瀏覽器。
+JPEG-XL 提供了實際的漸進解碼支援，你可以在支援的瀏覽器上進行實驗，如 Safari、Waterfox、Thorium、Mercury 或任何 iOS 上的瀏覽器。
 
 漸進解碼是一項只有 JPEG 能夠實現真正實施的功能，它能夠在整個圖像傳送完成之前渲染低頻變換係數，允許圖像在網絡傳送過程中顯示出來。Blurhashes 並不取代這項技術，而是補充它，提供另一層漸進解碼，可以在圖像開始逐步加載之前使用。這是改善大型圖像網站或在網絡連接不強的情況下提高用戶體驗的重要功能。
 
 ### 無損 JPEG 重新壓縮
 
-JPEG-XL 的一個非常獨特的功能是無損 JPEG 重新壓縮，即能夠將 JPEG 輸入轉換為更小文件大小（平均小 20%）且像素逐一相同的輸出。這也是為什麼像 Meta 這樣的公司支持 JPEG-XL，因為它為互聯網上的現有 JPEG 提供了一條前進的道路。
+JPEG-XL 的一個非常獨特的功能是無損 JPEG 重新壓縮，即能夠將 JPEG 輸入轉換為更小檔案大小（平均小 20%）且像素逐一相同的輸出。這也是為什麼像 Meta 這樣的公司支援 JPEG-XL，因為它為互聯網上的現有 JPEG 提供了一條前進的道路。
 
-### 行業支持
+### 行業支援
 
 根據 JPEG-XL 維基百科頁面：
 
-> 除了最初的 Cloudinary 和 Google 外，在 JPEG-XL 初步實施於網頁瀏覽器期間，許多知名行業品牌的代表公開表示支持 JPEG-XL 作為他們的首選，包括 Facebook、Adobe、Intel 和視頻電子標準協會、The Guardian、Flickr 和 SmugMug、Shopify、Krita Foundation 和 Serif Ltd。
+> 除了最初的 Cloudinary 和 Google 外，在 JPEG-XL 初步實施於網頁瀏覽器期間，許多知名行業品牌的代表公開表示支援 JPEG-XL 作為他們的首選，包括 Facebook、Adobe、Intel 和影片電子標準協會、The Guardian、Flickr 和 SmugMug、Shopify、Krita Foundation 和 Serif Ltd。
 
 Apple 也在 iOS 17 和 macOS Sonoma 中全面支援 JPEG-XL。
 
@@ -74,95 +74,99 @@ Apple 也在 iOS 17 和 macOS Sonoma 中全面支援 JPEG-XL。
 
 JPEG-XL 擁有廣泛的功能集，具有取代 TIFF 等流行格式的潛力，用於創作工作流程。根據 JXL 維基百科的一些附加特性包括：
 
-- Image dimensions of over a billion (2^30-1) pixels on each side.
-- Up to 4099 channels, including support for alpha transparency
-- There can be multiple frames with zero duration, allowing support for layers in graphics software
-- Animation support, allowing JXL to rival GIF
-- Images can be stored in tiles to reduce the time needed to decode them.
-- Graceful quality degradation across a large range of bitrates means quality loss isn't as abrupt as with older formats.
-- Perceptually optimized reference encoder which uses a perceptual color space, adaptive quantization, and conservative default settings.
-- Support for wide color gamut and HDR
-- Efficient encoding and decoding without requiring specialized hardware: JPEG XL is about as fast to encode and decode as old JPEG using libjpeg-turbo and an order of magnitude faster to encode and decode compared to HEIC with x265. It is also parallelizable.
-- Royalty-free format with an open-source reference implementation available on GitHub.
+### JPEG-XL 的其他特點
 
-## Encoders
+- 支援超過十億（2^30-1）像素的圖像尺寸。
+- 支援多達 4099 個通道，包括 alpha 透明度。
+- 可以包含多個持續時間為零的幀，支援圖形軟件中的圖層。
+- 動畫支援，使 JXL 能夠與 GIF 競爭。
+- 圖像可以以塊的形式儲存，減少解碼所需的時間。
+- 寬泛的位元率範圍內的優雅品質降級，意味著品質損失不像舊格式那樣突然。
+- 感知優化的參考編碼器，使用感知色彩空間、自適應量化和保守的默認設定。
+- 支援廣色域和 HDR。
+- 高效的編碼和解碼，不需要專門的硬件：JPEG XL 的編碼和解碼速度與舊的 JPEG 使用 libjpeg-turbo 相當，並且比 HEIC 使用 x265 更快一個數量級。它也支援並行處理。
+- 無買斷式授權，在 GitHub 上有開源。
 
-JPEG-XL has a couple of noteworthy encoders currently available to work with. Because JPEG-XL is so new, most encoders aren't yet intelligent enough to take advantage of the whole format yet. Here's a quote from Jon Sneyers in the JPEG-XL discord that sums it up nicely:
+## 編碼器
 
-> Encode side: 80% or so of the coding tools are used in one way or another by the encoder (the 20% is splines and super large VarDCT blocks, and also the things that are not used by default without using special experimental options, such as delta palette and noise). But the coding tools that are used, are typically used in a specific, limited way that doesn't come anywhere close to exhausting the bitstream expressivity.
+JPEG-XL 目前有幾個值得注意的編碼器可供使用。由於 JPEG-XL 是一個新格式，大多數編碼器還未完全發揮出格式的全部潛力。以下是 Jon Sneyers 在 JPEG-XL Discord 中的一段話，總結了目前的情況：
 
-Sneyers is talking about libjxl's `cjxl` encoder, which will be discussed further below.
+> 編碼方面：編碼器大約使用了 80% 的編碼工具（20% 是 splines 和超大 VarDCT 區塊，以及沒有使用特殊實驗選項的工具，如 delta palette 和 noise）。但所使用的編碼工具，通常是以特定、有限的方式使用，並未充分發揮位流的表達能力。
+
+Sneyers 提到的是 libjxl 的 `cjxl` 編碼器，下面將進一步討論。
 
 ### libjxl
 
-The reference [libjxl](https://github.com/libjxl/libjxl) implementation has the capability to both decode and encode JPEG-XL image files. Both are discussed below.
+[libjxl](https://github.com/libjxl/libjxl) 是 JPEG-XL 的參考實現，具備解碼和編碼 JPEG-XL 圖像檔案的能力。以下是對這些功能的詳細討論。
 
 <Tabs>
-    <TabItem value="enc" label="Encoding" default>
+    <TabItem value="enc" label="編碼" default>
         
-        libjxl's encoder `cjxl` has more options to play around with. It takes a few primary arguments, distance (`-d`), quality (`-q`), and effort (`-e`).
+        libjxl 的編碼工具 `cjxl` 提供了豐富的選項供你調整。主要參數包括距離（`-d`）、品質（`-q`）和編碼效率（`-e`）。
 
-        **Distance and quality**
+        **距離和品質**
 
-        Distance and quality are two ways of specifying *how much loss* you are willing to tolerate, and as such, they are mutually exclusive, as they pull the same levers under the hood.
-        * Distance is designed to map to how 'close' one must be to the source to notice any loss. It is represented as a scale between 0.0 & 25.0. 0.0 is **mathematically lossless**, every pixel will have the exact same value as the source. 1.0 is designed to be **visually lossless**, look the same at a normal viewing distance, and higher values have more loss.
-        * Quality is designed to roughly map to [JPEG](./JPEG.mdx)'s quality argument. A range 0-100, where 100 is **mathematically lossless**, 90 is intended to be **visually lossless**, and 0 is almost unrecognizable as the original image.
+        距離和品質這兩個參數決定了*圖像損失的程度*，它們的功能是互相排斥的，因為它們在底層操作時會調整相同的編碼設定。
+        * 距離主要用來表示當觀察者靠近圖片時，察覺到壓縮失真的難易度。範圍從 0.0 到 25.0。0.0 表示**數學上的無損**，即每個像素的數值完全與原圖相同。1.0 表示**視覺上的無損**，即在正常觀察距離下看起來與原圖無異，而更高的數值則代表更大的壓縮損失。
+        * 品質則類似於 [JPEG](./JPEG.mdx) 的品質參數。範圍從 0 到 100，其中 100 表示**數學上的無損**，90 被設計為**視覺無損**，0 則顯得幾乎無法辨識為原圖。
 
-        **Effort**
+        **編碼效率**
 
-        Effort is similar to `cpu-used` in video encoding. It specifies the amount of effort the encoder will make in order to get the smallest file size it can. It takes the form of a range 1-9, where higher numbers will spend more resources to get diminishing returns in terms of smaller size, while lower values do the opposite, leaving file size on the table for faster encoding.
+        編碼效率類似於影片編碼中的 `cpu-used` 參數。這個參數決定了編碼器在追求最小檔案大小時所投入的運算資源。範圍從 1 到 9，數值越高表示編碼器會耗費更多的資源來達到更小的檔案大小，但回報遞減；數值越低則表示放棄部分檔案壓縮率來加快編碼速度。
 
-        ```bash title="Encoding with effort 9 and distance 1.0"
+        ```bash title="以最高效率和距離 1.0 進行編碼"
         cjxl -e 9 -d 1.0 example.png example.jxl
         ```
 
-        ```bash title="This, by default uses lossless JPEG compression."
+        ```bash title="此命令默認使用無損 JPEG 壓縮。"
         cjxl example.jpg example.jxl
         ```
 
     </TabItem>
-    <TabItem value="dec" label="Decoding">
-        Decoding a `.jxl` image is straightforward with libjxl's decoder, `djxl`:
+    <TabItem value="dec" label="解碼">
+        使用 libjxl 的解碼器 `djxl` 解碼 `.jxl` 圖像非常簡單：
 
         ```bash
         djxl example.jxl example.png
         ```
-        `djxl` can decode to pixels via pipes, png, apng for animated jxl, jpg, ppm, and pfm.
+        `djxl` 可以將圖像解碼成像素資料，或者解碼為 png、apng（適用於動畫 jxl）、jpg、ppm 和 pfm 格式。
 
-        By default, if the `.jxl` file was encoded with lossless jpeg recompression, `djxl` will rebuild the exact jpeg file that was originally compressed. To avoid this, and create a new jpeg file:
+        默認情況下，如果 `.jxl` 檔案是通過無損 jpeg 重新壓縮的，`djxl` 將還原原始的 jpeg 檔案。若想避免這樣做，並生成一個新的 jpeg 檔案：
         ```bash
         djxl -j example.jxl example.jpg
         ```
-        **Keep in mind this is now a lossy process as `djxl` will decode to pixels, then encode a new `.jpg` with those pixels.**
+        **請注意，這會變成一個有損過程，因為 `djxl` 將解碼為像素，再將這些像素編碼為新的 `.jpg` 檔案。**
     </TabItem>
-    <TabItem value="build" label="Building">
-        A full build guide is provided in the [libjxl build instructions](https://github.com/libjxl/libjxl/blob/main/BUILDING.md) in the GitHub repo. This guide is simplified, and is only focused on building a working efficient encoder & decoder.
+    <TabItem value="build" label="構建">
+        libjxl 在 GitHub repo 提供了完整的構建指南 [libjxl 構建指令](https://github.com/libjxl/libjxl/blob/main/
 
-        These instructions should work for macOS and Linux, although macOS support isn't guaranteed.
+BUILDING.md)。這裡的指南簡化了內容，僅聚焦於構建一個功能完整且高效的編碼器和解碼器。
 
-        ```bash title="1. Clone the repo"
+        這些指令適用於 macOS 和 Linux，儘管不保證完全支援 macOS。
+
+        ```bash title="1. 克隆儲存庫"
         git clone https://github.com/libjxl/libjxl.git --recursive --shallow-submodules
         ```
 
-        ```bash title="2. Install dependencies. May have to run these commands with root"
+        ```bash title="2. 安裝依賴項，可能需要以 root 權限執行這些命令"
         apt install cmake pkg-config libbrotli-dev clang # Debian Linux
         pacman -Syu cmake pkgconf brotli clang # Arch Linux
         brew install cmake pkg-config brotli # macOS
         ```
 
-        ```bash title="3. Set CC & CXX variables before building (Recommended)"
+        ```bash title="3. 在構建前設定 CC 和 CXX 變數（建議）"
         export CC=clang CXX=clang++
         ```
 
-        ```bash title="4. cjxl & djxl will be available in the build/tools directory."
+        ```bash title="4. cjxl 和 djxl 將位於 build/tools 目錄中。"
         cd libjxl && mkdir build && cd build
         cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-O3 -march=native" -DCMAKE_C_FLAGS="-O3 -march=native" -DBUILD_TESTING=OFF -DJPEGXL_WARNINGS_AS_ERRORS=OFF -DJPEGXL_ENABLE_SJPEG=OFF ..
         cmake --build . -- -j$(nproc)
         ```
 
-        This will build `cjxl` and `djxl` with O3 optimization for your CPU architecture on Linux or macOS. Again, be aware that macOS support is not a priority. Via the libjxl OS X build guide:
+        這樣做將在 Linux 或 macOS 上，以 O3 優化方式針對你的 CPU 架構構建 `cjxl` 和 `djxl`。再次提醒，macOS 支援並非重點。根據 libjxl 的 OS X 構建指南：
 
-        > OSX builds have "best effort" support, i.e. build might not work at all, some tests may fail and some sub-projects are excluded from build.
+        > OS X 的構建是「盡力而為」的支援，即構建可能無法順利進行，有些測試可能會失敗，某些子項目可能會被排除在構建之外。
     </TabItem>
 </Tabs>
 

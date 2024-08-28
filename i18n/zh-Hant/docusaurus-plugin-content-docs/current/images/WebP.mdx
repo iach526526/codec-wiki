@@ -1,46 +1,46 @@
----
+﻿---
 title: WebP
 sidebar_position: 4
 ---
 
 # WebP
 
-:::danger Help Wanted
-This section is in need of contributions. If you believe you can help, please see our [Contribution Guide](../contribution-guide.mdx) to get started as a contributor!
+:::danger 我們需要你！
+此部分需要更多內容。如果你有意協助，請參考我們的 [貢獻指南](../contribution-guide.mdx) 並開始貢獻！
 :::
 
-WebP is a free image file format first released by Google in 2010. It consists of 2 primary "modes" of operation. A lossy mode derived from the [VP8](../video/VP8.mdx) video codec, and a novel lossless mode added in 2011.
+WebP 是 Google 於 2010 年首次發布的一種免費圖像檔案格式。它包括兩種主要的“模式”：一種是源於 [VP8](../video/VP8.mdx) 影片編解碼器的有損模式，另一種是 2011 年新增的創新無損模式。
 
-## Encoding
+## 編碼
 
-### Using libwebp
-libwebp supports WebP, JPEG, PNG, PNM (PGM, PPM, PAM), TIFF as input formats, and a quality (`-q`) value between 0 (lowest quality, smallest file) and 100 (highest quality, largest file). Should you need the lossless mode, you need to instead use a `-z` argument, with values representing the effort used between 0 (fastest encode, largest file) and 9 (slowest encode, smallest file).
+### 使用 libwebp
+libwebp 支援 WebP、JPEG、PNG、PNM（PGM、PPM、PAM）、TIFF 作為輸入格式，並且可以設定品質參數（`-q`），範圍從 0（最低品質，檔案最小）到 100（最高品質，檔案最大）。如果需要使用無損模式，則需要使用 `-z` 參數，其值表示編碼的努力程度，範圍從 0（最快編碼，檔案最大）到 9（最慢編碼，檔案最小）。
 
 ```bash
 cwebp example.png -q 75 -o example.webp
 ```
 
-## decoding
+## 解碼
 
 ```bash
 dwebp example.webp -o example.png
 ```
 
-## Performance Checklist
+## 性能檢查清單
 
-Lossless? *Yes*
+無損？ *是*
 
-Lossy? *Yes*
+有損？ *是*
 
-Supported Bit Depth:
-*8 BPC*
+支援的位深：
+*8 位/通道*
 
-HDR/Wide Gamut? *No*
+HDR/寬色域？ *否*
 
-Animation? *Yes*
+動畫？ *是*
 
-Transparency? *Yes*
+透明度？ *是*
 
-Progressive Decode? *No*
+漸進式解碼？ *否*
 
-Royalty Free? *Yes*
+免買斷式授權？ *是*
