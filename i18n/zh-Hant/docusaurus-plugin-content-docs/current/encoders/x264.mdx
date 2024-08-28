@@ -1,26 +1,23 @@
----
+﻿---
 title: x264
 sidebar_position: 1
 ---
 
-# x264
+### x264
 
-x264 is a software library and command line application for encoding H.264 / AVC developed by VideoLAN, the people behind the ever-popular VLC Media Player and released under GNU GPL. It is written in C and Assembly with almost two decades worth of development and threading optimizations which makes it the fastest software video encoder available, which also happens to be extremely popular.
+x264 是一個用於編碼 H.264 / AVC 的軟體庫和命令行應用程式，由 VideoLAN 開發。VideoLAN 也開發了廣受歡迎的 VLC 媒體播放器，x264 採用 GNU GPL 授權釋出。該庫使用 C 和 Assembly 語言編寫，擁有近二十年的開發歷史和線程優化，這使它成為最快的軟體影片編碼器之一，並且極受歡迎。
 
-x264 has great fine detail retention which makes it perfect for high fidelity content.
-
-
+x264 擁有出色的細節保留能力，非常適合高保真度的內容。
 
 ## FFmpeg
 
-x264 is available in FFmpeg via `libx264`, to check if you have it, run `ffmpeg -h encoder=libx264`. You can input non-FFmpeg standard x264 parameters via `-x264-params`.
+x264 可以在 FFmpeg 中通過 `libx264` 使用。要檢查是否已安裝，請執行 `ffmpeg -h encoder=libx264`。你可以通過 `-x264-params` 參數輸入非 FFmpeg 標準的 x264 參數。
 
+## 支援的色彩空間
 
-## Supported Color Space
+x264 支援以下色彩空間：
 
-x264 supports the following color spaces:
-
-| Format           | Chroma Subsampling | Supported Bit Depth(s) |
+| 格式             | 色度子取樣         | 支援的位元深度           |
 |------------------|:------------------:|-----------------------|
 | YUV420P          | 4:2:0              | 8-bit                 |
 | YUVJ420P         | 4:2:0              | 8-bit (Full range)    |
@@ -39,97 +36,90 @@ x264 supports the following color spaces:
 | GRAY10LE         | -                  | 10-bit                |
 
 
-## Installation
+## 安裝
 
-**Pre-built binary [Recommended]:**
+**預編譯二進位檔 [推薦]：**
 
-- https://code.videolan.org/videolan/x264
+- [x264 頁面](https://code.videolan.org/videolan/x264)
 
-Choose your operating system there, or you can try using your package manager.
+在該頁面選擇你的操作系統，或者可以嘗試使用你的套件管理工具進行安裝。
 
+## 使用
 
+x264 以其簡單、無需繁瑣設定而受到讚譽。
 
-## Usage
+以下是一些示例：
 
-x264 has been praised for its simple, no-fuss settings.
-
-Here are some examples:
-
-```bash title="Simple raw Y4M input with CRF 20 and raw 264 bitstream output"
+```bash title="簡單的原始 Y4M 輸入，CRF 20 和原始 264 位元流輸出"
 x264 --crf 20 -o output.264 input.y4m
 ```
 
-```bash title="Preset slow, CRF 20, Y4M input"
+```bash title="預設慢速，CRF 20，Y4M 輸入"
 x264 --preset slow --crf 20 -o output.264 input.y4m
 ```
 
-These next couple of examples utilize [FFmpeg](../utilities/ffmpeg.mdx) to pipe video into x264.
+接下來的幾個示例使用 [FFmpeg](../utilities/ffmpeg.mdx) 將影片通過管道傳遞給 x264。
 
-```bash title="FFmpeg piping"
+```bash title="FFmpeg 管道"
 ffmpeg -v error -i input.mkv -f yuv4mpegpipe -strict -1 - | x264 --preset slow --crf 20 --demux y4m - -o output.264
 ```
 
-```bash title="FFmpeg piping, MKV output"
+```bash title="FFmpeg 管道，MKV 輸出"
 ffmpeg -v error -i input.mkv -f yuv4mpegpipe -strict -1 - | x264 --preset slow --crf 20 --demux y4m - -o output.mkv
 ```
-:::note Output Containers
-x264 can output ``264``, MKV, FLV (Flash Video), and MP4 (If compiled with GPAC or L-SMASH support). For more information about what containers are, see the ["Terminology" section on containers](../introduction/terminology.mdx#container).
+:::note 輸出容器
+x264 可以輸出 ``264``、MKV、FLV（Flash 影片）和 MP4（如果編譯時支援 GPAC 或 L-SMASH）。有關容器的更多訊息，請參閱 ["容器術語" 部分](../introduction/terminology.mdx#container)。
 :::
 
 :::caution
-x264 will use Haali Matroska Muxer for MKV outputs, which has seeking issues. It is recommended to remux back using FFmpeg or mkvmerge/MKVToolNix.
+x264 將使用 Haali Matroska Muxer 進行 MKV 輸出，該 muxer 存在尋址問題。建議使用 FFmpeg 或 mkvmerge/MKVToolNix 進行重新封裝。
 :::
 
-## Recommendations
+## 推薦設定
 
-As x264 is made to "just work", there aren't many advanced parameters to modify. The general guideline is to encode as slowly as you can tolerate.
+由於 x264 設計為「即插即用」，因此沒有太多需要調整的進階參數。一般指南是以你可以容忍的最慢速度進行編碼。
 
-### Preset
+### 預設
 
 ``--preset veryslow``
 
-The most obvious way to increase fidelity per bit is to allow the encoder to spend more effort, and therefore time, encoding. This preset is decently slow, but preset ``placebo`` is even slower.
+提高每位元效能的最明顯方式是允許編碼器花費更多的努力和時間進行編碼。這個預設相當慢，但 ``placebo`` 預設則更慢。
 
-### Threads
+### 執行緒
 
 ``--threads X``
 
-This is set to 1.5x the number of available cores by default, and shouldn't need to be adjusted unless you need to reduce the number of threads for some reason. x264's threading is very efficient, and in most cases, x264 should be able to completely saturate most consumer CPUs.
+默認設定為可用核心數量的 1.5 倍，除非你需要減少執行緒數量，否則不需要調整。x264 的執行緒處理非常高效，通常 x264 可以完全利用大多數消費級 CPU。
 
-### Open GOP
+### 開放 GOP
 
 ``--open-gop``
 
-Enables Open GOP (Group of Pictures), where each GOP can [reference one another](https://ottverse.com/closed-gop-open-gop-idr/), thus improving compression with little speed loss. For unknown reasons it is disabled by default in x264.
+啟用開放 GOP（圖像組），其中每個 GOP 可以 [相互參考](https://ottverse.com/closed-gop-open-gop-idr/)，從而在幾乎不影響速度的情況下提高壓縮效果。由於未知原因，x264 預設為禁用。
 
-### AQ Mode
+### AQ 模式
 
 ``--aq-mode 3``
 
-In short, will make x264 bias to dark areas and spend more bitrate there, thus dark scenes will look less bad. Basically no speed loss.
+簡而言之，這會使 x264 偏向於暗區並在那裡花費更多位元率，從而使暗場景看起來不那麼糟糕。基本上沒有速度損失。
 
 
-### Reference Frames
+### 參考幀
 
 ``--bframes 8 --ref 12``
 
-These parameters are responsible for the amount of reference frames x264 will use for compression, the more the better. Maximum of 16, will definitely increase compute time the higher you go.
+這些參數負責控制 x264 在壓縮過程中使用的參考幀數量，數量越多越好。最大支援 16 個參考幀，數量越多計算時間會增加。
 
 ### MB Tree
 
 ``--no-mbtree``
 
-This option disables mb-tree rate control. mb-tree rate control is intended to redistribute bitrate to give more bits to frames that have less motion, and less bits to frames that have more motion (because artifacts in those frames will be less noticeable when the video is playing).
-However, many users claim this can have negative effects on video quality, especially when encoding videos that have significant amounts of grain.
+此選項禁用 mb-tree 速率控制。mb-tree 速率控制旨在重新分配位元率，給予運動較少的幀更多比特，而給予運動較多的幀較少比特（因為在播放影片時，這些幀的瑕疵不容易被察覺）。然而，許多用戶聲稱這可能對影片品質產生負面影響，尤其是在編碼有大量噪點的影片時。
 
+### 無損編碼
 
-### Lossless Encoding
+x264 也能進行無損影片編碼，能夠與 [FFV1](../video/FFV1.mdx) 和 [UT Video](../video/utvideo.mdx) 等無損影片編解碼器競爭。要進行無損編碼，使用 `--qp 0`。較慢的預設會進一步減少檔案大小，同時保持影片的無損性。然而，當空間不是問題時，例如編碼中間無損影片以便後續編碼為有損格式時，x264 可以成為最快的無損編解碼器，提供超快的編碼和解碼速度。為了實現最快的編碼和解碼，可以同時使用 `--preset ultrafast` 和 `--tune fastdecode`。然而，`--preset superfast` 仍提供非常快的編碼和解碼速度，無損編碼相比 `ultrafast` 有 20-30% 的空間節省，因此對許多用戶來說可能是理想的選擇。
 
-x264 can also encode lossless video, allowing it to compete with lossless video codecs like [FFV1](../video/FFV1.mdx) and [UT Video](../video/utvideo.mdx). To encode lossless video, use `--qp 0`. Slower presets will decrease the size even further while the video remains lossless.
-However, when space is not a concern, such as when encoding an intermediate lossless for later encoding to a lossy format, x264 can become the fastest lossless codec available, providing super fast encoding and decoding.
-For the absolute fastest encoding and decoding, one can use both `--preset ultrafast` and `--tune fastdecode`. However, `--preset superfast` still provides incredibly fast encoding and decoding speed, with 20-30% space savings for lossless compared to `ultrafast`,
-so it may be the ideal choice for many users.
-
-:::info Why QP 0 instead of CRF 0?
-CRF automatically adjusts a number of quantization parameters to achieve a desired quality output. QP stands for *Quantization Parameter*, and allows full control over the resulting video quality. In this case, all-intra or lossless, using QP is necessary, but for lossy encoding CRF will produce better visual fidelity per bit.
+:::info 為什麼用 QP 0 而不是 CRF 0？
+CRF 會自動調整若干量化參數以達到期望的品質輸出。QP 代表 *Quantization Parameter*（量化參數），並允許對結果影片品質進行完全控制。在這種情況下，對於所有內部或無損編碼，使用 QP 是必要的，但對於有損編碼，CRF 會提供每位元更好的視覺效果。
 :::
