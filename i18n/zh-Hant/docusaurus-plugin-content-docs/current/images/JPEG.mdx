@@ -1,70 +1,70 @@
----
+﻿---
 title: JPEG
 sidebar_position: 1
 ---
 
 # JPEG
 
-:::info Under Maintenance
-The content in this entry is incomplete & is in the process of being completed.
+:::info 維護中
+此條目中的內容正在完成中，可能不完整
 :::
 
-:::caution Pending Review
-The content in this entry may not be entirely accurate, & is pending further review to assess the quality of the information.
+:::caution 等待審核
+本條目中的內容可能不完全準確，正在等待進一步審查以評估資訊的品質。
 :::
 
-JPEG (Joint Photographic Experts Group) compression is a widely used method for reducing the size of digital images while preserving visual quality. It's based on the principles of lossy compression, which means that some image data is discarded to achieve a smaller filesize.
+JPEG（Joint Photographic Experts Group）壓縮是一種廣泛使用的技術，用來縮小數位圖像的檔案大小，同時保留足夠的視覺品質。這種方法基於有損壓縮原理，即在壓縮過程中會丟棄部分圖像資料，以減少檔案大小。
 
-## Performance Checklist
+## 性能檢查
 
-Lossless? *No*
+無損？ *否*
 
-Lossy? *Yes*
+有損？ *是*
 
-Supported Bit Depth:
-*8 BPC*
+支援的位深：
+*8 位元每通道*
 
-HDR/Wide Gamut? *Kinda*
+HDR/寬色域？ *略有支援*
 
-Animation? *No*
+動畫？ *否*
 
-Transparency? *No*
+透明度？ *否*
 
-Progressive Decode? *Yes*
+漸進解碼？ *是*
 
-Royalty Free? *Yes*
+免買斷式授權？ *是*
 
-## Compression
+## 壓縮過程
 
-Learning how JPEG compresses images is immensely helpful for understanding how other compression methods work in other codecs. It is definitely worth reading to get a useful background in understanding concepts like entropy coding, the DCT, and color spaces other than RGB. Here's a step-by-step explanation of how JPEG compression works:
+了解 JPEG 壓縮原理對於掌握其他編解碼器的壓縮技術非常有幫助。掌握這些概念能夠幫助你理解熵編碼、離散餘弦變換（DCT）和其他顏色空間（如 YCbCr）的應用。以下是 JPEG 壓縮的逐步過程：
 
-#### Color Space Conversion
-   Most digital images are originally in the RGB (Red, Green, Blue) color space. The first step in JPEG compression is to convert the image to the YCbCr color space. Y represents the luminance (brightness), while Cb and Cr represent the chrominance (color information). The Cb & Cr components are subsampled to a quarter of the resolution of the original image, meaning the resulting color space is chroma subsampled with *4:2:0* subsampling.
+#### 顏色空間轉換
+   大多數數位圖像最初是以 RGB（紅、綠、藍）顏色空間儲存的。JPEG 壓縮的第一步是將圖像轉換為 YCbCr 顏色空間，其中 Y 表示亮度（明暗），而 Cb 和 Cr 則表示色度（顏色訊息）。Cb 和 Cr 分量會被下採樣至原始圖像分辨率的四分之一，這樣顏色空間就變成了 *4:2:0* 下採樣。
 
-#### Image Tiling
-   The image is divided into smaller blocks or tiles, typically 8x8 pixels each. Each of these blocks will be processed separately.
+#### 圖像分塊
+   圖像會被劃分為較小的區塊，通常每塊為 8x8 像素。每個區塊將被單獨處理。
 
-#### Discrete Cosine Transform (DCT)
-   For each 8x8 block, a mathematical transformation called the Discrete Cosine Transform is applied. This transformation converts the pixel values into a set of frequency components, taking spatial data and transforming it to the frequency domain. The DCT is applied to each color channel in the YCbCr color space. This algorithm is a particularly good choice for image (and music/speech) compression because it has high energy compaction relative to our understanding of images & their perceptual quality. High energy compaction means the DCT is able to represent a signal with a small number of significant coefficients, in this case mainly in the lower frequencies. 
+#### 離散餘弦變換（DCT）
+   對於每個 8x8 區塊，會應用離散餘弦變換，這是一種數學變換，用於將像素值轉換為頻率成分，將空間資料轉換為頻率域。DCT 被應用於 YCbCr 顏色空間中的每個顏色通道。這種算法對於圖像（以及音樂或語音）壓縮來說非常有效，因為它能夠在主要頻率上進行高效能量壓縮。
 
-#### Quantization
-   After the DCT, the frequencies are quantized in a table representing frequency coefficients & their corresponding frequencies. Less perceptually important details can be omitted to reduce filesize by discarding coefficients in the table that correspond to less visually salient frequencies. This is "lossy" compression, and is the key step in achieving a high compression ratio while still maintaining an image that looks reasonable. The quantization table used in this step can vary in the number of frequencies it attempts to retain, affecting the trade-off between compression & image quality.
+#### 量化
+   在 DCT 之後，頻率資料會根據量化表進行量化，這些表格顯示了頻率係數及其對應頻率。通過丟棄那些對視覺不那麼重要的係數，可以進一步減少檔案大小。這一步是有損的，旨在以較高的壓縮比實現較合理的圖像品質。量化表的設定會影響壓縮比和圖像品質之間的平衡。
 
-#### Zigzag Scanning
-   The quantized coefficients are then reordered using a zigzag pattern. This is done to prepare the data for the next step.
+#### 之字形掃描
+   量化後的係數會以之字形模式重新排序，以準備進行下一步處理。
 
-#### Run-Length Encoding
-   The zigzag-ordered coefficients are run-length encoded. This means that sequences of zeroes are compressed into a shorter representation. For example, if there are many consecutive zeroes in the data, they can be represented as (0, 10) instead of listing ten individual zeroes.
+#### 執行長度編碼
+   重新排序的係數會經過執行長度編碼，這會將連續的零壓縮為更短的表示方式。例如，許多連續的零會被表示為 (0, 10) 而不是列出每一個零。
 
-#### Entropy Encoding
-   The run-length encoded data is further compressed using entropy encoding. JPEG uses Huffman coding, which assigns shorter codes to more frequently occurring values in the table of DCT coefficients, reducing the overall file size.
+#### 熵編碼
+   執行長度編碼後的資料會進一步使用熵編碼壓縮。JPEG 使用霍夫曼編碼，這種編碼方法會為頻率更高的資料分配更短的代碼，從而減少整體檔案大小。
 
-#### Saving the File
-   The compressed luminance and chrominance data, along with information about color space conversion, quantization tables, and EXIF data, are saved in the JPEG file format.
+#### 儲存檔案
+   壓縮後的亮度和色度資料，還有顏色空間轉換、量化表和 EXIF 資料等訊息，都會被儲存在 JPEG 格式的檔案中。
 
-#### Decoding
-   When you open a JPEG image, the reverse process occurs. The file is decoded, and the DCT coefficients are dequantized, the inverse DCT is applied, and the image is converted back to the RGB color space to be displayed on a screen.
+#### 解碼
+   當你打開 JPEG 圖像時，會進行反向處理。檔案會被解碼，DCT 係數被去量化，逆 DCT 被應用，圖像被轉回 RGB 顏色空間以顯示在螢幕上。
 
-It's important to note that JPEG compression is ***lossy***, meaning that some image quality is discarded in the pursuit of smaller file sizes. This makes it different than codecs designed for lossless compression like [PNG](../images/PNG.mdx), [WebP](../images/WebP.mdx)'s lossless mode, and [JPEG-XL](../images/JXL.mdx)'s lossless mode. The degree of compression and the quality of the compressed image can be adjusted through settings when saving a JPEG, allowing for a trade-off between file size & image fidelity.
+需要注意的是，JPEG 壓縮是 ***有損的***，即在壓縮過程中會丟失一些圖像品質，以換取更小的檔案大小。這使得它與設計為無損壓縮的編解碼器（如 [PNG](../images/PNG.mdx)、[WebP](../images/WebP.mdx) 的無損模式和 [JPEG-XL](../images/JXL.mdx) 的無損模式）不同。你可以通過設定來調整壓縮程度和圖像品質，以在檔案大小和圖像品質之間找到平衡。
 
-While JPEG is certainly not the most state of the art lossy image codec compared to its newer and (usually) better successors like [JPEG-XL](./JXL.mdx) (an actual direct successor) & [AVIF](../images/AVIF.mdx), it enjoys near universal compatibility with (likely) most utilities you would work with in your everyday life that have anything to do with images.
+雖然 JPEG 相比於更新的編解碼器（如 [JPEG-XL](./JXL.mdx) 和 [AVIF](../images/AVIF.mdx)）並不是最先進的有損圖像編解碼器，但它仍然幾乎可以與你日常使用的所有涉及圖像的工具兼容。
