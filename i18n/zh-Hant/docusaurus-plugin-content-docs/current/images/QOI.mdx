@@ -1,80 +1,80 @@
----
+﻿---
 title: QOI
 sidebar_position: 8
 ---
 
 # QOI
 
-QOI (Quite OK Image Format) is an image compression format that aims to provide a simple, fast, and efficient way to compress and decompress images losslessly. It was designed to be easy to implement while offering better compression ratios than the widely used but more complex [PNG](../images/PNG.mdx) format while achieving much faster encoding & decoding speeds.
+QOI（Quite OK Image Format）是一種圖像壓縮格式，旨在提供一種簡單、快速且高效的無損圖像壓縮和解壓縮方法。它的設計目的是易於實現，同時提供比廣泛使用但較為複雜的 [PNG](../images/PNG.mdx) 格式更好的壓縮比，並實現更快的編碼和解碼速度。
 
-## Performance Checklist
+## 性能檢查清單
 
-Lossless? *Yes*
+無損？ *是*
 
-Lossy? *No*
+有損？ *否*
 
-Supported Bit Depths:
+支援的位深：
 *8 BPC*
 
-HDR/Wide Gamut? *No*
+HDR/寬色域？ *否*
 
-Animation? *No*
+動畫？ *否*
 
-Transparency? *Yes*
+透明度？ *是*
 
-Progressive Decode? *No*
+漸進解碼？ *否*
 
-Royalty Free? *Yes*
+免買斷式授權？ *是*
 
-## Format Breakdown
+## 格式解析
 
-QOI compression is based on a simple and fast algorithm that exploits spatial redundancy in images. The algorithm uses a combination of run-length encoding (RLE), a small lookup table, delta encoding, and full-color pixel storage to achieve efficient compression. Depending on the algorithm's decision, a chunk (pixel) can take up one to five bytes.
+QOI 壓縮基於一個簡單而快速的算法，該算法利用圖像中的空間冗餘。該算法結合了游程編碼（RLE）、一個小型查找表、增量編碼和全色像素儲存，以實現高效的壓縮。根據算法的決定，一個區塊（像素）可以佔用一到五個字節。
 
-The QOI format supports images with 3 or 4 channels (RGB or RGBA) and 8 bits per channel. The format supports two colorspaces: Linear RGB & sRGB with linear alpha. These do not affect the way pixels are encoded.
+QOI 格式支援具有 3 或 4 個通道（RGB 或 RGBA）和每個通道 8 位的圖像。該格式支援兩種顏色空間：線性 RGB 和帶有線性 alpha 的 sRGB。這些顏色空間不影響像素的編碼方式。
 
-Here is a breakdown of the various chunk types in QOI:
+以下是 QOI 中各種區塊類型的詳細解析：
 
-1. **`QOI_OP_RGB`**: Full RGB pixel value using 8 bits (1 byte) for each of the red, green, and blue channels. The alpha channel is 255 in RGB images, and always remains unchanged.
+1. **`QOI_OP_RGB`**：使用 8 位（1 字節）表示紅色、綠色和藍色通道的完整 RGB 像素值。對於 RGB 圖像，alpha 通道的值為 255，且始終保持不變。
 
-2. **`QOI_OP_RGBA`**: Full RGBA pixel value using 8 bits for each of the red, green, blue, & alpha channels.
+2. **`QOI_OP_RGBA`**：使用 8 位表示紅色、綠色、藍色和 alpha 通道的完整 RGBA 像素值。
 
-3. **`QOI_OP_DIFF`**: The difference between the current pixel and the previous pixel for the red, green, and blue channels are stored using 2 bits for each channel. The differences are stored with a bias of 2 and wrap (so 1 minus 2 would be 255). The alpha channel remains unchanged.
+3. **`QOI_OP_DIFF`**：儲存當前像素和前一個像素之間的紅色、綠色和藍色通道的差異，每個通道使用 2 位來表示。差異使用 2 的偏差進行儲存並進行包裹（例如 1 減去 2 會變為 255）。alpha 通道保持不變。
 
-4. **`QOI_OP_LUMA`**: These pixels encode the green channel difference from the previous pixel using 6 bits, and then encode the red and blue channel differences relative to the green channel difference using 4 bits each. This allows for more efficient encoding of small color changes. The alpha channel remains unchanged.
+4. **`QOI_OP_LUMA`**：這些像素編碼從前一個像素的綠色通道差異，使用 6 位，然後編碼紅色和藍色通道相對於綠色通道差異的差異，每個通道使用 4 位。這使得小顏色變化的編碼更加高效。alpha 通道保持不變。
 
-5. **`QOI_OP_RUN`**: These are the simplest, encoding a run-length of pixels that are identical to the previous pixel. The run length is stored using 6 bits with a bias of -1, allowing for runs of 1 to 62 pixels.
+5. **`QOI_OP_RUN`**：這些是最簡單的，編碼與前一個像素相同的一系列像素。該序列長度使用 6 位和 -1 的偏差進行儲存，允許長度為 1 到 62 像素的序列。
 
-6. **`QOI_OP_INDEX`**: These are stored by referencing a previously seen pixel value from a rolling array of 64 recent pixel values by using a simple hash on each pixel as it is identified. If another pixel matches a previously seen hash value in the array, the index of the referenced pixel is stored.
+6. **`QOI_OP_INDEX`**：通過引用最近的 64 個像素值的滾動數組中之前見過的像素值來儲存這些像素。通過對每個像素進行簡單的哈希來識別像素。如果另一個像素與數組中先前見過的哈希值匹配，則儲存所引用像素的索引。
 
-The QOI format also includes a simple 14-byte header that stores the image dimensions, color space, and channel depth information. The end of file is signaled by an 8-byte end marker.
+QOI 格式還包括一個簡單的 14 字節頭部，儲存圖像尺寸、顏色空間和通道深度訊息。檔案結尾由一個 8 字節的結束標記來指示。
 
-### Benchmarks
+### 性能測試
 
-The creator of QOI benchmarked the format against libpng & `stbi_image_write` using the C implementation in QOI via [`qoibench.c`](https://github.com/phoboslab/qoi/blob/master/qoibench.c) on a collection of 2,879 screenshots, icons, photos, & textures ([source](https://qoiformat.org/benchmark/qoi_benchmark_suite.tar)). The results are as follows:
+QOI 的創建者使用 C 實現的 QOI 通過 [`qoibench.c`](https://github.com/phoboslab/qoi/blob/master/qoibench.c) 對 QOI 格式進行了基準測試，測試資料包括 2,879 個截圖、圖示、照片和紋理 ([source](https://qoiformat.org/benchmark/qoi_benchmark_suite.tar))。結果如下：
 
-| **Library** | **Decode (ms)** | **Encode (ms)** | **Decode MP/s**  | **Encode MP/s**  | **Size (kb)** | **Compression Rate** |
-|---------|-----------|-----------|--------------|--------------|---------|-------:|
-| `libpng`| 7.0       | 83.8      | 66.56        | 5.54         | 398     | 24.2%  |
-| `stbi`  | 7.0       | 60.5      | 66.63        | 7.67         | 561     | 34.2%  |
-| `qoi`   | 2.1       | 2.9       | 226.03       | 161.99       | 463     | 28.2%  |
+| **庫**   | **解碼（毫秒）** | **編碼（毫秒）** | **解碼 MP/s** | **編碼 MP/s** | **大小（kb）** | **壓縮率** |
+|--------|-----------|-----------|-----------|-----------|---------|--------:|
+| `libpng`| 7.0       | 83.8      | 66.56     | 5.54      | 398     | 24.2%   |
+| `stbi`  | 7.0       | 60.5      | 66.63     | 7.67      | 561     | 34.2%   |
+| `qoi`   | 2.1       | 2.9       | 226.03    | 161.99    | 463     | 28.2%   |
 
-The results show that QOI is significantly faster than libpng and `stb_image_write`, and it also achieves better compression ratios than libpng on average.
+結果顯示，QOI 在速度上顯著快於 libpng 和 `stb_image_write`，並且在平均壓縮比上也優於 libpng。
 
-### Advantages
+### 優點
 
-Some of the key advantages of QOI include:
+QOI 的一些主要優點包括：
 
-- Super simple: [the spec](https://qoiformat.org/qoi-specification.pdf) is only one page
-- Extremely fast encoding & decoding speeds
-- Data chunks are byte-aligned, so data can be streamed to a decoder one byte at a time
-- Better compression ratios compared to PNG for many types of images
-- Supports transparency
-- Royalty-free, open-source (CC0), & easy to integrate into any application
+- 超級簡單：規範僅有一頁 [the spec](https://qoiformat.org/qoi-specification.pdf)
+- 編碼與解碼速度極快
+- 資料區塊是字節對齊的，因此可以逐字節流式傳輸到解碼器
+- 相較於 PNG，對於多種圖像類型具有更好的壓縮比
+- 支援透明度
+- 免買斷式授權、開源（CC0），且易於整合到任何應用程式中
 
-### Limitations
+### 限制
 
-- Limited to 8 bits per channel (no support for higher bit depths)
-- Not suitable for images with high-frequency noise or very little spatial redundancy
-- Lacks advanced features like progressive loading, interlacing, or custom metadata
+- 限制在每個通道 8 位元（不支援更高位深度）
+- 不適合高頻噪聲或空間冗餘非常少的圖像
+- 缺乏進階功能，如漸進加載、交錯或自訂元資料
 
-Despite its limitations, QOI provides a compelling alternative to PNG for many use cases where simplicity, speed, and good compression ratios are desired. QOI is not especially well supported at present, but adoption is rapidly growing as developers can easily integrate support into their applications due to the format's simplicity.
+儘管有其限制，QOI 在許多需要簡單性、速度和良好壓縮比的使用案例中，提供了對 PNG 的有力替代方案。儘管目前 QOI 的支援尚不廣泛，但由於格式簡單，開發者可以輕鬆地將支援整合到他們的應用程式中，因此其採用率正在迅速增長。

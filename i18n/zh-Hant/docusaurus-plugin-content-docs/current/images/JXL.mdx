@@ -144,7 +144,7 @@ BUILDING.md)。這裡的指南簡化了內容，僅聚焦於構建一個功能�
 
         這些指令適用於 macOS 和 Linux，儘管不保證完全支援 macOS。
 
-        ```bash title="1. 克隆儲存庫"
+        ```bash title="1. 複製儲存庫"
         git clone https://github.com/libjxl/libjxl.git --recursive --shallow-submodules
         ```
 
@@ -172,39 +172,39 @@ BUILDING.md)。這裡的指南簡化了內容，僅聚焦於構建一個功能�
 
 ### libjxl-tiny
 
-[libjxl-tiny](https://github.com/libjxl/libjxl-tiny) contains a simpler encoder implementation of JPEG XL, aimed at photographic images without an alpha channel. The goal is to guide hardware implementations of the encoder where support for the full set of encoding tools is not feasible. The color management is outside the scope of this library, the encoder input is given as a portable float map (PFM) in the linear sRGB colorspace, where individual sample values can be outside the \[0.0, 1.0\] range for out-of-gammut colors. For more details, see the [overview of the coding tools](https://github.com/libjxl/libjxl-tiny/blob/main/doc/coding_tools.md).
+[libjxl-tiny](https://github.com/libjxl/libjxl-tiny) 包含了一個簡化版的 JPEG XL 編碼器實現，專為不包含 alpha 通道的攝影圖像設計。它旨在指導硬件實現編碼器，其中無法支援全套編碼工具。顏色管理不在此庫的範疇內，編碼器輸入作為線性 sRGB 色彩空間中的便攜浮點映射（PFM）提供，其中單個樣本值可以超出 \[0.0, 1.0\] 範圍以處理超出色域的顏色。更多細節，請參見 [編碼工具概述](https://github.com/libjxl/libjxl-tiny/blob/main/doc/coding_tools.md)。
 
-The last commit was ten months ago, so it is uncertain whether libjxl-tiny could be considered active.
+最近的提交是在十個月前，因此不確定 libjxl-tiny 是否可以被視為活躍的。
 
 ### Hydrium
 
-[Hydrium](https://github.com/Traneptora/hydrium) is a fast, ultra-low-memory, streaming JPEG XL encoder written in portable C. It is maintained by Traneptora.
+[Hydrium](https://github.com/Traneptora/hydrium) 是一個快速、超低內存、流式 JPEG XL 編碼器，用便攜 C 編寫。由 Traneptora 維護。
 
 ### zune-jpegxl
 
-[zune-jpegxl](https://github.com/etemesi254/zune-image/tree/dev/crates/zune-jpegxl) is a simple, fast and fully safe modular JXL encoder written in Rust. It is maintained by etemesi254.
+[zune-jpegxl](https://github.com/etemesi254/zune-image/tree/dev/crates/zune-jpegxl) 是一個簡單、快速且完全安全的模塊化 JXL 編碼器，使用 Rust 編寫。由 etemesi254 維護。
 
-zune-jpegxl has the following features:
+zune-jpegxl 的特點包括：
 
-- Lossless encoding
-- 8 bit and 16 bit support
-- Grayscale and RGBA encoding
-- Threading capabilities
+- 無損編碼
+- 8 位和 16 位支援
+- 灰階和 RGBA 編碼
+- 支援多線程
 
-## Decoders
+## 解碼器
 
 ### jxl-oxide
 
-[jxl-oxide](https://github.com/tirr-c/jxl-oxide) is a spec-conforming JPEG XL decoder written in pure Rust. It is maintained by Wonwoo Choi.
+[jxl-oxide](https://github.com/tirr-c/jxl-oxide) 是一個符合規範的 JPEG XL 解碼器，使用純 Rust 編寫。由 Wonwoo Choi 維護。
 
-{}
+---
 
-Sources:
+來源：
 
-- [JXL Wikipedia](https://en.wikipedia.org/wiki/JPEG_XL)
-- [JPEGXL.info: Why JXL](https://jpegxl.info/why-jxl.html)
-- [Apple JXL Announcement](https://webkit.org/blog/14205/news-from-wwdc23-webkit-features-in-safari-17-beta/#images)
-- [JPEG XL: How It Started, How It's Going](https://cloudinary.com/blog/jpeg-xl-how-it-started-how-its-going)
-- [The Case for JPEG XL](https://cloudinary.com/blog/the-case-for-jpeg-xl)
-- [Time for Next-Gen Codecs to Dethrone JPEG](https://cloudinary.com/blog/time_for_next_gen_codecs_to_dethrone_jpeg)
-- [Image Codec Comparison](https://giannirosato.com/blog/post/image-comparison/)
+- [JXL 維基百科](https://en.wikipedia.org/wiki/JPEG_XL)
+- [JPEGXL.info: 為什麼選擇 JXL](https://jpegxl.info/why-jxl.html)
+- [Apple JXL 宣布](https://webkit.org/blog/14205/news-from-wwdc23-webkit-features-in-safari-17-beta/#images)
+- [JPEG XL: 起源與現狀](https://cloudinary.com/blog/jpeg-xl-how-it-started-how-its-going)
+- [支援 JPEG XL 的理由](https://cloudinary.com/blog/the-case-for-jpeg-xl)
+- [下一代編解碼器取代 JPEG 的時機](https://cloudinary.com/blog/time_for_next_gen_codecs_to_dethrone_jpeg)
+- [圖像編解碼器比較](https://giannirosato.com/blog/post/image-comparison/)
