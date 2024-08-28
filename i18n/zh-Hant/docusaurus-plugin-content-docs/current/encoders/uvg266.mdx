@@ -1,32 +1,31 @@
----
+﻿---
 title: uvg266
 sidebar_position: 13
 ---
 
 # uvg266
 
-[uvg266](https://github.com/ultravideo/uvg266/) is an open-source software encoder for encoding to the [H.266 / VVC](/docs/video/VVC) codec. Developed by the [Ultra Video Group](https://ultravideo.fi/), written in C and licensed under BSD 3-clause.
-The encoder is based on [Kvazaar](/docs/encoders/Kvazaar), their open source [HEVC](/docs/video/HEVC) encoder solution.
+[uvg266](https://github.com/ultravideo/uvg266/) 是一款開源的 H.266 / VVC 編碼器，由 [Ultra Video Group](https://ultravideo.fi/) 開發，使用 C 語言編寫，並根據 BSD 3-clause 許可證授權。該編碼器基於 [Kvazaar](/docs/encoders/Kvazaar)，這是他們開源的 [HEVC](/docs/video/HEVC) 編碼解決方案。
 
-## Installation
+## 安裝
 
 ### Arch Linux
 
-uvg266 is available in the Arch User Repository (AUR) as `uvg266` and `uvg266-git`.
+uvg266 可以在 Arch User Repository (AUR) 中找到，作為 `uvg266` 和 `uvg266-git` 提供。
 
-### Compiling
-Ultra Video Group does not ship any pre-built binaries of their encoders so you'll have to compile them yourself. 
+### 編譯
+Ultra Video Group 不提供編譯好的二進制檔案，因此你需要自行編譯。
 
-Windows users are recommended to compile via MinGW-W64 which comes with [MSYS2](https://msys2.org/).
+建議 Windows 用戶通過 [MSYS2](https://msys2.org/) 中的 MinGW-W64 來進行編譯。
 
 :::caution
-Compilation requires GNU Make and CMake 
+編譯需要 GNU Make 和 CMake 
 :::
 
 :::tip
-The following build procedure should work across all common operating systems. Using Clang instead of GCC works.
+以下構建過程應適用於所有常見操作系統。使用 Clang 代替 GCC 可以提高性能。
 
-You may add `-DCMAKE_CXX_FLAGS="-flto -O3 -march=native" -DCMAKE_C_FLAGS="-flto -O3 -march=native -pipe -fno-plt" -DCMAKE_C_FLAGS_INIT="-flto=8 -static"` in CMake for better performance.
+你可以在 CMake 中添加 `-DCMAKE_CXX_FLAGS="-flto -O3 -march=native" -DCMAKE_C_FLAGS="-flto -O3 -march=native -pipe -fno-plt" -DCMAKE_C_FLAGS_INIT="-flto=8 -static"` 來提高性能。
 :::
 
 ```bash
@@ -36,39 +35,39 @@ cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=0
 make -j 8
 ```
 
-Binaries will be available in the same folder (`build`), or you can run `make install` on Linux to install (May need elevated permissions).
+二進制檔案將保存在相同的檔案夾 (`build`) 中，或者你可以在 Linux 上執行 `make install` 進行安裝（可能需要提升權限）。
 
-### 10-bit Support
+### 10 位支援
 
-You need to compile with `-DUVG_BIT_DEPTH=10` in the CMake `-DCMAKE_C_FLAGS` option to enable support for encoding 10-bit videos.
+要啟用 10 位影片編碼，你需要在 CMake `-DCMAKE_C_FLAGS` 選項中編譯時添加 `-DUVG_BIT_DEPTH=10`。
 
-For example:
+例如：
 ```bash
 -DCMAKE_C_FLAGS="-DUVG_BIT_DEPTH=10"
 ```
-With native optimizations:
+使用本地優化：
 ```bash
 -DCMAKE_C_FLAGS="-flto -O3 -march=native -pipe -fno-plt -DUVG_BIT_DEPTH=10"
 ```
 
 :::warning
-Encoding 10-bit with uvg266 is significantly slower as the developers only prioritized SIMD optimizations for 8-bit, and can get really buggy.
+使用 uvg266 編碼 10 位影片會顯著變慢，因為開發者只優化了 8 位的 SIMD，並且可能會非常不穩定。
 :::
 
-## Usage
+## 使用
 
-```bash title="Simple Y4M input with QP 20 and raw 266 bitstream output"
+```bash title="簡單的 Y4M 輸入，QP 20 和原始 266 bitstream 輸出"
 uvg266 -i input.y4m --input-file-format y4m --qp 20 -o output.266
 ```
 
-```bash title="Preset slow, CRF 20, Y4M input"
+```bash title="預設 slow，CRF 20，Y4M 輸入"
 uvg266 -i input.y4m --input-file-format y4m --qp 20 --preset slow -o output.266
 ```
 
-```bash title="FFmpeg piping"
+```bash title="FFmpeg 管道"
 ffmpeg -v error -i input.mkv -f yuv4mpegpipe -strict -1 - | uvg266 -i - --input-file-format y4m --qp 20 --preset slow -o output.266
 ```
 
-## Troubleshooting
+## 故障排除
 
-1. `Could not find a strategy for crc32c_8x8!` - You're out of luck, uvg266 failed to initialize its block partitioning strategy for your specific CPU instruction set, so you **can't use the encoder or encode that specific video**.
+1. `Could not find a strategy for crc32c_8x8!` - 你的 CPU 指令集無法初始化 uvg266 的塊分區策略，因此 **無法使用該編碼器或編碼該特定影片**。
