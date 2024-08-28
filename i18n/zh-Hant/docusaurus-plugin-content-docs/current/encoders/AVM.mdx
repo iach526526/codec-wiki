@@ -24,19 +24,19 @@ sidebar_position: 15
 - 量化器範圍將標準化為 0-255。
 - AVM 嘗試通過引入更高效的去噪技術來解決 AV1 編碼中高保真度的問題，以減少 [蚊式噪聲](../introduction/video-artifacts.mdx#mosquito-noise)。
 
-## Installation
+## 安裝
 
 ### Arch Linux
 
-AVM is available in the Arch User Repository (AUR) as `avm` and `avm-git`.
+AVM 已經在 Arch User Repository (AUR) 中上架，包名為 `avm` 和 `avm-git`。
 
-### Compiling
+### 編譯
 
-Since this encoder is under heavy development, there are no pre-built binaries provided, so you will need to compile yourself. 
-Windows users are recommended to compile via MinGW-W64 which comes with [MSYS2](https://msys2.org/).
+由於這款編碼器仍在積極開發中，目前尚未提供預編譯的二進位檔，你需要自行編譯。
+建議 Windows 使用者使用 [MSYS2](https://msys2.org/) 中的 MinGW-W64 進行編譯。
 
 :::caution
-Compilation requires CMake, Nasm, and Perl. 
+編譯需要安裝 CMake、Nasm 和 Perl。
 :::
 
 ```bash
@@ -46,32 +46,32 @@ cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=0
 make -j$(nproc)
 ```
 
-Since this is a huge project, compiling will take a while depending on your CPU. 
+由於這是一個龐大的專案，編譯所需時間將取決於你的 CPU 性能。
 
-The resulting binary will be called `aomenc`, the same name that encodes content to AV1. 
-It will be available in the same folder (`build`), or you can run `make install` on Linux to install (May need elevated permissions).
+生成的二進位檔案名為 `aomenc`，這與用來編碼 AV1 內容的名稱相同。
+它將位於 `build` 資料夾中，或者你也可以在 Linux 系統上執行 `make install` 來安裝（可能需要管理員權限）。
 
-## Usage
+## 用法
 
 :::tip
-To convert `cq-level` in aomenc and `crf` in SVT-AV1 to AVM's QP values, multiply by 4. For example, `--cq-level 20` equals to `--quantizer 60`.
+要將 aomenc 中的 `cq-level` 或 SVT-AV1 中的 `crf` 轉換為 AVM 的 QP 值，請乘以 4。例如，`--cq-level 20` 相當於 `--quantizer 60`。
 :::
 
-Simple Y4M input with QP 65, and `ivf` output:
+簡單的 Y4M 輸入，使用 QP 65 和 `ivf` 格式輸出：
 ```bash
 aomenc --qp=65 -o output.ivf input.y4m
 ```
 
-Preset level 6 (higher is faster), QP 65, Y4M input:
+使用預設級別 6（數字越高速度越快）、QP 65 和 Y4M 格式的輸入：
 ```bash
 aomenc --qp=65 --cpu-used=6 -o output.ivf input.y4m
 ```
 
-FFmpeg piping:
+FFmpeg 管道傳輸：
 ```bash
 ffmpeg -v error -i input.mkv -f yuv4mpegpipe -strict -1 - | aomenc --qp=65 --cpu-used=6 -o output.ivf -
 ```
 
-## aomdec 
+## aomdec
 
-You will need the `aomdec` binary you also compiled to be able to play your encoded video, as there are **zero** video players currently in the whole world that can play your encoded content.
+你需要編譯生成的 `aomdec` 二進位檔才能播放已編碼的影片，因為目前全球 **沒有任何** 影片播放器可以播放你編碼的內容。

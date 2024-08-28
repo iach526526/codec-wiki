@@ -1,4 +1,4 @@
----
+﻿---
 title: HM
 sidebar_position: 16
 ---
@@ -9,13 +9,13 @@ sidebar_position: 16
 The content in this entry may not be entirely accurate, & is pending further review to assess the quality of the information.
 :::
 
-HM is the original [H.265](../video/HEVC.mdx) reference encoder, predating alternatives like [x265](../encoders/x265.mdx). In the modern day, it joins other MPEG reference encoders such as [JM](../encoders/JM.mdx) & [VTM](../encoders/VTM.mdx) in their reputations for being highly niche offerings that are used rarely due to their usage complexity & speed disadvantages. x264 is more efficient than JM.
+HM 是原始的 [H.265](../video/HEVC.mdx) 參考編碼器，早於像 [x265](../encoders/x265.mdx) 這樣的替代品。如今，它與其他 MPEG 參考編碼器如 [JM](../encoders/JM.mdx) 和 [VTM](../encoders/VTM.mdx) 一樣，以其高度專業的特性著稱，因其使用複雜性和速度劣勢而較少使用。相比之下，x264 比 JM 更有效率。
 
-HM is capable of producing higher quality streams than highly tuned x265, even at excruciatingly slow speeds. This is only a theoretical advantage, though, as HM is incapable of placing keyframes automatically with scene detection & would need a chunking too reminiscent of [Av1an](../utilities/av1an.mdx) to do this. For videos containing few enough frames where keyframe placement isn't a concern, HM is better in practice than x265 at the expense of a massive dropoff in speed. HM doesn't have any threading capabilities & is much slower than even x265 placebo.
+HM 能夠在極慢的速度下產生比高度調整的 x265 更高品質的影片流。但這僅僅是理論上的優勢，因為 HM 無法自動使用場景檢測放置關鍵幀，因此需要類似 [Av1an](../utilities/av1an.mdx) 的分塊工具來完成這一任務。對於關鍵幀放置不是問題的少量幀影片，HM 實際上比 x265 更好，代價是速度大幅下降。HM 沒有任何多執行緒能力，甚至比 x265 的 placebo 設定還要慢得多。
 
-## Installation
+## 安裝
 
-These build instructions are valid for Linux & macOS.
+這些編譯指令適用於 Linux 和 macOS。
 
 ```bash
 git clone https://vcgit.hhi.fraunhofer.de/jvet/HM
@@ -25,34 +25,34 @@ cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j$(nproc)
 ```
 
-The binary `TAppEncoderStatic` or `TAppEncoder` can be found within the cloned directories, & can be copied to `/usr/local/bin` for encoding. Decoding & other functions of the reference codec implementation aren't covered in this entry.
+編譯生成的 `TAppEncoderStatic` 或 `TAppEncoder` 可在複製的目錄中找到，並可複製到 `/usr/local/bin` 用於編碼。此條目未涵蓋參考編碼器實現的解碼及其他功能。
 
-## Usage
+## 使用方法
 
-Here is a sample command: `TAppEncoderStatic -i input.yuv -b out.265 -c ~/HM/cfg/encoder_randomaccess_main10.cfg -wdt 1280 -hgt 720 -fr 50 -f 500 -q 27 -xPS 0`
+這是一個範例命令：`TAppEncoderStatic -i input.yuv -b out.265 -c ~/HM/cfg/encoder_randomaccess_main10.cfg -wdt 1280 -hgt 720 -fr 50 -f 500 -q 27 -xPS 0`
 
-Make sure only to use only YUV input when encoding with HM. Each parameter does the following:
+使用 HM 進行編碼時，請確保僅使用 YUV 輸入。以下是各個參數的功能：
 
 - `-i input.yuv -b out.265`
 
-Specifies a raw YUV input file & an output raw h265 bitstream. To mux into an MP4 container, it is recommended that you use [mp4box](../utilities/mp4box.mdx) instead of muxing with [FFmpeg](../utilities/ffmpeg.mdx).
+指定一個原始 YUV 輸入檔案和一個輸出的 h265 位元流。要將其封裝到 MP4 容器中，建議使用 [mp4box](../utilities/mp4box.mdx) 而不是 [FFmpeg](../utilities/ffmpeg.mdx)。
 
 - `-c [path/to/config]`
 
-Specifies the desired path to your HM configuration file. This makes it easier to encode without having to manually specify a plethora of settings.
+指定 HM 配置檔案的路徑。這使得編碼更加方便，無需手動指定大量設定。
 
 - `-wdt 1280 -hgt 720`
 
-Sets the input & output width & height.
+設定輸入和輸出的寬度和高度。
 
 - `-fr 50 -f 500`
 
-Sets the framerate (FPS) & the number of frames to encode. In this case, we are encoding 500 frames of a video that is to be played back at 50fps.
+設定幀率（FPS）和編碼的幀數。在此示例中，我們編碼一段 50fps 播放的 500 幀影片。
 
 - `-q 27`
 
-Sets a quality target for the encoder.
+設定編碼器的品質目標。
 
 - `-xPS 0`
 
-Zero clue what this does. If someone has an idea, please contribute!
+目前不清楚此參數的具體作用。如果有任何了解，請提供貢獻！
