@@ -30,42 +30,42 @@ ZIP 格式由 Phil Katz 開發，作為一種開放格式，並且其規範也�
 
 ### Linux & macOS
 
-Chances are, you have gzip already available on your system. You can encode gzip archives using the `gzip` command.
+大多數情況下，你的系統上已經安裝了 gzip。你可以使用 `gzip` 命令來壓縮檔案。
 
-1. Open a terminal window.
+1. 打開終端機窗口。
 
-2. Navigate to the directory where you want to create the gzip archive.
+2. 進入你希望創建 gzip 壓縮檔案的目錄。
 
-3. Use the `gzip` command followed by the name of the file you want to compress. For example:
+3. 使用 `gzip` 命令，後跟你想要壓縮的檔案名稱。例如：
 ```bash
 gzip -7 myfile.txt
 ```
-This will create a compressed file called `myfile.txt.gz` in the current directory using compression level 7. Compression levels span from 1 through 9 (`-1 .. -9`; shortcuts are `--fast` for `-1`, `--best` for `-9`).
+這將使用壓縮等級 7 在當前目錄下創建一個名為 `myfile.txt.gz` 的壓縮檔案。壓縮等級範圍從 1 到 9（`-1 .. -9`；簡寫為 `--fast` 代表 `-1`，`--best` 代表 `-9`）。
 
-4. If you want to compress multiple files at once, you can use the `-a` option followed by the names of the files you want to compress. For example:
+4. 如果你想一次壓縮多個檔案，可以使用 `-a` 選項，後跟檔案名稱。例如：
 ```bash
 gzip -a myfile1.txt myfile2.txt
 ```
-This will create compressed files called `myfile1.txt.gz` & `myfile2.txt.gz` in the current directory.
+這將在當前目錄下創建名為 `myfile1.txt.gz` 和 `myfile2.txt.gz` 的壓縮檔案。
 
-5. If you want to compress a directory and all its contents, you can use the `-r` option followed by the name of the directory. For example:
+5. 如果你想壓縮一個目錄及其所有內容，可以使用 `-r` 選項，後跟目錄名稱。例如：
 ```bash
 gzip -r mydirectory/
 ```
-This will create compressed versions of each file in the specified directory.
+這將創建指定目錄中每個檔案的壓縮版本。
 
-6. If you want to encode the gzip archive with a different extension, you can use the `-S` option followed by the suffix `.suf`. For example:
+6. 如果你想使用不同的擴展名來編碼 gzip 壓縮檔案，可以使用 `-S` 選項，後跟 `.suf` 後綴。例如：
 ```bash
 gzip -S .suf myfile.txt
 ```
-This will create a gzip-compressed file called `myfile.txt.suf` in the current directory.
+這將在當前目錄下創建一個名為 `myfile.txt.suf` 的 gzip 壓縮檔案。
 
-Also, you can use other options like `-v` for verbose mode, `-f` to force overwriting & compress links, `-l` for listing the files and `-d` for decompressing the files.
+你還可以使用其他選項，例如 `-v` 進入詳細模式，`-f` 強制覆蓋及壓縮連結，`-l` 列出檔案，`-d` 解壓檔案。
 
-You can find more information about the `gzip` command & its options by running `man gzip` in a terminal.
+你可以通過在終端機中執行 `man gzip` 來獲取更多有關 `gzip` 命令及其選項的訊息。
 
 ### Windows
 
-To be filled.
+待填充。
 
-*References: Mark Adler is an American software engineer best known for his work in the field of data compression as the author of the Adler-32 checksum function, and a co-author of the zlib compression library and gzip. He has contributed to Info-ZIP, and has participated in developing the Portable Network Graphics (PNG) image format. Much of this post is based on his writing in [this StackOverflow answer](https://stackoverflow.com/questions/20762094/how-are-zlib-gzip-and-zip-related-what-do-they-have-in-common-and-how-are-they)*
+*參考資料：Mark Adler 是一位美國軟體工程師，以其在資料壓縮領域的工作而聞名。他是 Adler-32 檢查碼函數的作者，也是 zlib 壓縮庫和 gzip 的共同作者。他對 Info-ZIP 做出了貢獻，並參與了可攜式網絡圖形（PNG）圖像格式的開發。這篇文章的大部分內容基於他在 [這個 StackOverflow 回答](https://stackoverflow.com/questions/20762094/how-are-zlib-gzip-and-zip-related-what-do-they-have-in-common-and-how-are-they) 中的寫作*

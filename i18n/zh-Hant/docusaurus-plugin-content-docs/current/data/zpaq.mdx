@@ -1,4 +1,4 @@
----
+﻿---
 title: zpaq
 sidebar_position: 7
 ---
@@ -9,8 +9,9 @@ sidebar_position: 7
 此部分需要更多內容。如果你有意協助，請參考我們的 [貢獻指南](../contribution-guide.mdx) 並開始貢獻！
 :::
 
-ZPAQ is a lossless data compression algorithm that combines several techniques to achieve high compression ratios. It was developed by Matt Mahoney.
+ZPAQ 是一種無損資料壓縮演算法，由 Matt Mahoney 開發，結合了多種技術以實現高壓縮比。
 
-ZPAQ uses a multitude of different compression algorithms to try to achieve the best size-to-compression-time ratio possible while producing the smallest possible archives without much concern given to decompression performance. On the official ZPAQ website, it looks like it is designed for "realistic backups that have a lot of duplicate files and a lot of already compressed files."
+ZPAQ 使用多種不同的壓縮算法，目的是在壓縮時間和壓縮比例之間達到最佳平衡，同時儘可能生成最小的壓縮檔案，而不過於關注解壓縮性能。根據 ZPAQ 官方網站的介紹，這款工具主要用於進行「實際的備份」，尤其是針對包含大量重複檔案及已壓縮檔案的情況。
 
-ZPAQ is also considered an "incremental journaling archiver" meaning you can add files to an existing archive based on if they were changed or not. This reduces the time needed to wait for a new backup to finish, if that is your use case. Since ZPAQ is so focused on compression ratio, this kind of feature may reduce the burden imposed by long compression times in practical use cases where it makes sense. Windows & macOS do not handle ZPAQ archives properly by default, and it is unlikely many Linux distros do either.
+ZPAQ 也是一種「增量日誌式壓縮工具」，這意味著用戶可以根據檔案是否已更改，將新檔案增量添加到已有的壓縮檔案中。這種特性對於需要頻繁更新備份的使用情境來說，可以有效減少完成新備份所需的時間。由於 ZPAQ 極度注重壓縮比，這類特性可能在某些實際應用中減輕因長時間壓縮所帶來的負擔。
+然而，Windows 和 macOS 預設並不支援 ZPAQ 壓縮檔案，許多 Linux 發行版也可能無法正確處理該格式。
