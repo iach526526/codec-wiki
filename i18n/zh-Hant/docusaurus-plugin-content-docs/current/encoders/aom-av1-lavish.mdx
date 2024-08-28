@@ -205,23 +205,23 @@ avifenc -c aom -s 4 -j 8 -d 10 -y 444 --min 1 --max 63 -a end-usage=q -a cq-leve
 - `cq-level=16` 是指定品質的參數。較低的值對應較高的品質和檔案大小，較高的值則意味著更小、品質較低的輸出。由於這是 aomenc 的選項，而不是 avifenc 的選項，因此以 `-a` 開頭。
 - `tune=ssim` 是編碼器如何處理 RDO（率失真優化）。這可能與默認的 aomenc 參數重複，但指定此選項可以避免在默認設定將來修改時引入意外更改。
 
-## Recommendations
+## 建議
 
-aomenc unfortunately lacks the ability to take advantage of multiple threads, so therefore a tool like [Av1an](/docs/utilities/av1an) will be needed for parallelization. The parameters shown will be biased towards Av1an and aom-av1-lavish usage, so if you plan on using standalone aomenc then adjust as needed.
+aomenc 不幸地無法利用多執行緒，因此需要像 [Av1an](/docs/utilities/av1an) 這樣的工具來實現並行處理。下面所顯示的參數會偏向於 Av1an 和 aom-av1-lavish 的使用，因此如果你打算使用獨立的 aomenc，請根據需要進行調整。
 
-Here are some recommended parameters:
+以下是一些推薦的參數：
 
 `--bit-depth=10 --cpu-used=4 --end-usage=q --cq-level=24 --threads=2 --tile-columns=0 --tile-rows=0 --lag-in-frames=64 --tune-content=psy --tune=ssim --enable-keyframe-filtering=1 --disable-kf --kf-max-dist=9999 --enable-qm=1 --deltaq-mode=0 --aq-mode=0 --quant-b-adapt=1 --enable-fwd-kf=0 --arnr-strength=1 --sb-size=dynamic --enable-dnl-denoising=0 --denoise-noise-level=8`
 
-Now let's break it down.
+現在讓我們來詳細說明這些參數。
 
-- `--bit-depth=10` We're using 10bit because weird linear algebra allows the video to become smaller and reduces banding.
+- `--bit-depth=10` 我們使用 10 位深度，因為奇特的線性代數可以使影片變得更小並減少帶狀噪點。
 
-- `--cpu-used=4` This is the preset which ranges from 0-9, you can go to 3 if you want more efficiency, 2 if you have a lot of time, 4 is the sweet spot, and 6 if you want speed. Don't go above 6 (Worst efficiency) or even 0 (It would take WEEKS to finish).
+- `--cpu-used=4` 這是預設值，範圍為 0-9。如果你希望更高效，可以選擇 3；如果你有很多時間，可以選擇 2；4 是最佳的平衡點，6 則適合速度需求。不要超過 6（最差效率）或選擇 0（會需要幾周的時間）。
 
-- `--end-usage=q --cq-level=24` This specifies that we are going to use a knockoff version of CRF level similar to x264/x265 encoders, in this case CRF 24.
+- `--end-usage=q --cq-level=24` 這指定我們將使用類似於 x264/x265 編碼器的 CRF 等級，這裡設為 CRF 24。
 
-- `--tile-columns=0 --tile-rows=0` This is the tiles options, where the encoder splits the videos into tiles to encode faster. See the image below (Yellow lines):
+- `--tile-columns=0 --tile-rows=0` 這是平鋪選項，編碼器將影片分割成平鋪來加快編碼速度。請參見下面的圖像（黃色線條）：
 
 <picture>
     <source srcset="https://raw.githubusercontent.com/av1-community-contributors/images/main/tiling_av1.avif?token=GHSAT0AAAAAACEZPDXIZARY5MGSTJW4SI22ZHY636A" type="image/avif" />
@@ -229,46 +229,46 @@ Now let's break it down.
 </picture>
 
 :::note Tile usage
-Do NOT use tiles for 1080p and below, use 1 ``tile-columns`` at 1440p (2K), 2 ``tile-columns`` and 1 ``tile-rows`` for 2160p (4K).
+對於 1080p 及以下的解析度，不要使用平鋪；對於 1440p (2K) 使用 1 `tile-columns`，對於 2160p (4K) 使用 2 `tile-columns` 和 1 `tile-rows`。
 
-If you would like an easy way to calculate the necessary number of tiles for your video, you can use [the AV1 Encoding Calculator](https://autocompressor.net/tools/av1-calculator) online or run [this local tile calculator](https://github.com/gianni-rosato/av1-tile-calc).
+如果你希望輕鬆計算影片所需的平鋪數量，可以使用 [AV1 編碼計算器](https://autocompressor.net/tools/av1-calculator) 在線工具，或執行 [這個本地平鋪計算器](https://github.com/gianni-rosato/av1-tile-calc)。
 :::
 
-- `--lag-in-frames=64` Similar to x264/x265 `rc-lookahead`. Sets a number of frames to look ahead for frametype and ratecontrol, allowing for better compression decision making. Setting to a value greater than 64 is generally not considered useful.
+- `--lag-in-frames=64` 類似於 x264/x265 的 `rc-lookahead`。設定要預覽的幀數，以便於帧類型和位元率控制，從而允許更好的壓縮決策。設定為大於 64 的值通常不被認為有用。
 
-- `--aq-mode=0` adaptive quantization mode, a mostly debatable area nowadays. 0 is better most of the time but some say 1 is also good.
+- `--aq-mode=0` 自適應量化模式，這個領域現在大多數時候是有爭議的。0 通常較好，但有人認為 1 也不錯。
 
-- `--tune-content=psy --tune=ssim` As the name suggests they are tunes that affect the video output, for the better, and for the worst.
+- `--tune-content=psy --tune=ssim` 如名稱所示，它們是影響影片輸出的調整選項，能夠改進或降低影片品質。
 :::info
-Do not use `tune-content=psy` if you encode live action above `cq-level=30`.
+如果你對於 `cq-level=30` 以上的實時動作編碼使用 `tune-content=psy`，請勿使用。
 :::
 :::info
-If you use any of the VMAF tunes, you need to specify `--vmaf-model-path=` to where you put VMAF models in.
+如果使用任何 VMAF 調整，你需要指定 `--vmaf-model-path=` 指向你放置 VMAF 模型的位置。
 :::
 
-- `--enable-keyframe-filtering=1` We're setting it to 1 because of compatibility reasons, 2 is more efficient but there are seeking issues and FFmpeg can't input it.
+- `--enable-keyframe-filtering=1` 我們設定為 1 以保持兼容性，設為 2 更有效，但可能會有尋找問題，FFmpeg 可能無法處理。
 
-- `--sb-size=dynamic` Allows the encoder to use 128x128 block partitioning besides 64x64 which gives an efficiency boost.
+- `--sb-size=dynamic` 允許編碼器使用 128x128 的區塊分區，除了 64x64，這提供了效率提升。
 
-- `--deltaq-mode=0` set to 0 b its better
+- `--deltaq-mode=0` 設定為 0，這樣更好。
 
-- `--arnr-strength=1` Controls how strong the filtering (smoothing) will be, always been a hot topic. Most agree on the default of 4. Others think 1 is good for 3D Pixar CGI-like and 2D animation and 4 for live action content, and a higher value for lower bitrate encodes.
+- `--arnr-strength=1` 控制過濾（平滑）的強度，這一直是一個熱門話題。大多數人同意默認值為 4。有些人認為 1 適合 3D Pixar CGI 類和 2D 動畫，4 則適合實拍內容，對於低位元率編碼則使用更高的值。
 
-- `--disable-kf --enable-fwd-kf=0` We're disabling keyframes cause Av1an already did scene detection, so we wont have to. Plus it speeds things up.
+- `--disable-kf --enable-fwd-kf=0` 我們禁用關鍵幀，因為 Av1an 已經做了場景檢測，所以不需要。這樣還能加快速度。
 
-- `--kf-max-dist=9999` Maximum keyframe interval, we're setting it at the highest possible value since Av1an's scene detection keyframe interval is already 240 by default
+- `--kf-max-dist=9999` 最大關鍵幀間隔，設定為最高值，因為 Av1an 的場景檢測關鍵幀間隔默認為 240。
 
-- `--enable-chroma-deltaq=1` --enable-qm=1 --quant-b-adapt=1`` Parameters that give you free efficiency boost, ignore it.
+- `--enable-chroma-deltaq=1 --enable-qm=1 --quant-b-adapt=1` 這些參數提供免費的效率提升，可以忽略。
 
-- `--enable-dnl-denoising=0` Disables the encoder's built-in denoising technique when grain synthesis is enabled, you can optionally set it to 1 when you have a pretty noisy video since it works quite well (NLMeans is the denoiser used).
+- `--enable-dnl-denoising=0` 當啟用粒子合成時，禁用編碼器內建的去噪技術。你可以選擇設定為 1，如果你有非常嘈雜的影片，它能很好地工作（使用 NLMeans 進行去噪）。
 
-- `--denoise-noise-level=8` AV1 grain synthesis, which is a technique where the encoder puts fake grain in so it looks more natural and potentially hiding video artifacts (cause grain is hard to encode and explodes bitrate usage because of their randomness). Don't attempt to use it at high values (>12) since it creates noticeable grain patterns.
+- `--denoise-noise-level=8` AV1 粒子合成，這是一種技術，其中編碼器添加假粒子使其看起來更自然並可能隱藏影片缺陷（因為粒子難以編碼並且因隨機性而大幅增加位元率使用）。不要嘗試使用高值 (>12)，因為它會產生明顯的粒子模式。
 
 :::info
-You can use photon noise tables as an alternative via `--film-grain-table`, which is also conveniently available in Av1an as `--photon-noise=X`
+你可以使用 photon noise tables 作為替代，通過 `--film-grain-table`，在 Av1an 中也可以作為 `--photon-noise=X` 使用。
 :::
 
-## Tips & Tricks
+## 訣竅 & 技巧
 
-1. Use ``--butteraugli-resize-factor=2`` if you use any of the butteraugli-based tunes to speed it up without much losses (lavish, butteraugli) and ``--butteraugli-intensity-target=250`` to match the content light level.
-2. Use ``--arnr-maxframes`` to set max reference frames that will be used to filter the encode, higher values would make the video blurrier at high fidelity but look better at lower bitrates.
+1. 如果使用任何基於 butteraugli 的調整，請使用 `--butteraugli-resize-factor=2` 來加速而不損失太多（lavish、butteraugli），並使用 `--butteraugli-intensity-target=250` 以匹配內容的光線水平。
+2. 使用 `--arnr-maxframes` 設定將用於過濾編碼的最大參考幀數。較高的值會使影片在高保真度下變得更模糊，但在低位元率下效果更好。

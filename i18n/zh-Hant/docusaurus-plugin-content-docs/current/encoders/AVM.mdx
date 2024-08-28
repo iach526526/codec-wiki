@@ -1,31 +1,28 @@
----
+﻿---
 label: AVM
 sidebar_position: 15
 ---
 
 # AVM
 
-> AVM (AOM Video Model) is the reference software for next codec from Alliance for Open Media.
+> AVM（AOM Video Model）是開放媒體聯盟為未來編碼器提供的參考實作。
 
-[AVM](https://gitlab.com/AOMediaCodec/avm), or **A**OM **V**ideo **M**odel is the reference implementation for a future codec from the Alliance for Open Media, the organization behind [AV1](../video/AV1.mdx). 
-The codebase is under the Clear BSD license and currently only produces `av01` bitstreams.
+[AVM](https://gitlab.com/AOMediaCodec/avm)，或稱 **A**OM **V**ideo **M**odel，是由開放媒體聯盟（Alliance for Open Media）開發的未來編碼器的參考實作，該聯盟也是 [AV1](../video/AV1.mdx) 編碼器的背後組織。這個代碼庫採用 Clear BSD 授權，目前僅能產生 `av01` 位元流。
 
-The AVM codec is currently in development and is not yet ready for production use. Not much has been documented or tested.
+目前，AVM 編碼器仍在開發中，尚未達到可以投入生產的階段。相關文檔和測試仍然有限。
 
+## 謠言
 
-## Rumors
+有關這款新編碼器的一些訊息已在代碼庫中得到確認，但直到編碼器正式標準化並發布之前，這些變更都尚未確定。
 
-Some things about the new encoding implementation can be confirmed via the codebase, but none of those changes are final until the codec is standardized and officially released.
+關於這款編碼器的一些傳言包括：
 
-Some rumors about the codec include:
-
-- The name of the codec is going to be AV2, superseding AV1
-- The codec will be based on AV1, with certain backwards compatibility features available
-- Hardware decoding implementations could be implemented at no cost (no royalties) by utilizing GPU shaders and existing AV1 decoding hardware.
-- AOM's strategy will be to release codecs "mid-cycle" relative to ISO/ITU's release schedule, meaning it is likely that "AV2" will compete with [VVC](../video/VVC.mdx), not [ECM](../video/ECM.mdx).
-- A quantizer scale of 0-255 will be standard.
-- AVM tries to address some issues with high-fidelity AV1 encoding by introducing a better denoiser to mitigate [mosquito noise](../introduction/video-artifacts.mdx#mosquito-noise).
-
+- 編碼器將被命名為 AV2，取代 AV1。
+- 編碼器將基於 AV1，並提供某些向下兼容的功能。
+- 硬體解碼實作可能會利用現有的 AV1 解碼硬體和 GPU 葉片，無需支付版稅。
+- AOM 的策略是與 ISO/ITU 的發布時間表相比，「中期」推出編碼器，這意味著「AV2」可能會與 [VVC](../video/VVC.mdx) 競爭，而非 [ECM](../video/ECM.mdx)。
+- 量化器範圍將標準化為 0-255。
+- AVM 嘗試通過引入更高效的去噪技術來解決 AV1 編碼中高保真度的問題，以減少 [蚊式噪聲](../introduction/video-artifacts.mdx#mosquito-noise)。
 
 ## Installation
 
