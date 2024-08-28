@@ -1,21 +1,20 @@
----
+﻿---
 title: AVS3
 sidebar_position: 7
 ---
 
 # AVS3
 
-:::danger Help Wanted
-This section is in need of contributions. If you believe you can help, please see our [Contribution Guide](../contribution-guide.mdx) to get started as a contributor!
+:::danger 我們需要你！
+此部分需要更多內容。如果你有意協助，請參考我們的 [貢獻指南](../contribution-guide.mdx) 並開始貢獻！
 :::
 
-AVS3 is the most recent codec from the AVS family. It aims to bring a significant coding improvement over AVS2 and [HEVC](../video/HEVC.mdx). The specification was divided into 2 phases, the first one (main profile) finished in 2019 and the second (high profile) in 2021.
+AVS3 是 AVS 家族中最新的編解碼器。它旨在相對於 AVS2 和 [HEVC](../video/HEVC.mdx) 帶來顯著的編碼改進。該規範分為兩個階段，第一階段（主檔案）於 2019 年完成，第二階段（高檔案）則於 2021 年完成。
 
-AVS3 has more flexible coding tree and block partitioning shemes compared to previous generation AVS codecs. It also employs new DCT-VII and DST-VII transforms. The work on AVS3 was sponsored by organizations including Peking University, Pengcheng Laboratory and Huawei.
+相比於前一代 AVS 編解碼器，AVS3 提供了更靈活的編碼樹和區塊劃分方案。此外，它還採用了新的 DCT-VII 和 DST-VII 變換。AVS3 的開發工作得到了包括北京大學、鵬城實驗室和華為在內的多個機構的資助。
 
-In 2022 it was [added](https://dvb.org/news/dvb-test-content-for-vvc-and-avs3-codecs-now-available) to worldwide DVB standard alongside [VVC](../video/VVC.mdx). As of 2024 there several hardware AVS3 decoders including Mediatek and HiSilicon. We should be seeing more AVS3 in hardware since it was added to DVB toolbox.
+2022 年，AVS3 被 [添加](https://dvb.org/news/dvb-test-content-for-vvc-and-avs3-codecs-now-available) 到全球 DVB 標準中，與 [VVC](../video/VVC.mdx) 一同出現。截至 2024 年，已有包括 Mediatek 和 HiSilicon 在內的多款硬體支援 AVS3 解碼。隨著 AVS3 被納入 DVB 工具箱，預期未來會有更多硬體支援 AVS3。
 
-[uavs3](https://github.com/uavs3) is an open source high performance software encoder and decoder of AVS3-P2. The project was initialized by the Peking University Shenzhen Graduate School and over the time was optimized for x86 and arm processors. FFmpeg since version 6 supports only avs3 decoding via [uavs3d](https://github.com/uavs3/uavs3d).
+[uavs3](https://github.com/uavs3) 是一個開源的高性能 AVS3-P2 軟體編碼器和解碼器。該項目由北京大學深圳研究生院啟動，並隨著時間的推移對 x86 和 ARM 處理器進行了優化。自 FFmpeg 版本 6 起，僅支援通過 [uavs3d](https://github.com/uavs3/uavs3d) 進行 AVS3 解碼。
 
-Intel partnered with Boya and created [SVT-AVS3](https://www.intel.com/content/www/us/en/developer/articles/technical/scalable-video-technology.html) which to my knowledge is not available to the public. The only open-source encoder available to general public is [uavs3e](/docs/encoders/uavs3e).
-
+Intel 與 Boya 合作創建了 [SVT-AVS3](https://www.intel.com/content/www/us/en/developer/articles/technical/scalable-video-technology.html)，但據我所知，此編碼器尚未公開。唯一對公眾開放的開源編碼器是 [uavs3e](/docs/encoders/uavs3e)。

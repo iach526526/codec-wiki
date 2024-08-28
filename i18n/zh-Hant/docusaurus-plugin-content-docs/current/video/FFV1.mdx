@@ -5,22 +5,21 @@ sidebar_position: 12
 
 # FFV1
 
-:::danger Help Wanted
-This section is in need of contributions. If you believe you can help, please see our [Contribution Guide](../contribution-guide.mdx) to get started as a contributor!
+:::danger 我們需要你！
+此部分需要更多內容。如果你有意協助，請參考我們的 [貢獻指南](../contribution-guide.mdx) 並開始貢獻！
 :::
 
-FFV1 ([rfc9043](https://datatracker.ietf.org/doc/html/rfc9043)) is a lossless intra-frame video codec designed for archival use & preservation. Created by Michael Niedermayer it is part of the [FFmpeg](../utilities/ffmpeg.mdx) project. The codec supports wide range of color spaces. It can work with YUV and RGB content also including alpha channel with color depths ranging from 8 to 16 bits (only up to 14 in case of RGB). It has good parallelization support and achieves very high compression ratios compared to other lossless video encoders such as [UT Video](../video/utvideo.mdx) albeit at the cost of being more resource hungry.
+[FFV1](https://datatracker.ietf.org/doc/html/rfc9043) 是一款無損的intra-frame編碼器，專為存檔與保存用途設計。這個編碼器由 Michael Niedermayer 創建，並且是 [FFmpeg](../utilities/ffmpeg.mdx) 項目的一部分。FFV1 支援廣泛的色彩空間，能夠處理 YUV 和 RGB 內容，也包括透明度通道，色彩深度範圍從 8 位元到 16 位元（對於 RGB 則只支援到 14 位元）。相比其他無損視訊編碼器如 [UT Video](../video/utvideo.mdx)，FFV1 的平行化支持良好，並且壓縮率極高，但相對而言會消耗更多資源。
 
-## History
+## 歷史
 
-In 2003 the codec was merged into FFmpeg however the bistream specification was frozen in 2006 (officially FFV1 version 0). Later in 2009 came version 1 covering more bideo bit depths.
+FFV1 編碼器於 2003 年被合併進 FFmpeg 專案，然而其比特流規範在 2006 年被凍結（正式定為 FFV1 版本 0）。隨後在 2009 年發布了版本 1，擴展了對更多視訊位深的支援。
 
-Version 2 never got its release, it existed only in experimental form.
+版本 2 從未正式發布，只存在於實驗形式。
 
-The 3rd bistream version was frozen in 2013 and it's still the latest as of 2024. It added multithreading support and frame integrity checking.
+第三個比特流版本於 2013 年被凍結，並且截至 2024 年仍然是最新版本。此版本增加了多執行緒支持和幀完整性檢查。
 
-There is a 4th version [coming](https://datatracker.ietf.org/doc/draft-ietf-cellar-ffv1-v4/) which might bring better support for color spaces, compression improvements and [maybe](https://mailarchive.ietf.org/arch/msg/cellar/gFydpu8BKAgzspvy6Mvbpsrg5yY/) proper inter-frame prediction.
-
+第四個版本 [即將推出](https://datatracker.ietf.org/doc/draft-ietf-cellar-ffv1-v4/)，可能會帶來對更多色彩空間的更好支持、壓縮改進以及 [可能](https://mailarchive.ietf.org/arch/msg/cellar/gFydpu8BKAgzspvy6Mvbpsrg5yY/) 的正式幀間預測支持。
 ## Usage
 
 ```bash title="Fast, heavily multithreaded"
