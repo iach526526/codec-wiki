@@ -21,15 +21,15 @@ ZIP 的兼容性幾乎是無所不包的。傳統 ZIP（ZIP 規範中的壓縮�
 
 ## 格式分解
 
-DEFLATE 是基於 LZ77 的壓縮器，它會在輸入資料中尋找重複的字節序列，並用對先前出現的短引用來替換這些序列。它還使用 Huffman 編碼對符號進行變長編碼，根據符號出現的頻率進行編碼。DEFLATE 對於每個壓縮數據塊有兩種模式：這些模式被指定為「靜態」或「動態」Huffman 壓縮塊。在靜態模式下，Huffman 編碼是固定且預定義的。在動態模式下，Huffman 編碼會動態生成並與壓縮數據一起傳輸。
+DEFLATE 是基於 LZ77 的壓縮器，它會在輸入資料中尋找重複的字節序列，並用對先前出現的短引用來替換這些序列。它還使用 Huffman 編碼對符號進行變長編碼，根據符號出現的頻率進行編碼。DEFLATE 對於每個壓縮資料塊有兩種模式：這些模式被指定為「靜態」或「動態」Huffman 壓縮塊。在靜態模式下，Huffman 編碼是固定且預定義的。在動態模式下，Huffman 編碼會動態生成並與壓縮資料一起傳輸。
 
-ZIP 檔案具有特定的結構，包括四個主要的檔案標頭組件：本地檔案標頭、中央目錄檔案標頭、中央目錄結束記錄和數據描述符。本地檔案標頭儲存有關每個壓縮檔案的信息，如其名稱、大小、CRC-32 檢查碼、壓縮方法和可選的額外欄位。中央目錄檔案標頭儲存類似於本地檔案標頭的信息，但還包括 ZIP 檔案中每個本地檔案標頭的偏移量。中央目錄結束記錄標記 ZIP 檔案的結束，並包含有關中央目錄檔案標頭的數量和大小的信息。數據描述符是可選的，儲存有關壓縮數據的額外信息，如 CRC-32 檢查碼、未壓縮大小和壓縮大小。
+ZIP 檔案具有特定的結構，包括四個主要的檔案標頭組件：本地檔案標頭、中央目錄檔案標頭、中央目錄結束記錄和資料描述符。本地檔案標頭儲存有關每個壓縮檔案的訊息，如其名稱、大小、CRC-32 檢查碼、壓縮方法和可選的額外欄位。中央目錄檔案標頭儲存類似於本地檔案標頭的訊息，但還包括 ZIP 檔案中每個本地檔案標頭的偏移量。中央目錄結束記錄標記 ZIP 檔案的結束，並包含有關中央目錄檔案標頭的數量和大小的訊息。資料描述符是可選的，儲存有關壓縮資料的額外訊息，如 CRC-32 檢查碼、未壓縮大小和壓縮大小。
 
-ZIP 檔案也可以支援其他壓縮方法，如 Deflate64(tm)、BZIP2、LZMA 和 [Zstandard](../data/zstd.mdx)。這些方法在大多數 ZIP 工具中不廣泛支援，可能會導致兼容性問題。ZIP 檔案也可以包含未壓縮的數據。該格式還支援加密以保護數據免受未授權訪問。ZIP 支援兩種類型的加密：傳統的 ZipCrypto 加密和強加密。ZipCrypto 加密被認為是不安全的，而 ZIP 中的強加密使用更強健的演算法，但分佈在多個標準中。因此，強加密並未標準化，可能會導致兼容性問題。
+ZIP 檔案也可以支援其他壓縮方法，如 Deflate64(tm)、BZIP2、LZMA 和 [Zstandard](../data/zstd.mdx)。這些方法在大多數 ZIP 工具中不廣泛支援，可能會導致兼容性問題。ZIP 檔案也可以包含未壓縮的資料。該格式還支援加密以保護資料免受未授權訪問。ZIP 支援兩種類型的加密：傳統的 ZipCrypto 加密和強加密。ZipCrypto 加密被認為是不安全的，而 ZIP 中的強加密使用更強健的演算法，但分佈在多個標準中。因此，強加密並未標準化，可能會導致兼容性問題。
 
-ZIP 檔案可以通過更高效地表示冗餘數據來減少檔案和資料夾的大小。它們還可以將多個檔案和資料夾組合成一個單一的檔案，便於轉移或存儲。沒有比 ZIP 更受歡迎的實現來進行這種一般資料壓縮。ZIP 檔案還可以保留原始檔案的元數據，如名稱、路徑、日期和屬性。然而，ZIP 檔案也有一些限制和問題。例如，傳統 ZIP 檔案（即非 ZIP64）對每個壓縮檔案有 4 GB 的大小限制和每個檔案 65,535 個條目。大多數 ZIP 實現不支援檔案內的符號連結或硬連結。
+ZIP 檔案可以通過更高效地表示冗餘資料來減少檔案和資料夾的大小。它們還可以將多個檔案和資料夾組合成一個單一的檔案，便於轉移或儲存。沒有比 ZIP 更受歡迎的實現來進行這種一般資料壓縮。ZIP 檔案還可以保留原始檔案的元資料，如名稱、路徑、日期和屬性。然而，ZIP 檔案也有一些限制和問題。例如，傳統 ZIP 檔案（即非 ZIP64）對每個壓縮檔案有 4 GB 的大小限制和每個檔案 65,535 個條目。大多數 ZIP 實現不支援檔案內的符號連結或硬連結。
 
-此外，ZIP 可以以多種不同的方式進行編碼。Apple 在 Finder 中提供了預設的「壓縮」選項，可以將選定的檔案壓縮成 ZIP 檔案，許多 Linux 桌面環境也提供了易於創建 ZIP 檔案的 GUI 功能。在 Windows 上，常見的壓縮方式是使用 7-zip 數據壓縮和解壓縮工具（與 [7-zip 壓縮格式](../data/7z.mdx) 相關，但兩者不同）。
+此外，ZIP 可以以多種不同的方式進行編碼。Apple 在 Finder 中提供了預設的「壓縮」選項，可以將選定的檔案壓縮成 ZIP 檔案，許多 Linux 桌面環境也提供了易於創建 ZIP 檔案的 GUI 功能。在 Windows 上，常見的壓縮方式是使用 7-zip 資料壓縮和解壓縮工具（與 [7-zip 壓縮格式](../data/7z.mdx) 相關，但兩者不同）。
 
 ## 歷史
 
@@ -51,24 +51,24 @@ ZIP 格式由 Phil Katz 開發，作為一種開放格式和開放規範，他�
 
 #### Linux & macOS
 
-To encode to a ZIP file most efficiently on Linux or macOS, it is worth using the 7-zip implementation of DEFLATE for ZIP compression. The 7zip website's homepage claims: "For ZIP and GZIP formats, 7-Zip provides a compression ratio that is 2-10 % better than the ratio provided by PKZip and WinZip." You can use the highly flexible 7-zip CLI utility through binaries available on [7-zip's Download page](https://www.7-zip.org/download.html). Here are some direct download links: [Linux x86_64](https://www.7-zip.org/a/7z2301-linux-x64.tar.xz) | [macOS Universal](https://www.7-zip.org/a/7z2301-mac.tar.xz)
+在 Linux 或 macOS 上要最有效地編碼為 ZIP 檔案，值得使用 7-zip 的 DEFLATE 實現來進行 ZIP 壓縮。7zip 網站的首頁聲稱：“對於 ZIP 和 GZIP 格式，7-Zip 提供的壓縮比率比 PKZip 和 WinZip 提供的比率高 2-10%。”你可以通過 [7-zip 的下載頁面](https://www.7-zip.org/download.html) 獲取靈活的 7-zip CLI 工具。以下是一些直接下載鏈接：[Linux x86_64](https://www.7-zip.org/a/7z2301-linux-x64.tar.xz) | [macOS Universal](https://www.7-zip.org/a/7z2301-mac.tar.xz)
 
-Once you've downloaded the utility, remember whether you are choosing to use the `7zz` binary or the static `7zzs` binary. Commands run using `7zz` should run using `7zzs` as well, so please replace `7zz` in our examples as appropriate if you choose not to use it. Additionally, please copy your choice of binary to your `/usr/local/bin` if you want to be able to use it everywhere.
+下載工具後，記得選擇使用 `7zz` 二進制檔或靜態的 `7zzs` 二進制檔。使用 `7zz` 執行的命令也應該可以使用 `7zzs` 執行，因此如果你選擇不使用 `7zz`，請根據需要在我們的示例中替換 `7zz`。另外，請將選擇的二進制檔複製到 `/usr/local/bin`，以便在任何地方使用它。
 
-- To encode a ZIP file at the lowest effort setting using one thread:
+- 以最低努力設定和單線程編碼 ZIP 檔案：
 ```bash
 7zz a -bso0 -tzip -mmt1 -mx1 "Output.zip" "Input"
 ```
 
-- To encode a ZIP file at the highest effort setting using eight threads:
+- 以最高努力設定和八線程編碼 ZIP 檔案：
 ```bash
 7zz a -bso0 -tzip -mmt8 -mx9 "Output.zip" "Input"
 ```
 
 #### Windows
 
-To be filled.
+待補充。
 
-## Conclusion
+## 結論
 
-The only real benefit of using ZIP over more modern formats currently is compatibility. It may be viable when compared to 7z & XZ due to a reduction in complexity that improves encode & decode speed, but Zstandard is incredibly performant in both of these areas and generally outperforms ZIP. When it comes to content delivery on the Web, Brotli has been adopted across all modern web browsers and offers a better alternative to older compression technologies used on the Web that resemble ZIP.
+使用 ZIP 相對於更現代的格式，目前唯一真正的優勢是兼容性。與 7z 和 XZ 相比，由於其降低的複雜性，ZIP 可能在編碼和解碼速度上有所改進，但 Zstandard 在這兩方面表現優異，通常優於 ZIP。在 Web 上傳輸內容時，Brotli 已被所有現代瀏覽器採用，並提供了比 ZIP 更好的替代方案，特別是對於 Web 上使用的舊有壓縮技術。

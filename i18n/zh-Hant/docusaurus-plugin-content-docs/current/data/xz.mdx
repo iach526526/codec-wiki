@@ -1,4 +1,4 @@
----
+﻿---
 title: xz
 sidebar_position: 5
 ---
@@ -9,38 +9,38 @@ sidebar_position: 5
 此部分需要更多內容。如果你有意協助，請參考我們的 [貢獻指南](../contribution-guide.mdx) 並開始貢獻！
 :::
 
-XZ is a data compression format and utility based on the Lempel-Ziv-Markov Chain Algorithm (LZMA). The XZ format itself is an improvement on LZMA, allowing for preprocessing filters similar to [7-zip](../data/7z.mdx) to increase the resulting archive's compression ratio.
+XZ 是一種基於 Lempel-Ziv-Markov Chain 演算法（LZMA）的資料壓縮格式與工具。XZ 格式相對於 LZMA 做了改進，允許使用類似 [7-zip](../data/7z.mdx) 的預處理過濾器，以進一步提高壓縮比。
 
-XZ can only compress one file at a time, so making a [tar](./tar.mdx) archive of the files you'd like to compress (if there are multiple) is necessary when using XZ.
+XZ 每次只能壓縮單個檔案，因此在使用 XZ 壓縮多個檔案時，需先用 [tar](./tar.mdx) 將檔案打包成一個壓縮包。
 
-XZ is more widely supported when compared to other data compression formats, seeing support across iOS, macOS, and many Linux distributions by default. To decompress & compress XZ on Windows, you will likely need the 7-Zip archive utility.
+XZ 的支援範圍比許多其他壓縮格式要廣，預設支援 iOS、macOS 和多個 Linux 發行版。若要在 Windows 上進行 XZ 檔案的解壓和壓縮，可能需要安裝 7-Zip 工具。
 
-## Usage
-This usage is for the `xz` utility on linux, but is applicable to other platforms where xz can be used. It should be noted that `xz`'s default behavior is to delete the original file after it has completed the relevant compression or decompression operation, but this can be stopped with the flag below. An arbitary number of files may be passed to xz and it will individually complete the specified operation on each given file.
+## 使用說明
+此使用說明針對 Linux 上的 `xz` 工具，但也適用於其他支援 xz 的平台。需注意的是，`xz` 的默認行為是完成壓縮或解壓後會刪除原始檔案，但可以通過以下選項來防止。你可以一次性指定多個檔案，`xz` 將分別對每個檔案執行相應操作。
 
-### Compression
+### 壓縮
 ```bash
 xz {file}
 ```
-This will result in a file named `{file}.xz` being created in the current working directory.
+這會在當前目錄下創建一個名為 `{file}.xz` 的壓縮檔案。
 
-A more advanced variant is listed here:
+以下是一個更高級的壓縮命令示例：
 ```bash
 xz -# --extreme -M 800Mib -T 2 -k {file}
 ```
 
-- `-#` is a number between 0 and 9 specifying speed presets, 0 being the fastest and 9 slowest.
-- `--extreme` is an option allowing xz to use more time than the standard preset level.
-- `-M {size}` is an option restricting the memory usage of `xz` either as a percentage of system memory or an absolute amount.
-- `-T {threads}` is an option restricting the number of threads used by `xz`.
-- `-k` prevents xz from deleting the input file.
+- `-#` 代表壓縮速度的預設級別，數字範圍從 0（最快）到 9（最慢）。
+- `--extreme` 選項允許 xz 使用比標準預設更多的處理時間。
+- `-M {size}` 選項限制 `xz` 的內存使用，可以是系統內存的百分比或絕對數量。
+- `-T {threads}` 選項限制 `xz` 使用的線程數量。
+- `-k` 防止 xz 刪除原始檔案。
 
-### Decompression
+### 解壓
 ```bash
 xz -d {file}.xz
 ```
-This decompresses the xz archive to it's original file.
+這條命令會將 xz 壓縮檔案解壓回原始檔案。
 
-- `-M {size}` is an option restricting the memory usage of `xz` either as a percentage of system memory or an absolute amount.
-- `-T {threads}` is an option restricting the number of threads used by `xz`.
-- `-k` prevents xz from deleting the input file.
+- `-M {size}` 選項限制 `xz` 的內存使用，可以是系統內存的百分比或絕對數量。
+- `-T {threads}` 選項限制 `xz` 使用的執行續數量。
+- `-k` 防止 xz 刪除原始檔案。
