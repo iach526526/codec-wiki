@@ -30,13 +30,13 @@ SVT-AV1 支援以下色彩空間：
 | YUV420P10LE      | 4:2:0              | 10-bit                |
 
 
-## Installation
+## 安裝
 
 <Tabs>
     <TabItem value="unixlike" label="Linux & macOS">
-        *A precompiled AVX2-optimized binary of SVT-AV1-PSY can be installed for x86_64 Linux via [rAV1ator CLI](../utilities/rav1ator-cli.mdx). However, it is always recommended to build from source.*
+        *對於 x86_64 Linux，可以通過 [rAV1ator CLI](../utilities/rav1ator-cli.mdx) 安裝預編譯的 AVX2 優化版 SVT-AV1-PSY 二進位檔案。不過，還是建議從源代碼進行編譯。*
 
-        To build SVT-AV1 from source, first clone the desired SVT-AV1 repository & enter the build directory.
+        若要從源代碼編譯 SVT-AV1，首先複製所需的 SVT-AV1 儲存庫並進入構建目錄。
 
         ```bash title="Clone mainline SVT-AV1"
         git clone https://gitlab.com/AOMediaCodec/SVT-AV1/
@@ -49,7 +49,7 @@ SVT-AV1 支援以下色彩空間：
         cd SVT-AV1/Build/linux
         ```
 
-        In the directory, simply run `./build.sh [flags]` to build. Be aware that building requires CMake version 3.16 or higher and either GCC or Clang. It is recommended to use clang when building SVT-AV1.
+        在目錄中，只需執行 `./build.sh [flags]` 來進行構建。請注意，構建需要 CMake 3.16 或更高版本，以及 GCC 或 Clang 編譯器。建議在構建 SVT-AV1 時使用 Clang。
 
         ```bash title="Build release"
         ./build.sh release
@@ -59,11 +59,11 @@ SVT-AV1 支援以下色彩空間：
         ./build.sh jobs=8 all cc=clang cxx=clang++ no-dec enable-lto static native
         ```
 
-        The compiled binaries will be in the `Bin/Release` directory, including SvtAv1EncApp. If you just want the encoder, adding the `no-dec` flag will skip building SvtAv1DecApp and save on compilation time.
+        編譯完成的二進位檔案將位於 `Bin/Release` 目錄中，包括 SvtAv1EncApp。如果你只需要編碼器，可以添加 `no-dec` 標誌，這將跳過 SvtAv1DecApp 的構建並節省編譯時間。
 
-        If you'd like to build from the latest release (2.1.0 at the time of writing - last updated 16 Apr 2024) please run `git reset --hard 2aeeb4f1a1d495b84bf5c21dbb60ae10e991fada` in the cloned directory. It is recommended that you do this, as new changes to git aren't always stable right away & a release will guarantee more stability.
+        如果你想從最新的發行版本（截至本文撰寫時為 2.1.0 - 最後更新於 2024 年 4 月 16 日）進行構建，請在複製的目錄中執行 `git reset --hard 2aeeb4f1a1d495b84bf5c21dbb60ae10e991fada`。建議你這樣做，因為新的 Git 變更並不總是立即穩定，而發行版本則能保證更高的穩定性。
 
-        If you want extra performance, it is possible to build SVT-AV1 using PGO (Profile-guided Optimization). **Be aware that this particular script infers that you have a .y4m file (or multiple) in `/dev/shm` for transcoding**. You can compile statically linked SVT-AV1 with PGO (and LTO, or link-time optimization) by following this script:
+        如果你想要額外的性能，可以使用 PGO（Profile-guided Optimization，配置導向優化）來構建 SVT-AV1。**請注意，這個特定腳本推斷你在 `/dev/shm` 中有一個（或多個）.y4m 檔案用於轉碼**。你可以按照以下腳本編譯靜態鏈接的 SVT-AV1 並使用 PGO（和 LTO，即鏈接時優化）：
 
         ```bash title="Bulding SVT-AV1 with profile guided optimization"
         git clone https://gitlab.com/AOMediaCodec/SVT-AV1/
@@ -71,77 +71,76 @@ SVT-AV1 支援以下色彩空間：
         ./build.sh cc=gcc cxx=g++ enable-lto enable-pgo static native jobs=$(nproc) pgo-dir=/dev/shm pgo-videos=/dev/shm release
         ```
 
-        If you wish to store videos elsewhere or provide custom parameters to the SvtAv1EncApp binary, try this script:
+        如果你希望將影片儲存在其他位置或向 SvtAv1EncApp 二進位檔案提供自定義參數，請嘗試以下腳本：
 
         ```bash
         git clone https://gitlab.com/AOMediaCodec/SVT-AV1/
         cd SVT-AV1/Build/linux
         ./build.sh cc=gcc cxx=g++ enable-lto enable-pgo static native jobs=$(nproc) pgo-dir=/dev/shm pgo-compile-gen release
-        ../../Bin/Release/SvtAv1EncApp # Run this binary as many times as you'd like with arguments of your choice to collect data
+        ../../Bin/Release/SvtAv1EncApp # 使用你選擇的參數執行此二進位檔案任意次數以收集資料
         ./build.sh cc=gcc cxx=g++ enable-lto enable-pgo static native jobs=$(nproc) pgo-dir=/dev/shm pgo-compile-use release
         ```
     </TabItem>
     <TabItem value="windows" label="Windows">
-        To be filled. If you believe you can help, see our [Contribution Guide](../contribution-guide.mdx).
+        待填充。如果你願意提供幫助，請參閱我們的[貢獻指南](../contribution-guide.mdx)。
     </TabItem>
 </Tabs>
 
-## Encoding
+## 編碼
 
-### Strengths
+### 優勢
 
-SVT-AV1's greatest strength is its parallelization capability, where it outclasses other AV1 encoders by a significant margin. SVT-AV1's parallelization techniques do not involve tiling & don't harm video quality, & can comfortably utilize up to 16 cores given 1080p source video. This is while maintaining competitive coding efficiency to mainline aomenc. Perceptually, mainline SVT-AV1 is outperformed by well-tuned community forks of aomenc, but according to many the gap has begun to close with the introduction of SVT-AV1-PSY.
+SVT-AV1 的一大優勢在於其卓越的並行處理能力。與其他 AV1 編碼器相比，SVT-AV1 在並行處理方面表現更為出色。它能夠充分利用最多 16 顆處理核心來處理 1080p 的來源影片，而不需要使用瓷磚分割，且不會損害影片品質。在編碼效率方面，SVT-AV1 和主線 aomenc 的競爭力相當。雖然主線 SVT-AV1 在感知品質上可能不如一些經過精心調整的 aomenc 社群分支，但隨著 SVT-AV1-PSY 的推出，這一差距已經有所縮小。
 
-### Weaknesses
+### 劣勢
 
-SVT-AV1 is strongest on x86 CPUs, & while ARM NEON assembly is [available](https://gitlab.com/AOMediaCodec/SVT-AV1/-/commit/ba13fac241f1b54954935f2cb200efc07f3de13a) and has been slowly improving since its introduction in version 1.8.0, SVT-AV1 still underperforms on ARM. For this reason, it is not a good cross-architecture CPU benchmark. SVT-AV1's support for various AV1 features is also limited; it only supports up to 4:2:0 chroma subsampling with no support for 12-bit color, and it does not support scene change detection (there are no plans to implement this, either). The smallest possible video that SVT-AV1 can produce is 64x64.
+SVT-AV1 在 x86 架構的 CPU 上表現最佳，而在 ARM 架構上則表現不佳。雖然從 1.8.0 版本開始，ARM NEON 組合指令的支援有所改善，但 SVT-AV1 在 ARM 上的性能仍然有限，因此不適合作為跨架構 CPU 的性能基準。此外，SVT-AV1 的 AV1 功能支援也有限，它只支援最高 4:2:0 色度子取樣，且不支援 12 位顏色，也不支援場景變化檢測（未來也無計劃實施此功能）。SVT-AV1 編碼器生成的最小影片尺寸為 64x64。
 
-### Encoder Optimization
+### 編碼器優化
 
-Aside from build optimizations for speed, there is further tweaking to be done to the `SvtAv1EncApp` binary parameters when encoding. The following applies to mainline SVT-AV1, but does not apply to SVT-AV1-PSY.
+除了構建時的速度優化外，還可以進一步調整 `SvtAv1EncApp` 的參數來優化編碼。以下建議適用於主線 SVT-AV1，但不適用於 SVT-AV1-PSY。
 
-- `--film-grain` & `--film-grain-denoise`
+- `--film-grain` 和 `--film-grain-denoise`
 
-Most live-action sources feature hard-to-compress digital noise that is easily smoothed out by AV1 compression. To add this grain back, or even denoise through the encoder and then add grain, it is possible to use the `--film-grain` parameter to specify an amount of film grain to add to the encode (& `--film-grain-denoise` to specify how to denoise the input video before encoding for potentially better appeal). Denoising a video always removes fine details, so sticking with just `--film-grain` is recommended in most cases. According to [SVT-AV1 documentation](https://gitlab.com/AOMediaCodec/SVT-AV1/-/blob/master/Docs/CommonQuestions.mdx#practical-advice-on-grain-synthesis), a level of 8 should be used for live-action content with a normal amount of grain while a level of 4 works well for hand-drawn animation or other smoother-looking sources that still stand to benefit from some grain synthesis.
+對於大多數實拍素材，數字噪聲較難壓縮，AV1 編碼可以輕鬆去除這些噪點。如果希望在編碼後添加噪點，或者先去噪後再添加噪點，可以使用 `--film-grain` 參數來指定添加的電影顆粒量（`--film-grain-denoise` 用於在編碼前去噪）。通常，僅使用 `--film-grain` 即可，因為去噪會去除細節。根據 [SVT-AV1 文檔](https://gitlab.com/AOMediaCodec/SVT-AV1/-/blob/master/Docs/CommonQuestions.mdx#practical-advice-on-grain-synthesis)，對於實拍內容，建議使用 8 的顆粒級別，而對於手繪動畫或其他平滑的素材，使用 4 的級別會更好。
 
 - `--input-depth 10`
 
-10-bit output from AV1 encoding is always desirable for coding efficiency, even if your source is 8-bit. This option only produces a 10-bit AV1 bitstream if the source provided to the encoder is 10-bit.
+即使來源影片為 8 位，10 位的 AV1 編碼輸出也能提高編碼效率。此選項僅在來源影片為 10 位時才會產生 10 位的 AV1 位流。
 
 - `--tune 2`
 
-There are three tunes in mainline SVT-AV1: Tune 1 is for [PSNR](../metrics/PSNR.mdx) [RDO](../introduction/psychovisual.mdx), Tune 2 is for [SSIM](../metrics/SSIM.mdx) RDO, & Tune 0 is a [psychovisual](../introduction/psychovisual.mdx) tune labeled VQ. It has been common practice to lean away from the PSNR tune, as it is not designed for visual quality but rather to perform better on the PSNR metric which is widely considered to be inconsistent with our human perception of fidelity. Using the VQ tune is a safe bet for now, but many believe the newer SSIM tune provides better visual fidelity. Using SVT-AV1-PSY, the custom Subjective SSIM tune (Tune 3) provides the best of both Tune 2 & Tune 0 with additional improvements as well.
+主線 SVT-AV1 提供三種調整模式：調整 1 用於 [PSNR](../metrics/PSNR.mdx) [RDO](../introduction/psychovisual.mdx)，調整 2 用於 [SSIM](../metrics/SSIM.mdx) RDO，調整 0 為 [psychovisual](../introduction/psychovisual.mdx) 調整，稱為 VQ。建議避免使用 PSNR 調整，因為其主要目的是提高 PSNR 指標而非視覺品質。VQ 調整是較為安全的選擇，但許多人認為新的 SSIM 調整提供了更好的視覺效果。使用 SVT-AV1-PSY 的自定義主觀 SSIM 調整（調整 3）結合了調整 2 和調整 0 的優點，並有額外改進。
 
 - `--enable-qm 1`
 
-Enables quantization matrices, disabled by default. Improves coding efficiency mainly by improving encoding speed while producing similar quality video.
+啟用量化矩陣，默認情況下禁用。這可以提高編碼速度和效率，生成的影片品質基本保持不變。
 
 - `--qm-min 0`
 
-Sets the minimum flatness of quantization matrices to 0, down from the default 8. This is recommended unless you are dealing with extremely heavy grain. The maximum quantization matrix flatness is 15 by default, and should be left alone
+將量化矩陣的最小平滑度設定為 0，默認值為 8。除非處理極重的顆粒，否則建議使用此設定。量化矩陣的最大平滑度為 15，應保持默認值不變。
 
 - `--keyint [FPS*10]`
 
-Similar to `--kf-max-dist` in [vpxenc](../encoders/vpxenc.mdx), this tells the encoder when to place keyframes. Because SVT-AV1 doesn't have scene detection, this isn't the maximum distance between keyframes, but rather a fixed interval for placing keyframes. If using Av1an, set to -1 to disable keyframe insertion as Av1an handles that instead.
+類似於 [vpxenc](../encoders/vpxenc.mdx) 的 `--kf-max-dist`，該參數指定了放置關鍵幀的間隔。由於 SVT-AV1 不支援場景檢測，這不是關鍵幀之間的最大距離，而是放置關鍵幀的固定間隔。如果使用 Av1an，應將其設定為 -1 以禁用關鍵幀插入，因為 Av1an 會處理此問題。
 
 - `--irefresh-type 2`
 
-Intra refresh is specified through this option, & lets the user decide between Closed GOP & Open GOP. GOP stands for Group of Pictures. Open GOP allows GOPs to [reference one another](https://ottverse.com/closed-gop-open-gop-idr/), but support for this feature is currently incomplete. Therefore, it is recommended to use Closed GOP for the time being via `--irefresh-type 2` until this is rectified.
+此選項指定了內部刷新類型，允許選擇封閉 GOP 或開放 GOP。GOP 代表圖像組。開放 GOP 允許 GOP 互相參考，但此功能支援尚不完全。因此，建議使用封閉 GOP，通過 `--irefresh-type 2` 實現，直到支援問題得到解決。
 
 - `--preset X`
 
-SVT-AV1 can be used in 14 different presets, labeled -1 through 13. Preset -1 is the slowest, but provides the best coding efficiency; it is also dubbed a research preset that is not recommended for regular use. Preset 13 is the fastest, and is also not recommended for regular use as it makes serious trade-offs to achieve unrealistically fast speeds at the cost of the encoder's coding efficiency. Using presets 2 through 8 is the best course of action for non-realtime applications if you desire reasonable speed, while 9 through 12 are useful for real-time encoding at 1080p or lower, even on low-end consumer computer hardware.
+SVT-AV1 提供 14 種預設，從 -1 到 13 標記。預設 -1 是最慢的，但提供最佳的編碼效率；這是一個不建議在常規使用中使用的研究預設。預設 13 是最快的，但不建議常規使用，因為它在實現極快速度時做出了嚴重的折衷，降低了編碼效率。對於非實時應用，使用預設 2 到 8 可以獲得合理的速度，而預設 9 到 12 則適合於 1080p 或更低分辨率的實時編碼，即使在低端消費級計算機硬件上也能夠使用。
 
 - `--crf X`
 
-CRF is the best way to target quality for optimal visual fidelity. VBR & CBR lose efficiency due to their inherently limited rate control capabilities.
+CRF 是針對最佳視覺品質的最佳選擇。由於其固有的限製率控制能力，VBR 和 CBR 會降低效率。
 
-## Community Forks
+## 社群分支
 
-Currently, there is only one noteworthy community fork of SVT-AV1 called [SVT-AV1-PSY](./SVT-AV1-PSY.mdx).
+目前，只有一個值得關注的 SVT-AV1 社群分支，即 [SVT-AV1-PSY](./SVT-AV1-PSY.mdx)。
 
 ### SVT-AV1-PSY
 
-SVT-AV1-PSY is a community fork of SVT-AV1 that strives to improve the perceptual fidelity and quality of life provided by the encoder. The goal of this project is to create the best encoding implementation for perceptual quality with AV1, and it aims to surpass previous community forks of [aomenc](./aomenc.mdx#choosing-forks) in speed and visual quality.
-
-SVT-AV1-PSY has a number of feature additions to the mainline SVT-AV1 encoder as well as modified defaults that aim to make it easier to produce a more perceptually optimal bistream. For a full list of the encoder's feature additions and modifications to defaults, see the [project's README](https://github.com/gianni-rosato/svt-av1-psy/blob/master/README.md#feature-additions).
+SVT-AV1-PSY 是 SVT-AV1 的一個社群分支，旨在提高編碼器提供的感知保真度和生活品質。該專案的目標是通過 AV1 創建最佳的感知品質編碼實現，並且目標是在速度和視覺品質上超越之前社群分支的 [aomenc](./aomenc.mdx#choosing-forks)。
+SVT-AV1-PSY 對主線 SVT-AV1 編碼器進行了多項功能增強，並且修改了默認設定，使得更容易產生感知上更優化的位源流。關於該編碼器的完整功能增強列表和默認值修改內容，請參閱[專案的 README](https://github.com/gianni-rosato/svt-av1-psy/blob/master/README.md#feature-additions)。

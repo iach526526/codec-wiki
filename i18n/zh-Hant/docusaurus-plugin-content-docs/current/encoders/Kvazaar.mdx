@@ -1,4 +1,4 @@
----
+﻿---
 title: Kvazaar
 sidebar_position: 11
 ---
@@ -8,42 +8,41 @@ import TabItem from '@theme/TabItem';
 
 # Kvazaar
 
-[Kvazaar](https://github.com/ultravideo/kvazaar) is an open-source [H.265 / HEVC](/docs/video/HEVC) software encoder Written in C, developed by [Ultra Video Group](https://ultravideo.fi/) and licensed under BSD 3-clause.
+[Kvazaar](https://github.com/ultravideo/kvazaar) 是一個開源的 [H.265 / HEVC](/docs/video/HEVC) 軟件編碼器，由 [Ultra Video Group](https://ultravideo.fi/) 開發，使用 C 語言編寫，並遵循 BSD 3 條款許可證。
 
-[uvg266](/docs/encoders/uvg266) (Developed by the same group) uses Kvazaar as a base for encoding to the [VVC](/docs/video/VVC) codec.
+[uvg266](/docs/encoders/uvg266)（由同一團隊開發）使用 Kvazaar 作為編碼 VVC（[Versatile Video Coding](/docs/video/VVC)）編解碼器的基礎。
 
-[x265](/docs/encoders/x265) is generally regarded as having better performance while producing better quality video streams.
+雖然 [x265](/docs/encoders/x265) 通常被認為在性能和影片品質方面都優於 Kvazaar，但 Kvazaar 仍是一個值得考慮的選擇。
 
 ## FFmpeg
 
-Kvazaar is available in [FFmpeg](../utilities/ffmpeg.mdx) via ``libkvazaar``, to check if you have it, run ``ffmpeg -h encoder=libkvazaar``. You can input non-FFmpeg standard Kvazaar parameters via ``-kvazaar-params``.
+在 [FFmpeg](../utilities/ffmpeg.mdx) 中，Kvazaar 可以通過 ``libkvazaar`` 進行訪問。要檢查是否安裝了該編碼器，請執行 ``ffmpeg -h encoder=libkvazaar``。你可以通過 ``-kvazaar-params`` 輸入非 FFmpeg 標準的 Kvazaar 參數。
 
-You may need to download "Full" builds. As most of the time, this encoder is not included.
+可能需要下載“完整”版本，因為該編碼器通常不包括在標準版本中。
 
-## Supported Color Space
+## 支援的色彩空間
 
-Kvazaar supports the following color spaces:
+Kvazaar 支援以下色彩空間：
 
-| Format           | Chroma Subsampling | Supported Bit Depth(s)|
+| 格式             | 色度抽樣         | 支援的位元深度       |
 |------------------|:------------------:|-----------------------|
 | YUV420P          | 4:2:0              | 8-bit                 |
 | YUV420P10LE      | 4:2:0              | 10-bit*               |
 
-*10-bit support requires a flag to be set during compilation with CMake.
-
-## Installation
+* 用 CMake 編譯 10-bit 時需要設定 flag
+## 安裝
 
 <Tabs>
     <TabItem value="unixlike" label="Linux & macOS" default>
-        For Arch Linux, Kvazaar is available as `kvazaar`. It is also available in the Arch User Repository (AUR) as `kvazaar-git`.
+        對於 Arch Linux，用戶可以安裝 `kvazaar` 套件，或在 Arch User Repository (AUR) 中安裝 `kvazaar-git`。
 
-        Ultra Video Group does not ship any pre-built binaries of their encoders except for their [AppVeyor CI](https://ci.appveyor.com/project/Ultravideo/kvazaar), but AppVeyor deletes build artifacts after a month, so most of the time you'll have to compile Kvazaar yourself. Here are the instructions to do so:
+        Ultra Video Group 除了其 [AppVeyor CI](https://ci.appveyor.com/project/Ultravideo/kvazaar) 外，不提供編碼器的預編譯二進位檔，但 AppVeyor 會在一個月後刪除構建產物，所以大部分時間你需要自行編譯 Kvazaar。以下是編譯指導：
 
         ### Autotools
 
-        0. Compilation requires GNU Automake, Autoconf, Libtool, and M4. Install them via your package manager.
+        0. 編譯過程需要 GNU Automake、Autoconf、Libtool 和 M4。通過你的套件管理器安裝這些工具。
 
-        1. Clone the repository and its submodules:
+        1. 複製倉庫及其子模塊：
         ```bash
         git clone --recursive https://github.com/ultravideo/kvazaar.git
         cd kvazaar
@@ -52,49 +51,48 @@ Kvazaar supports the following color spaces:
         make -j$(nproc)
         ```
 
-        3. Binaries will be available in `src`, or you can run `make install` on Linux to install (May need elevated permissions).
+        2. 二進位檔將會位於 `src` 目錄中，或在 Linux 上執行 `make install` 進行安裝（可能需要提升權限）。
 
-        ### CMake (10-bit support)
+        ### CMake（10-bit 支援）
 
-        You will need to use CMake to specify a flag to be able to encode 10-bit with the encoder; by default Kvazaar ships with only 8-bit.
+        你需要使用 CMake 來指定一個標誌，以便編碼 10-bit 的影片；預設情況下，Kvazaar 僅支援 8-bit 編碼。
 
         ```bash
         git clone --recursive https://github.com/ultravideo/kvazaar.git
         cd kvazaar/build
-        cmake .. -DCMAKE_C_FLAGS="-DKVZ_BIT_DEPTH=10" # optional 10-bit flag
+        cmake .. -DCMAKE_C_FLAGS="-DKVZ_BIT_DEPTH=10" # 選擇性 10-bit 標誌
         make -j$(nproc)
         ```
 
-        Be aware that encoding 10-bit HEVC with Kvazaar is significantly slower, as the developers only prioritized SIMD optimizations for 8-bit encoding. Be aware that this implementation can be buggy in general.
+        請注意，使用 Kvazaar 編碼 10-bit HEVC 會顯著變慢，因為開發人員僅對 8-bit 編碼進行了 SIMD 優化。請注意，此實現可能會有一些錯誤。
     </TabItem>
     <TabItem value="wind" label="Windows">
-        Windows users are recommended to compile via MinGW-W64 which comes with [MSYS2](https://msys2.org/). Please be advised **the usage of Clang for compiling in this situation is heavily recommended**
-        due to disabled AVX2 optimizations because of a known GCC issue from 2012 (MinGW environments-exclusive). To do this, run `CC=clang ./configure` during autoconf.
+        Windows 用戶建議使用 MinGW-W64 和 [MSYS2](https://msys2.org/) 進行編譯。由於 GCC 存在一個 2012 年的已知問題（僅限 MinGW 環境），會禁用 AVX2 優化，因此**強烈建議使用 Clang 進行編譯**。在 Autoconf 階段，執行 `CC=clang ./configure`。
 
         ### MSYS2
 
-        0. Make sure you have downloaded & installed MSYS2 from [the MSYS2 website](https://www.msys2.org/) before beginning the build process.
+        0. 確保你已經從 [MSYS2 網站](https://www.msys2.org/) 下載並安裝了 MSYS2，然後再開始構建過程。
 
-        1. Start the UCRT64 console & install the required dependencies with the `pacman` package manager
+        1. 啟動 UCRT64 控制台，使用 `pacman` 包管理器安裝所需的依賴項。
 
-        3. Resume the build process as you would on a Unix-like system. See the "Linux & macOS" tab for more information.
+        2. 繼續按 Unix-like 系統的方式進行編譯。詳細訊息請參見「Linux & macOS」標籤。
     </TabItem>
 </Tabs>
 
-## Usage
+## 使用方法
 
-Here are some examples of how to use Kvazaar on its own:
+以下是一些單獨使用 Kvazaar 的範例：
 
-```bash title="Simple Y4M input with QP 20 and raw 265 bitstream output"
+```bash title="簡單的 Y4M 輸入，QP 20，原始 265 比特流輸出"
 kvazaar -i input.y4m --input-file-format y4m --qp 20 -o output.265
 ```
 
-```bash title="Preset slow, CRF 20, Y4M input"
+```bash title="預設慢速，CRF 20，Y4M 輸入"
 kvazaar -i input.y4m --input-file-format y4m --qp 20 --preset slow -o output.265
 ```
 
-The command below still uses the `kvazaar` binary, but reads from a YUV4MPEG pipe instead of a file. This is useful for piping FFmpeg output to Kvazaar.
+以下命令仍使用 `kvazaar` 二進制檔，但從 YUV4MPEG 管道而不是文件中讀取。這對於將 FFmpeg 的輸出管道傳遞給 Kvazaar 很有用。
 
-```bash title="FFmpeg piping"
+```bash title="FFmpeg 管道"
 ffmpeg -v error -i input.mkv -f yuv4mpegpipe -strict -1 - | kvazaar -i - --input-file-format y4m --qp 20 --preset slow -o output.265
 ```
