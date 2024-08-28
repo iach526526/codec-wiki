@@ -1,4 +1,4 @@
----
+﻿---
 title: aom-psy101
 sidebar_position: 19
 keywords: [AV1, encoding, video encoding, AOM AV1]
@@ -9,84 +9,84 @@ import TabItem from '@theme/TabItem';
 
 # aom-psy101
 
-:::info Under Maintenance
-The content in this entry is incomplete & is in the process of being completed.
+:::info 內容維護中
+本條目內容尚未完成，正在進行補充。
 :::
 
-:::info Community Fork
-This entry is about a fork of aomenc called aom-psy101. If you'd like to learn about the mainline aomenc encoder before reading, visit our [aomenc wiki entry](./aomenc.mdx).
+:::info 社群分支
+本條目介紹了 aomenc 的一個分支——aom-psy101。如果你想了解主線 aomenc 編碼器的更多訊息，請參見我們的 [aomenc 維基條目](./aomenc.mdx)。
 :::
 
-Mainline aomenc is unfortunately not perfect. It suffers from bad defaults, a heavy focus on the perceptually flawed [PSNR](../metrics/PSNR.mdx) metric, misleading settings, and other issues. Fortunately, there are a couple of forks developed by the encoding community that were created to combat aomenc's underlying issues.
+主線 aomenc 編碼器存在一些問題，包括默認設定不佳、過度依賴感知上有缺陷的 [PSNR](../metrics/PSNR.mdx) 指標、誤導性設定等。幸運的是，編碼社區已經開發了幾個分支來解決這些問題。
 
-- [aom-av1-psy](https://github.com/BlueSwordM/aom-av1-psy) *No longer maintained as of 13th January 2023*
-- [aom-av1-lavish](./aom-av1-lavish.mdx) *No longer maintained as of 4th June 2024*
+- [aom-av1-psy](https://github.com/BlueSwordM/aom-av1-psy) *已於 2023 年 1 月 13 日停止維護*
+- [aom-av1-lavish](./aom-av1-lavish.mdx) *已於 2024 年 6 月 4 日停止維護*
 - [aom-psy101](https://gitlab.com/damian101/aom-psy101)
 - [aom-av1ador](https://github.com/porcino/aom-av1ador)
 
-These forks fix up the poor decisions made by the original AOM devs and most importantly introduce new parameters and tunes to help fine-tune the encoder even more.
+這些分支修正了原 AOM 開發者的一些錯誤決策，並引入了新的參數和調整選項，以進一步優化編碼效果。
 
-[aom-psy101](https://gitlab.com/damian101/aom-psy101) is a fork of aomenc that aims to improve the encoding quality and speed of AV1. It is developed by [damian101](https://gitlab.com/damian101), a talented AV1 community developer.
+[aom-psy101](https://gitlab.com/damian101/aom-psy101) 是 aomenc 的一個分支，旨在提升 AV1 的編碼品質和速度。它由 [damian101](https://gitlab.com/damian101) 開發，他是 AV1 社區中的一位才華橫溢的開發者。
 
 ## FFmpeg
 
-aomenc is available in FFmpeg via ``libaom-av1``, check if you have it by running ``ffmpeg -h encoder=libaom-av1``. You can input non-FFmpeg standard aomenc parameters via ``-aom-params``.
+aomenc 可以通過 FFmpeg 的 ``libaom-av1`` 編碼器使用。你可以通過執行 ``ffmpeg -h encoder=libaom-av1`` 來檢查是否安裝了它。你可以通過 ``-aom-params`` 參數來使用非標準的 aomenc 設定。
 
-:::caution Mainline aomenc
-Unless you compile FFmpeg yourself with aom-psy101, you will be using the mainline aomenc. Compiling from source yourself with the aomenc libraries provided by aom-psy101 is the only way to use it with FFmpeg.
+:::caution 主線 aomenc
+除非你自己編譯包含 aom-psy101 的 FFmpeg，否則你將使用主線版本的 aomenc。要在 FFmpeg 中使用 aom-psy101，你需要自行編譯並安裝包含 aom-psy101 庫的版本。
 :::
 
-## Installation
+### 安裝指南
 
 <Tabs>
     <TabItem value="unixlike" label="Linux & macOS" default>
-        1. Clone the psy101 repo:
-        ```bash title="Clone the psy101 repo"
+        1. 複製 psy101 repo：
+        ```bash title="複製 psy101 repo"
         git clone https://gitlab.com/damian101/aom-psy101
         cd aom-psy101 && mkdir aom_build && cd aom_build
         ```
 
-        2. Configure compilation. The following flags are set to ensure the `aomenc` binary is build for optimal performance:
-        ```bash title="Set CMake flags"
+        2. 配置編譯環境。以下標誌確保 `aomenc` 二進制檔案的編譯性能最佳：
+        ```bash title="設定 CMake 標誌"
         cmake .. -DBUILD_SHARED_LIBS=0 -DENABLE_DOCS=0 -DCONFIG_TUNE_BUTTERAUGLI=0 -DCONFIG_TUNE_VMAF=0 -DCONFIG_AV1_DECODER=0 -DENABLE_TESTS=0 -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-flto -pipe -march=native" -DCMAKE_C_FLAGS="-flto -pipe -march=native"
         ```
 
-        3. Compile:
-        ```bash title="Compile"
+        3. 編譯：
+        ```bash title="編譯"
         make -j$(nproc)
         ```
 
-        4. Install to your system. This may require elevated privileges:
-        ```bash title="Install"
+        4. 安裝到系統中。這可能需要提升權限：
+        ```bash title="安裝"
         make install
         ```
     </TabItem>
     <TabItem value="wind" label="Windows">
-        **MSYS2** is the best option for building in Windows, as it provides a Unix-like environment for compilation.
+        **MSYS2** 是在 Windows 上構建的最佳選擇，因為它提供了類似 Unix 的編譯環境。
 
-        0. Make sure you have downloaded & installed MSYS2 from [the MSYS2 website](https://www.msys2.org/) before beginning the build process.
+        0. 開始編譯過程前，請確保已從 [MSYS2 官方網站](https://www.msys2.org/) 下載並安裝 MSYS2。
 
-        1. Close any MSYS2 Console that you have open, start the Clang64 console & install the required dependencies:
+        1. 關閉所有打開的 MSYS2 控制台，啟動 Clang64 控制台並安裝所需的依賴項：
         ```bash
         pacman -S git perl mingw-w64-clang-x86_64-clang mingw-w64-clang-x86_64-ninja mingw-w64-clang-x86_64-cmake mingw-w64-clang-x86_64-nasm
         ```
 
-        2. Clone the psy101 repo:
-        ```bash title="Clone the psy101 repo"
+        2. 複製 psy101 repo：
+        ```bash title="複製 psy101 repo"
         git clone https://gitlab.com/damian101/aom-psy101
         cd aom-psy101 && mkdir aom_build && cd aom_build
         ```
 
-        2. Configure compilation. The following flags are set to ensure the `aomenc` binary is build for optimal performance:
-        ```bash title="Set CMake flags"
+        2. 配置編譯環境。以下標誌確保 `aomenc` 二進制檔案的編譯性能最佳：
+        ```bash title="設定 CMake 標誌"
         LDFLAGS=-static cmake .. -DBUILD_SHARED_LIBS=0 -DENABLE_DOCS=0 -DCONFIG_TUNE_BUTTERAUGLI=0 -DCONFIG_TUNE_VMAF=0 -DCONFIG_AV1_DECODER=0 -DENABLE_TESTS=0 -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-flto -pipe -march=native" -DCMAKE_C_FLAGS="-flto -pipe -march=native"
         ```
 
-        3. Compile:
-        ```bash title="Compile"
+        3. 編譯：
+        ```bash title="編譯"
         ninja
         ```
 
-        The resulting binary will be available within the home folder of the location where you installed MSYS2 (usually `C:`). Navigate there, and then to `aom-psy101\aom_build` folder; the binary should be there.
+        編譯後的二進制檔案將在你安裝 MSYS2 的主目錄內（通常位於 `C:`）。至 `aom-psy101\aom_build` 檔案夾，你應該能在那裡找到二進制檔案。
     </TabItem>
 </Tabs>

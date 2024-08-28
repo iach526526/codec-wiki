@@ -1,4 +1,4 @@
----
+﻿---
 title: SVT-AV1
 sidebar_position: 5
 ---
@@ -8,24 +8,23 @@ import TabItem from '@theme/TabItem';
 
 # SVT-AV1
 
-:::info Under Maintenance
-The content in this entry is incomplete & is in the process of being completed.
+:::info 內容維護中
+本條目內容尚未完成，正在進行補充。
 :::
 
-SVT-AV1 (Scalable Video Technology for AV1) is an AV1-compliant software encoder/decoder library. Jointly developed by Intel and Netflix, SVT-AV1 is written almost entirely in C with some parts written in C++ and Assembly. As the name suggests, it is part of the "[Scalable Video Technology](https://www.intel.com/content/www/us/en/developer/articles/technical/scalable-video-technology.html)" project lineup by Intel.
+SVT-AV1（Scalable Video Technology for AV1）是一個符合 AV1 規範的軟體編碼器/解碼器庫。由 Intel 和 Netflix 共同開發，SVT-AV1 主要使用 C 語言編寫，部分使用 C++ 和匯編語言。正如其名稱所示，它是 Intel "[Scalable Video Technology](https://www.intel.com/content/www/us/en/developer/articles/technical/scalable-video-technology.html)" 專案系列的一部分。
 
-This entry discusses the SVT-AV1 encoder, also known as the "Production" AV1 encoder (while [aomenc](../encoders/aomenc.mdx) is the "reference" AV1 encoder), & refers to SVT-AV1 as such. SVT-AV1 is known for its parallelization, high coding efficiency, & active development. SVT-AV1 scales across multiple CPU cores much more effectively than aomenc or [rav1e](../encoders/rav1e.mdx), so the use of tools like [Av1an](../utilities/av1an.mdx) is less helpful albeit still helpful for scene detection.
+這段介紹討論了 SVT-AV1 編碼器，也稱為 "Production" AV1 編碼器（而 [aomenc](../encoders/aomenc.mdx) 是 "reference" AV1 編碼器），並以此名指代 SVT-AV1。SVT-AV1 以其並行化、高編碼效率和積極的開發而聞名。SVT-AV1 比 aomenc 或 [rav1e](../encoders/rav1e.mdx) 更有效地在多個 CPU 核心上進行擴展，因此像 [Av1an](../utilities/av1an.mdx) 這樣的工具在場景檢測中仍有幫助，但效果不如在其他編碼器中那麼顯著。
 
 ## FFmpeg
 
-SVT-AV1 is available in FFmpeg via `libsvtav1`, to check if you have it, run `ffmpeg -h encoder=libsvtav1`. You can input non-FFmpeg standard SVT-AV1 parameters via `-svtav1-params`.
+SVT-AV1 可以通過 `libsvtav1` 在 FFmpeg 中使用，檢查是否安裝了此編碼器，可以執行 `ffmpeg -h encoder=libsvtav1`。你可以通過 `-svtav1-params` 輸入非 FFmpeg 標準的 SVT-AV1 參數。
 
+## 支援的色彩空間
 
-## Supported Color Space
+SVT-AV1 支援以下色彩空間：
 
-SVT-AV1 supports the following color spaces:
-
-| Format           | Chroma Subsampling | Supported Bit Depth(s) |
+| 格式             | 色度抽樣         | 支援的位元深度       |
 |------------------|:------------------:|-----------------------|
 | YUV420P          | 4:2:0              | 8-bit                 |
 | YUV420P10LE      | 4:2:0              | 10-bit                |
