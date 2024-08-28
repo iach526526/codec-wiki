@@ -1,4 +1,4 @@
----
+﻿---
 title: JPEG-XL
 sidebar_position: 7
 ---
@@ -6,80 +6,73 @@ sidebar_position: 7
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# JPEG-XL
+### JPEG-XL
 
-JPEG-XL (JXL) is a compression format for images that was developed by the Joint Photographic Experts Group (JPEG) in 2020. It is designed to provide improved compression efficiency compared to the traditional [JPEG](./JPEG.mdx) format, while still maintaining image quality. JPEG-XL uses a combination of techniques such as perceptual color encoding, advanced entropy coding, and a new image prediction method to achieve its improved compression performance. It also has a lossless JPEG recompression mode, where an existing JPEG file can be turned into a JXL that can be decoded for a bit-for-bit exact replica of the original JPEG.
+JPEG-XL（JXL）是一種圖像壓縮格式，由聯合攝影專家組（JPEG）於2020年開發。它旨在提供比傳統的 [JPEG](./JPEG.mdx) 格式更高的壓縮效率，同時保持圖像品質。JPEG-XL 結合了感知色彩編碼、高級熵編碼以及一種新的圖像預測方法來實現其改進的壓縮性能。它還具有無損 JPEG 重新壓縮模式，允許將現有的 JPEG 檔案轉換為 JXL 檔案，從而可以解碼為與原始 JPEG 完全相同的位元組副本。
 
-## Performance Checklist
+## 性能檢查表
 
-Lossless? *Yes*
+- **無損？** *是*
+- **有損？** *是*
+- **支援的位元深度：*
+  *最高 32 位元深*
+- **HDR/廣色域？** *是*
+- **動畫？** *是*
+- **透明度？** *是*
+- **漸進解碼？** *是*
+- **免買斷式授權？** *是*
 
-Lossy? *Yes*
+## 格式特點
 
-Supported Bit Depths:
-*Up to 32 BPC*
+JPEG-XL 擁有多項突出特點，使其在許多應用場景中成為一個具有吸引力的圖像編解碼器。根據 [JPEG-XL Info page](https://jpegxl.info) 的介紹，JXL 擁有以下特點：
 
-HDR/Wide Gamut? *Yes*
+- **最佳無損圖像壓縮**：提供比 PNG 小約35%的檔案大小（對於 HDR 小約50%）。
+- **高保真有損圖像壓縮**：JPEG-XL 在保持相同視覺品質的情況下，比 JPEG 小約60%的檔案大小。
+- **漸進解碼**：允許在整個檔案下載完成之前以較低的品質顯示圖像，改善慢速連接下的用戶體驗。
+- **無損 JPEG 轉碼**：JPEG 圖像可以無損地轉換為 JPEG-XL，且結果檔案約小20%。
+- **設計適用於攝影及合成圖像**：JPEG-XL 能夠良好處理各類圖像，包括照片、圖形和插圖。
+- **快速的軟體編碼和解碼**：該編解碼器設計為高效且快速，支援快速的圖像加載和保存。
+- **全面支援廣色域和 HDR**：JPEG-XL 支援廣泛的顏色和高動態範圍，使其適用於現代顯示器。
+- **感知優化的參考編碼器**：編碼器設計為根據人類對圖像的感知來優化圖像品質。
 
-Animation? *Yes*
+### 無損壓縮
 
-Transparency? *Yes*
+JPEG-XL 提供了出色的無損壓縮能力。雖然無損 WebP 在 8 位無損圖像編碼方面比 PNG 有所改進，但 JPEG-XL 不僅在編碼效率上超越了無損 WebP，還在超過 8 位的位元深度（這是 PNG 先前主導的範疇）中更具多樣性。16 位的無損圖像，尤其是那些越來越受歡迎且少使用 8 位顏色深度的 HDR 圖像，是 JPEG-XL 的強項。它是唯一能在這方面與 PNG 競爭並提供更好編碼效率的編解碼器。
 
-Progressive Decode? *Yes*
+範例：JPEG-XL 對 [這個 16 位 AdobeRGB PNG](https://imgsaver.com/images/2023/10/03/16bit.png) 的壓縮效果優於 PNG。使用指令：`cjxl 16bit.png 16bit.jxl -d 0.0 -e 9 -I 100 -g 3 -E 11`
 
-Royalty Free? *Yes*
+16 位 PNG：`1533373` 位元組。
+16 位 JXL：`1211029` 位元組。
 
-## Format Breakdown
+### 有損壓縮
 
-JPEG-XL has a number of standout features that make it an appealing image codec to work with for many use cases. From the [JPEG-XL Info page](https://jpegxl.info), JXL has the following features:
+JPEG-XL 在有損壓縮方面也非常擅長，尤其是在我們人類關心的質量水平上。它的壓縮效果比 JPEG 好約 60%。雖然基於視頻的編解碼器如 AVIF 在給予大量 CPU 時間的情況下可以具有競爭力，但 JPEG-XL 在中高保真度的攝影圖像中既快速又高效。
 
-- **Best lossless image compression**: It offers about 35% smaller file sizes than PNG (50% smaller for HDR).
-- **High-fidelity lossy image compression**: JPEG XL provides about 60% smaller file sizes than JPEG for the same visual quality.
-- **Progressive decoding**: This allows an image to be displayed in lower quality before the entire file has been downloaded, improving user experience on slow connections.
-- **Lossless JPEG transcoding**: JPEG images can be converted to JPEG XL without any mathematical loss, and the resulting file is about 20% smaller.
-- **Designed for both photographic and synthetic images**: JPEG XL works well with a wide range of image types, including photos, graphics, and illustrations.
-- **Fast software encoding and decoding**: The codec is designed to be efficient and fast, enabling quick image loading and saving.
-- **Full support for wide gamut and HDR**: JPEG XL supports a wide range of colors and high dynamic range, making it suitable for modern displays.
-- **Perceptually optimizing reference encoder**: The encoder is designed to optimize image quality based on how humans perceive images.
+### 支援的位元深度
 
-### Lossless Compression
+JPEG-XL 支援高達 32 位元每通道的位元深度，使其未來可以應對智能手機中越來越受歡迎的 HDR 照片。相對於編碼結果的大小，使用 JXL 編碼高位深圖像幾乎沒有缺點。考慮到許多智能手機現在拍攝 HDR 照片，JXL 為這些照片未來進入網絡提供了一個引人注目的管道，尤其是 Adobe 和 Apple 等公司已經擁抱了這一新編解碼器。
 
-JPEG-XL offers excellent lossless compression capabilities. While lossless WebP was an improvement over PNG for 8-bit lossless image encoding, JPEG-XL manages not only to outdo lossless WebP in encoding efficiency but also be more versatile for bit depths greater than 8-bit (a category PNG previously dominated). 16-bit lossless imagery, especially HDR images that are becoming more popular & rarely utilize 8-bit color depth, are where JPEG-XL shines, and it is the only codec to compete with PNG in that regard while providing better coding efficiency.
+### 漸進解碼
 
-Example: JPEG-XL compresses [this 16-bit AdobeRGB PNG](https://imgsaver.com/images/2023/10/03/16bit.png) better than PNG. Using: `cjxl 16bit.png 16bit.jxl -d 0.0 -e 9 -I 100 -g 3 -E 11`
+JPEG-XL 提供了實際的漸進解碼支持，你可以在支持的瀏覽器上進行實驗，如 Safari、Waterfox、Thorium、Mercury 或任何 iOS 上的瀏覽器。
 
-16-bit PNG: `1533373` bytes.
-16-bit JXL: `1211029` bytes.
+漸進解碼是一項只有 JPEG 能夠實現真正實施的功能，它能夠在整個圖像傳送完成之前渲染低頻變換係數，允許圖像在網絡傳送過程中顯示出來。Blurhashes 並不取代這項技術，而是補充它，提供另一層漸進解碼，可以在圖像開始逐步加載之前使用。這是改善大型圖像網站或在網絡連接不強的情況下提高用戶體驗的重要功能。
 
-### Lossy Compression
+### 無損 JPEG 重新壓縮
 
-JPEG-XL is also adept at lossy compression, especially at quality levels that we as humans care about. It promises to be around 60% better than JPEG. While video-based codecs like AVIF can be competitive when given lots of CPU time, JPEG-XL is both fast and efficient for medium to high fidelity photographic imaging.
+JPEG-XL 的一個非常獨特的功能是無損 JPEG 重新壓縮，即能夠將 JPEG 輸入轉換為更小文件大小（平均小 20%）且像素逐一相同的輸出。這也是為什麼像 Meta 這樣的公司支持 JPEG-XL，因為它為互聯網上的現有 JPEG 提供了一條前進的道路。
 
-### Supported Bit Depth(s)
+### 行業支持
 
-JPEG-XL supports up to 32 bits per channel of bit depth, making it future proof for the increasingly popular HDR photos coming out of smartphones. There is essentially zero downside to encoding high bit depth with JXL relative to the resulting encode's size. Considering many smartphones take HDR photos now, JXL offers a compelling pipeline for these photos to make their way to the Web in the future especially as companies like Adobe & Apple have already embraced the new codec.
+根據 JPEG-XL 維基百科頁面：
 
-### Progressive Decode
+> 除了最初的 Cloudinary 和 Google 外，在 JPEG-XL 初步實施於網頁瀏覽器期間，許多知名行業品牌的代表公開表示支持 JPEG-XL 作為他們的首選，包括 Facebook、Adobe、Intel 和視頻電子標準協會、The Guardian、Flickr 和 SmugMug、Shopify、Krita Foundation 和 Serif Ltd。
 
-JPEG-XL provides actual progressive decode support that you can experiment with here on a supported browser like Safari, Waterfox, Thorium, Mercury, or any browser on iOS.
+Apple 也在 iOS 17 和 macOS Sonoma 中全面支援 JPEG-XL。
 
-Progressive decode is a feature only JPEG is able to offer a real implementation of, rendering low frequency transform coefficients before the rest of the image arrives to allow an image to display before the entire thing has been sent over the network. Blurhashes do not replace this technology, but rather compliment it, allowing another layer of progressive decode that can be used even before the image begins to load progressively. This is an important feature to improve the user experience on websites featuring large images, or on any website if your Internet connection isn't strong.
+### 其他特點
 
-### Lossless JPEG Re-compression
-
-An incredibly unique JPEG-XL feature is lossless JPEG re-compression, or the ability to take a JPEG input and provide an output with a smaller filesize (on average, 20% smaller) that is pixel-for-pixel identical. This is why companies like Meta have endorsed JPEG-XL, as it offers a path forward for the existing JPEGs on the Internet.
-
-### Industry Support
-
-From the JPEG-XL Wikipedia page:
-
-> Besides Cloudinary and Google originally, throughout JPEG XL's preliminary implementation in web browsers, various representatives of well-known industry brand names have publicly voiced support for JPEG XL as their preferred choice, including Facebook, Adobe, Intel and the Video Electronics Standards Association, The Guardian, Flickr and SmugMug, Shopify, the Krita Foundation, and Serif Ltd.
-
-Apple also features ecosystem-wide JPEG-XL support as of iOS 17 & macOS Sonoma.
-
-### Other Features
-
-JPEG-XL has the potential to replace popular formats like TIFF for authoring workflows due to its broad feature set. From the JXL Wikipedia, some additional features include:
+JPEG-XL 擁有廣泛的功能集，具有取代 TIFF 等流行格式的潛力，用於創作工作流程。根據 JXL 維基百科的一些附加特性包括：
 
 - Image dimensions of over a billion (2^30-1) pixels on each side.
 - Up to 4099 channels, including support for alpha transparency
