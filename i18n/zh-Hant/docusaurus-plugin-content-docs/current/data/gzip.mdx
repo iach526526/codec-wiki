@@ -1,32 +1,31 @@
----
+﻿---
 title: gzip
 sidebar_position: 2
 ---
 
 # gzip
 
-Gzip is a DEFLATE implementation for use with individual files. It is popular on Unix-like systems such as Linux & macOS, and is often seen paired with `tar` to create `.tar.gz` archives. Formats like [ZIP](../data/zip.mdx) & [PNG](../images/PNG.mdx) also use Deflate to different effects.
+Gzip 是一種基於 DEFLATE 演算法的壓縮工具，主要用於壓縮單個檔案。在類 Unix 系統（如 Linux 和 macOS）上非常流行，經常與 `tar` 搭配使用來創建 `.tar.gz` 壓縮檔案。像 [ZIP](../data/zip.mdx) 和 [PNG](../images/PNG.mdx) 這樣的格式也使用了不同變體的 DEFLATE 技術來達成不同的效果。
 
-## Format Breakdown
+## 格式解析
 
-While ZIP is a multi-file format that can compress multiple files into a single compressed file, Gzip is a single-file format that compresses a single file into a single compressed file. Both use DEFLATE for compression. ZIP supports encryption, while Gzip does not. ZIP also stores more extensive header information.
+與 ZIP 是一種能壓縮多個檔案到單一壓縮檔案的多檔案格式不同，Gzip 是一種單檔案格式，只能將單一檔案壓縮成一個壓縮檔。兩者都使用 DEFLATE 演算法進行壓縮。ZIP 支援加密，而 Gzip 則不支援。ZIP 也儲存了更豐富的標頭資訊。
 
-## History
+## 歷史背景
 
-In order to properly understand the gzip format, we must first talk about ZIP. A lot of similar or identical information is covered in our ZIP entry.
+要真正理解 Gzip 格式，我們必須先談談 ZIP 格式。在我們的 ZIP 條目中涵蓋了許多類似或相同的資訊。
 
-The ZIP format was developed by Phil Katz as an open format with an open specification, where his implementation PKZIP was shareware.
+ZIP 格式由 Phil Katz 開發，作為一種開放格式，並且其規範也是公開的，他的實作 PKZIP 是共享軟體。
 
-A [restricted ZIP format](http://www.digitalpreservation.gov/formats/fdd/fdd000361.shtml) exists and is used in other filetypes such as Java .jar archives, a slew of Microsoft Office file formats, Office Document Format files (.odt, .ods, .odp), and EPUB files for e-readers.
+目前存在一種[受限的 ZIP 格式](http://www.digitalpreservation.gov/formats/fdd/fdd000361.shtml)，該格式被用於其他檔案類型中，例如 Java .jar 檔案、一系列 Microsoft Office 檔案格式、Office 檔案格式檔案（.odt、.ods、.odp）以及電子書的 EPUB 檔案。
 
-In around 1990, Info-ZIP came onto the scene. "Info-ZIP's purpose is to provide free, portable, high-quality versions of the Zip and UnZip compressor-archiver utilities that are compatible with the DOS-based PKZIP by PKWARE, Inc." (https://infozip.sourceforge.net/). They did this successfully, leading to increased adoption of the ZIP format.
+大約在 1990 年，Info-ZIP 出現了。“Info-ZIP 的目的是提供免費、可移植、高品質的 ZIP 和 UnZip 壓縮-解壓縮工具，與 PKWARE, Inc. 的基於 DOS 的 PKZIP 兼容。”（https://infozip.sourceforge.net/）。他們成功地實現了這一目標，從而促進了 ZIP 格式的普及。
 
-In the early 1990s the [gzip](../data/gzip.mdx) format was developed, derived from the Deflate code in the Info-ZIP utilities. It was designed to replace the Unix `compress` utility, which used the (at the time) patented LZW compression algorithm which threatened its free use. Though some specific implementations of Deflate were patented by Phil Katz, the format was not, so a Deflate implementation that did not infringe on any patents was written.
+在 1990 年代初期，基於 Info-ZIP 工具中的 Deflate 程式碼，開發出了 [gzip](../data/gzip.mdx) 格式。它旨在取代 Unix 上使用的 `compress` 工具，後者使用的是當時專利的 LZW 壓縮演算法，該專利威脅到了它的免費使用。雖然某些特定的 Deflate 實作受到了 Phil Katz 的專利保護，但該格式本身並未被專利，因此編寫了不侵犯任何專利的 Deflate 實作。
 
-As a `compress` replacement, the Unix gzip utility can decompress data that was compressed using `compress`. Gzip compresses quite a bit better than Unix compress due to its use of DEFLATE, and it has very fast decompression. It also adds a CRC-32 checksum as an integrity check for the archived data. The header format permits the storage of more information than the compress format allowed, such as the original file name & the file modification time.
+作為 `compress` 的替代品，Unix 的 gzip 工具可以解壓使用 `compress` 壓縮的資料。由於 DEFLATE 的使用，gzip 的壓縮效果明顯優於 Unix compress，且解壓速度非常快。它還增加了一個 CRC-32 校驗碼，作為存檔資料的完整性檢查。標頭格式允許儲存比 compress 格式更多的資訊，例如原始檔案名稱和檔案修改時間。
 
-The popular `tar` utility, which creates an archive of files, has an option to compress directly to the `.tar.gz` format and is a very popular use caze for gzip. Since the compression of a `.tar` can take advantage of redundancy across files, ZIP often compresses less effectively than the marriage of tar & gz. `.tar.gz` is the most common archive format in use on Unix due to its very high portability, but there are better compression methods available. Some of these include [XZ](../data/xz.mdx), [bzip2](../data/bzip2.mdx), [brotli](../data/brotli.mdx), [7-zip](../data/7z.mdx), & [Zstandard](../data/zstd.mdx).
-
+受歡迎的 `tar` 工具可以直接壓縮為 `.tar.gz` 格式，這是 gzip 的一個非常常見的用例。由於 `.tar` 檔案的壓縮可以利用跨檔案的冗餘性，因此 ZIP 的壓縮效果通常不如 tar & gz 的結合來得有效。`.tar.gz` 是在 Unix 系統中最常見的壓縮格式之一，因為它具有非常高的可移植性，但也存在一些壓縮效果更好的方法，如 [XZ](../data/xz.mdx)、[bzip2](../data/bzip2.mdx)、[brotli](../data/brotli.mdx)、[7-zip](../data/7z.mdx) 和 [Zstandard](../data/zstd.mdx)。
 ## Encoding
 
 ### Linux & macOS

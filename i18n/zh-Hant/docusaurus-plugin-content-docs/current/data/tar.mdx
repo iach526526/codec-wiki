@@ -1,27 +1,27 @@
----
+﻿---
 title: tar
 sidebar_position: 8
 ---
 
 # tar
-:::danger Help Wanted
-This section is in need of contributions. If you believe you can help, please see our [Contribution Guide](../contribution-guide.mdx) to get started as a contributor!
+:::danger 我們需要你！
+此部分需要更多內容。如果你有意協助，請參考我們的 [貢獻指南](../contribution-guide.mdx) 並開始貢獻！
 :::
 
-tar, or Tape ARchive, is a archiving format and utility first developed for Version 7 Unix in 1977. It's original purpose was to collate files into one that can be stored on tape. Similarly, today it is used to bring many files together into a "tarball", which can be compressed with any general data compression algorithm.
+`tar`，即 Tape ARchive，是一種檔案打包格式和工具，最初於 1977 年為 Version 7 Unix 開發。它的原始目的是將檔案整合成一個可儲存於磁帶上的檔案。今天，它同樣用於將多個檔案聚合成「tarball」，這些 tarball 可以使用任何通用的資料壓縮算法進行壓縮。
 
-## Usage
+## 使用指南
 :::note
-This guide has been written for GNU tar on linux, however it should be applicable to BSD tar, macOS tar, and the tar command in powershell on Windows.
+本指南是基於 Linux 上的 GNU tar 編寫的，但應適用於 BSD tar、macOS tar 以及 Windows 上的 PowerShell tar 命令。
 :::
 
-### Create a tar archive
+### 創建 tar 檔案
 ```bash
-tar -cf {archive name} {files listed here}
+tar -cf {檔案名稱} {檔案列表}
 ```
-You can use `tar` to compress your archive, for example into a `.tar.gz` or `.tar.xz` archive. To do this, you either can either use a flag such as `-z`, `-j`, or `-J` ([gzip](./gzip.mdx), [bzip2](./bzip2.mdx), [xz](../data/xz.mdx)), or you can use `-a` ('automatic'), which allows it to intuit what algorithm you want from the file extension, such as `archive.tar.xz` for an xz compressed tarball.
+你可以使用 `tar` 壓縮你的檔案，例如壓縮成 `.tar.gz` 或 `.tar.xz` 檔案。為此，你可以使用 `-z`、`-j` 或 `-J` 等選項（分別對應 [gzip](./gzip.mdx)、[bzip2](./bzip2.mdx)、[xz](../data/xz.mdx)），或者使用 `-a`（自動），它可以根據檔案擴展名自動判斷所需的壓縮算法，例如 `archive.tar.xz` 代表 xz 壓縮的 tarball。
 
-GNU tar can use these compression algorithms
+GNU tar 支援以下壓縮'方法：
 * gzip (.gz)
 * bzip2 (.bz)
 * xz (.xz)
@@ -29,9 +29,9 @@ GNU tar can use these compression algorithms
 * lzma (.lzma)
 * lzop (.lzo)
 * zstd (.zstd)
-### Extract a tar archive
-```bash
-tar -xf {tarball}.tar -C {directory to extract to}
-```
-tar can extract from it's supported compressed formats, such as `archive.tar.xz` automatically, with no extra flags.
 
+### 提取 tar 檔案
+```bash
+tar -xf {tarball}.tar -C {要提取到的目錄}
+```
+`tar` 可以自動從其支援的壓縮格式中提取檔案，例如 `archive.tar.xz`，無需額外的標記。
