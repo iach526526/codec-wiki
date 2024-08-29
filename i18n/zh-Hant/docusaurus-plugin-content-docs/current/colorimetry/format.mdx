@@ -29,110 +29,85 @@ RGB 可能是最為人熟知的色彩模型，主要用於圖像編碼。RGB 包
 
 YUV，也稱為 YCbCr，是影片編碼中最常用的色彩模型。它由三個組件構成：Y（亮度，Luma）表示亮度，另外兩個色彩平面則代表顏色。一般來說，影片播放器需要將 YUV 轉換成 RGB 才能顯示，但使用 YUV 進行編碼比 RGB 有明顯的壓縮優勢。
 
-YCbCr 的主要優勢在於色彩子採樣技術。這意味著色彩（顏
+YCbCr 的主要優勢在於色彩採樣技術。這意味著色彩（顏色）組件可以用低於亮度組件的分辨率進行編碼，
+從而減少檔案大小。你可以在[後面](#chroma-subsampling)了解更多關於色彩採樣的資訊。
 
-色）組件可以用低於亮度組件的分辨率進行編碼，從而減少檔案大小。你可以在[後面](#chroma-subsampling)了解更多關於色彩採樣的資訊。
-
-### 元件順序
+### 表示順序
 
 色彩模型中的元件順序通過簡單地書寫出來來表示。例如，`RGB` 表示紅色在前，其次是綠色，最後是藍色；而 `BGR` 則表示藍色在前，綠色在中，紅色在最後。
 
 ## Bit depth
 
-Bit depth 指的是每個樣本值的位數。Bit depth 的表示方式主要有兩種：
+Bit depth 指的是每個樣本值的位元數。Bit depth 的表示方式主要有兩種：
 
 - 每個元件的位元數(bits)。例如，`RGB888` 表示 `RGB 色彩模型，
-每個顏色通道有 8 位`，而 `RGB565` 表示 `RGB 色彩模型，
+每個顏色通道有 8 bits`，而 `RGB565` 表示 `RGB 色彩模型，
 紅色通道 5 位，綠色通道 6 位，藍色通道 5 位`。
 - 每個樣本的位元數。例如，`RGB24` 表示 `RGB 色彩模型，紅色、
 綠色和藍色通道合計 24 位元`。這種表示方式不夠精確，
 因為無法確定每個通道的具體位數。`RGB565`、`RGB556` 和
  `RGB655`（儘管後兩者不太合理，因為眼睛對綠光最敏感）都被簡稱為 `RGB16`。
 
-## Packed vs planar
+## 打包格式 vs 平面格式
 
-Components can be stored either packed, where all
-components are interleaved (here, `RGB`):
-
-```
-Sample number:   1   2   3   4   5
-Data:          RGB RGB RGB RGB RGB
-```
-
-or stored separately for each component:
+色彩元件可以以兩種方式儲存：打包格式，即所有元件交錯在一起（例如 `RGB`）：
 
 ```
-Sample number: 1 2 3 4 5
-Data:          R R R R R...
-Data:          G G G G G...
-Data:          B B B B B...
+樣本編號： 1   2   3   4   5
+資料：     RGB RGB RGB RGB RGB
 ```
 
-In planar formats, many operations can be easier to implement, as it
-is possible to implement the algorithm once and then operate on all
-planes. On the other hand, packed formats are simpler and often used
-in hardware.[^vlc-wiki-yuv]
+或分開儲存，每個元件單獨儲存：
 
-## Endianness
+```
+樣本編號： 1 2 3 4 5
+資料：     R R R R R...
+資料：     G G G G G...
+資料：     B B B B B...
+```
 
-Different computer architectures store numbers differently. For more
-information, visit [the Wikipedia article on
-endianness](//wikipedia.org/wiki/Endianness). There are two main ways
-to store numbers with more than 8 bits (1 is the least significant
-byte and 4 is the most significant byte, here 4 bytes):
+在平面格式中，很多操作的實現較為簡單，因為可以一次實現算法，然後對所有平面進行操作。相對而言，打包格式較為簡單，且常用於硬件中。[^\vlc-wiki-yuv]
 
-- Most significant byte first, little endian, `4321`. This is what
-  x86-family processors use.
-- Least significant byte first, big endian, `1234`. This is what
-  PowerPC-family processors use.
+## 端序(Endianness)
 
-This can be important for color formats, as some computers might store
-it in their native endianness. VapourSynth doesn't seem to care about
-endianness, but FFmpeg does.
+不同的計算機架構以不同的方式儲存數字。了解更多訊息，請參閱[維基百科端序條目](//wikipedia.org/wiki/Endianness)。主要有兩種方式來儲存超過 8 位的數字（1 是最低有效字節，4 是最高有效字節，這裡指的是 4 字節）：
 
-For example, `RGB565` might store its two bytes in `12` or `21` order,
-and if they are read in the wrong order, it will produce garbage.
+- 最高有效字節優先，小端序，`4321`。這是 x86 系列處理器所使用的方式。
+- 最低有效字節優先，大端序，`1234`。這是 PowerPC 系列處理器所使用的方式。
 
-## Chroma subsampling
+這對色彩格式很重要，因為一些計算機可能會以其本地端序儲存資料。VapourSynth 似乎不關心端序，但 FFmpeg 會考慮這一點。
 
-In [Y'CbCr](#yuv) signals, there are three widely used
-variants of chroma subsampling:
+例如，`RGB565` 可能以 `12` 或 `21` 的順序儲存兩個字節，若讀取順序錯誤，可能會產生錯誤的資料。
 
-- 4:2:0 which has half the vertical and horizontal chroma resolution
-- 4:2:2 which has half the horizontal chroma resolution but full
-  vertical resolution
-- 4:4:4 which has full chroma resolution (no subsampling)
+## 色彩採樣
 
-4:2:2 is not particularly useful over the other options, so this guide
-will focus on 4:2:0 and 4:4:4.
+在 [Y'CbCr](#yuv) 信號中，有三種主要的色彩採樣變體：
 
-4:2:0 is the most commonly used format for videos. Nearly every DVD,
-blu-ray, camera recording, etc. uses 4:2:0 subsampling. This is because,
-in the majority of cases, human eyes do not notice the reduction in
-chroma resolution. There is very little benefit to using 4:4:4 in the
-average case.
+- 4:2:0，垂直和水平方向的色彩解析度各為一半
+- 4:2:2，水平方向的色彩解析度為一半，垂直方向為全解析度
+- 4:4:4，色彩解析度完整（無子採樣）
 
-However, there are some exceptions. The most notable is screen
-recordings. Things like text overlays, video game UI overlays,
-etc. have very fine, color-dependent detail that can be destroyed by
-chroma subsampling and result in an aliased look to the
-video. Therefore, it is recommended to use 4:4:4 subsampling when
-recording your screen, and 4:2:0 subsampling in most other cases.
+4:2:2 在實際應用中並不比其他選項更有優勢，因此本指南將重點關注 4:2:0 和 4:4:4。
 
-## Common formats
+4:2:0 是影片中最常用的格式，幾乎所有 DVD、藍光光碟、相機錄影等都使用 4:2:0 子採樣。這是因為大多數情況下，人眼不容易察覺色彩解析度的減少。對於普通情況，使用 4:4:4 的效果提升並不顯著。
 
-| VS name     | FFmpeg name                                                                 | Meaning                                                                                               |
-| ----------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `GRAY8`     | `gray8`                                                                     | Brightness only, 8 bits, packed                                                                       |
-| `GRAY16`    | `gray16le`, `gray16be` (the suffix specifies the [endianness](#endianness)) | Brightness only, 16 bits                                                                              |
-| `RGB888`    | `rgb24`                                                                     | red, green, blue, 8 bits per component                                                                |
-| `YUV420P8`  | `yuv420p`                                                                   | luma, chroma blue, chroma red, 8 bits per component, planar, 4:2:0 [subsampling](#chroma-subsampling) |
-| `YUV422P8`  | `yuv422p`                                                                   | luma, chroma blue, chroma red, 8 bits per component, planar, 4:2:2 subsampling                        |
-| `YUV444P8`  | `yuv444p`                                                                   | luma, chroma blue, chroma red, 8 bits per component, planar, no subsampling                           |
-| `YUV420P10` | `yuv420p10le`, `yuv420p10le`                                                | luma, chroma blue, chroma red, 10 bits per component, planar, 4:2:0 subsampling                       |
-| `YUV422P10` | `yuv422p10le`, `yuv422p10le`                                                | luma, chroma blue, chroma red, 10 bits per component, planar, 4:2:2 subsampling                       |
-| `YUV444P10` | `yuv444p10le`, `yuv444p10le`                                                | luma, chroma blue, chroma red, 10 bits per component, planar, no subsampling                          |
+但也有一些例外。最顯著的是螢幕錄製。像文本覆蓋、遊戲介面等細緻的顏色依賴細節，
+可能會因色彩採樣而變得模糊，影響影片的清晰度。因此，建議在螢幕錄製時使用 4:4:4 子採樣，而在其他大多數情況下使用 4:2:0 子採樣。
 
-## References
+## 常見格式
+
+| VS 名稱      | FFmpeg 名稱                                                                 | 意義                                                                                                 |
+| ------------ | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `GRAY8`      | `gray8`                                                                      | 只有亮度，8 位元，打包格式                                                                         |
+| `GRAY16`     | `gray16le`, `gray16be` (後綴指定 [字節序](#endianness))                        | 只有亮度，16 位元                                                                                   |
+| `RGB888`     | `rgb24`                                                                      | 紅色、綠色、藍色，每個分量 8 位元                                                                  |
+| `YUV420P8`   | `yuv420p`                                                                    | 亮度、藍色色彩、紅色色彩，每個分量 8 位元，平面格式，4:2:0 [子取樣](#chroma-subsampling)             |
+| `YUV422P8`   | `yuv422p`                                                                    | 亮度、藍色色彩、紅色色彩，每個分量 8 位元，平面格式，4:2:2 子取樣                                                                                |
+| `YUV444P8`   | `yuv444p`                                                                    | 亮度、藍色色彩、紅色色彩，每個分量 8 位元，平面格式，無子取樣                                                                                     |
+| `YUV420P10`  | `yuv420p10le`, `yuv420p10be`                                                | 亮度、藍色色彩、紅色色彩，每個分量 10 位元，平面格式，4:2:0 子取樣                                                                                |
+| `YUV422P10`  | `yuv422p10le`, `yuv422p10be`                                                | 亮度、藍色色彩、紅色色彩，每個分量 10 位元，平面格式，4:2:2 子取樣                                                                                |
+| `YUV444P10`  | `yuv444p10le`, `yuv444p10be`                                                | 亮度、藍色色彩、紅色色彩，每個分量 10 位元，平面格式，無子取樣                                                                                   |
+
+## 參考資料
 
 [^vlc-wiki-yuv]: [YUV - VideoLAN Wiki](https://wiki.videolan.org/YUV/#Packed_formats)
