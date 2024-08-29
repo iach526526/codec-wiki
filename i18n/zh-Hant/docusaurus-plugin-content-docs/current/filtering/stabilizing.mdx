@@ -1,40 +1,40 @@
----
+﻿---
 title: Stabilizing
 sidebar_position: 7
 ---
 
 # Stabilizing
 
-:::danger Help Wanted
-This section is in need of contributions. If you believe you can help, please see our [Contribution Guide](../contribution-guide.mdx) to get started as a contributor!
+:::danger 我們需要你！
+此部分需要更多內容。如果你有意協助，請參考我們的 [貢獻指南](../contribution-guide.mdx) 並開始貢獻！
 :::
 
-## Overview
+## 概要
 
-Stabilizing is a process that reduces unwanted camera movement and shakes in a video clip. This is particularly important, as unpredictable global movement (such as that from a handheld camera) can decrease overall encoding efficiency. The most popular way to stabilize video with [FFmpeg](../utilities/ffmpeg.mdx) is to use the [VidStab](https://github.com/georgmartius/vid.stab) library. To do this, you need a build of FFmpeg compiled with `--enable-libvidstab`.
+ Stabilizing 是一個減少影片片段中不必要的相機運動和抖動的過程。這尤其重要，因為不可預測的全球運動（如手持攝影機所造成的）可能會降低整體編碼效率。使用 [FFmpeg](../utilities/ffmpeg.mdx)  Stabilizing 影片的最受歡迎方法是使用 [VidStab](https://github.com/georgmartius/vid.stab) 函式庫。為此，你需要一個編譯時包含 `--enable-libvidstab` 選項的 FFmpeg 版本。
 
-VidStab actually has two filters within FFmpeg.
+VidStab 實際上在 FFmpeg 中有兩個濾鏡。
 
 ```shell
 ffmpeg -hide_banner -filters | grep vidstab
- ... vidstabdetect     V->V       Extract relative transformations, pass 1 of 2 for stabilization (see vidstabtransform for pass 2).
- ... vidstabtransform  V->V       Transform the frames, pass 2 of 2 for stabilization (see vidstabdetect for pass 1).
+ ... vidstabdetect     V->V       提取相對變換， Stabilizing 的第 1 步（詳見 vidstabtransform 以進行第 2 步）。
+ ... vidstabtransform  V->V       轉換幀， Stabilizing 的第 2 步（詳見 vidstabdetect 以進行第 1 步）。
 ```
 
-The `vidstabdetect` filter is used for the first pass, where the video transformations file (`.trf`) is generated, and `vidstabtransform` is used for the second pass, where transformations are actually applied. This implies that stabilization cannot be achieved in real-time.
+`vidstabdetect` 濾鏡用於第一步，其中生成影片變換檔案（`.trf`），而 `vidstabtransform` 則用於第二步，其中實際應用變換。這意味著 Stabilizing 無法實時完成。
 
-## Usage
+## 使用方法
 
-To stabilize a video using default parameters, you need to run two FFmpeg commands:
+要使用預設參數 Stabilizing 影片，你需要執行兩個 FFmpeg 命令：
 
 ```shell
 ffmpeg -i input.mp4 -vf vidstabdetect -f null -
 ffmpeg -i input.mp4 -vf vidstabtransform output.mp4
 ```
 
-A file called `transforms.trf` will be created in the directory where you run FFmpeg. After the second step is finished, you can safely remove it. The resulting `output.mp4` video will now have reduced shakiness.
+在你執行 FFmpeg 的目錄中將會創建一個名為 `transforms.trf` 的檔案。第二步完成後，你可以安全地刪除它。生成的 `output.mp4` 影片將會減少抖動。
 
-To stabilize a high-framerate video with strong camera movement, set its transformations filename to `a.trf`, and increase the output field of view. You can use the following commands:
+為了穩定高幀率且相機運動劇烈的影片，請將變換檔案命名為 a.trf，並擴大輸出視角。可以使用以下命令：
 
 ```shell
 ffmpeg -i input.mp4 -vf vidstabdetect=shakiness=8:result=a.trf -f null -
@@ -45,29 +45,29 @@ ffmpeg -i input.mp4 -vf vidstabtransform=smoothing=30:zoom=-5:input=a.trf output
 Remember to set appropriate video/audio codec parameters in the command before `output.mp4`. You must not use `-c:v copy`, as the video will be transformed.
 :::
 
-### vidstabdetect Parameters
+### vidstabdetect 參數
 
-- `result`: Sets the output `.trf` file location
-- `shakiness`: The amount of movement reduction, where `1` is the least reduction, `10` is the most reduction (highest stabilization), and `5` is the default
-- `accuracy`: The accuracy of movement reduction, where `1` is the least accurate, `15` is the most accurate, and `15` is also the default. This setting influences CPU usage during detection. FFmpeg does not allow setting a value lower than `3`. `3` gave a processing speed of `21 fps`, and `15` gave `14 fps`. The process itself is rather CPU-intensive.
+- `result`：指定輸出 `.trf` 檔案的儲存位置。
+- `shakiness`：設定減少運動的程度，數值越高，減少效果越強（穩定化效果越佳），預設為 `5`。`1` 為最少減少，`10` 為最多減少。
+- `accuracy`：運動減少的準確度，數值越高，準確度越高，預設為 `15`。該設定會影響檢測時的 CPU 使用率。FFmpeg 不允許設置低於 `3` 的值。`3` 的處理速度為 `21 fps`，而 `15` 的處理速度為 `14 fps`。該過程相當耗費 CPU 資源。
 
-For a description of all possible parameters, take a look [here](https://ffmpeg.org/ffmpeg-filters.html#vidstabdetect-1).
+更多參數說明，請參見 [這裡](https://ffmpeg.org/ffmpeg-filters.html#vidstabdetect-1)。
 
-### vidstabtransform Parameters
+### vidstabtransform 參數
 
-- `input`: Sets the input `.trf` file location created by `vidstabdetect`
-- `smoothing`: The number of frames in the future and past used for movement estimation, where the default is `10` (so 10 past and 10 future frames)
-- `zoom`: The amount of zoom expressed in percentage, where the default is `0%`. It can be negative, which will create a zoom-out effect.
-- `interpol`: The type of interpolation used, where `bilinear` is the default.
-  - `no`: No interpolation
-  - `linear`: Only horizontal
-  - `bilinear`: Faster but can result in blurry output
-  - `bicubic`: Slower
+- `input`：指定由 `vidstabdetect` 生成的 `.trf` 檔案的位置。
+- `smoothing`：用於運動估算的幀數，包含未來和過去的幀數，預設為 `10`（即使用 10 幀的過去和未來資料）。
+- `zoom`：縮放量，以百分比表示，預設為 `0%`。負值會產生縮小效果。
+- `interpol`：插值方式，預設為 `bilinear`。
+  - `no`：不進行插值
+  - `linear`：僅水平插值
+  - `bilinear`：速度較快，但可能造成畫面模糊
+  - `bicubic`：速度較慢
 
-For a description of all possible parameters, take a look [here](https://ffmpeg.org/ffmpeg-filters.html#vidstabtransform-1).
+更多參數說明，請參見 [這裡](https://ffmpeg.org/ffmpeg-filters.html#vidstabtransform-1)。
 
-## Notes
+## 注意事項
 
-- The process of stabilization is lossy and can reduce the quality of the video, mainly due to the zoom and interpolation used.
-- You might notice overall wobbliness in the resulting video file, especially with higher stabilization levels. This is just how this filter works.
-- As you will need to run two passes anyway, you might also consider using two-pass encoding, depending on your use case.
+- Stabilizing過程可能會損失影片品質，主要是由於縮放和插值的影響。
+- 最終影片可能會顯示整體搖晃，特別是在使用高穩定化設置時，這是濾鏡的正常運作方式。
+- 由於需要進行兩次處理，您也可以考慮使用兩次編碼，以達到更佳效果。

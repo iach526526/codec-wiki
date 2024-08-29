@@ -40,61 +40,52 @@ sidebar_position: 2
 3. [AviSynth](http://avisynth.nl/index.php/Main_Page)
 
 
-VapourSynth 是 AviSynth 的 21 世紀升級版和重寫，AviSynth 最初由 Ben Rudiak-Gould、Edwin van Eggelen、Klaus Post、Richard Berg 和 Ian Brabham 於 2000 年 5 月創建。這次完全重寫的一個最吸引人的特點之一是改進的多線程能力，這是在 AviSynth 的老舊基礎設施中存在困難的領域。
+VapourSynth 是 AviSynth 的 21 世紀升級版和重寫，AviSynth 最初由 Ben Rudiak-Gould、Edwin van Eggelen、Klaus Post、Richard Berg 和 Ian Brabham 於 2000 年 5 月創建。這次完全重寫的一個最吸引人的特點之一是改進的多執行緒能力，這是在 AviSynth 的老舊基礎設施中存在困難的領域。
 一些老牌的 AviSynth 用戶對轉向 VapourSynth 持保留態度，偏好保留熟悉的工作流程。這種偏好並沒有錯，因為這兩種工具在影片處理中都有其優點；不過，Codec Wiki 的 *Filtering* 部分主要集中於 VapourSynth（偶爾也會提到 FFmpeg）。值得注意的是，使用 VapourSynth 需要對 Python 有基本了解，因為濾鏡處理過程涉及腳本編寫。
 
-## Installation
+## 安裝
 
 ### Microsoft Windows
 
-- At the time of writing, Python 3.12 is required. This will change in the future so consult from [their website](http://www.vapoursynth.com/doc/installation.html)
-- Download the installer (`.exe`) unless you require portability
-- Install it
+- 目前要求 Python 3.12。未來可能會有所變動，請查閱 [官方網站](http://www.vapoursynth.com/doc/installation.html) 以獲取最新資訊。
+- 下載安裝程序（`.exe`），除非你需要免安裝版。
+- 安裝它。
 
 ### Arch Linux
 
-Currently, Arch is the best Linux distribution for working with Vapoursynth due to the fact that
-the vast majority of filters and plugins are available in the AUR. This makes installing and updating filters easy.
-If you are not already, we recommend using an AUR helper such as
-[paru](https://github.com/Morganamilo/paru) or [yay](https://github.com/Jguer/yay).
+目前，Arch 是使用 Vapoursynth 的最佳 Linux 發行版，因為絕大多數的過濾器和擴充套件都可以在 AUR 中找到。這使得安裝和更新過濾器變得簡單。如果你尚未使用，我們建議使用 AUR 助手，例如 [paru](https://github.com/Morganamilo/paru) 或 [yay](https://github.com/Jguer/yay)。
 
-To install vapoursynth, simply install the `vapoursynth` package from the official repositories using pacman or your preferred AUR helper.
+要安裝 Vapoursynth，僅需使用 pacman 或你喜好的 AUR 助手從官方倉庫安裝 `vapoursynth` 包。
 
-Plugins are all prefixed with `vapoursynth-plugin-`, such as `vapoursynth-plugin-lsmashsource-git`, and as such can be discovered easily.
+擴充套件都以 `vapoursynth-plugin-` 為前綴，例如 `vapoursynth-plugin-lsmashsource-git`，因此可以輕鬆發現。
 
-### Other Linux
+### 其他 Linux
 
-Vapoursynth is supported on all Linux distributions. Installation methods may vary by distribution.
+Vapoursynth 支援所有 Linux 發行版。安裝方法可能因發行版而異。
 
-Contributions would be helpful to provide instructions for more distributions.
+對於其他發行版提供安裝指導會非常有幫助。
 
-## Previewing
+## 預覽
 
-There are currently two leading previewers for Vapoursynth. If you want to preview your scripts with capabilities such as seeking,
-you will need to use one of these applications.
+目前有兩個主要的 Vapoursynth 預覽工具。如果你想預覽腳本並進行尋找等操作，你需要使用這些應用程序之一。
 
-The first is YomkioR's [Vapoursynth Editor](https://github.com/YomikoR/VapourSynth-Editor/), which includes a built-in code editor alongside a video previewer.
-This makes it extremely easy to set up for users who are new to Vapoursynth.
+第一個是 YomkioR 的 [Vapoursynth Editor](https://github.com/YomikoR/VapourSynth-Editor/)，它包括內建的代碼編輯器和影片預覽器。這使得對於新手用戶來說非常易於設定。
 
-The second is JET's fork of [vs-preview](https://github.com/Jaded-Encoding-Thaumaturgy/vs-preview), which is a standalone previewer with utilities for
-tasks such as cropping, screenshotting, and uploading comparisons. This tool is more advanced than Vapoursynth Editor, but does not include an editor,
-so you will need to pair it with an editor such as Visual Studio Code. The Github for vs-preview includes instructions for setting this up.
+第二個是 JET 的 [vs-preview](https://github.com/Jaded-Encoding-Thaumaturgy/vs-preview) 的分支，它是一個獨立的預覽工具，具有裁剪、截圖和比較上傳等實用工具。這個工具比 Vapoursynth Editor 更加高級，但不包括編輯器，因此你需要與像 Visual Studio Code 這樣的編輯器配合使用。vs-preview 的 GitHub 包含了設定說明。
 
-## Output
+## 輸出
 
-Vapoursynth provides a command-line utility called `vspipe` for outputting filtered video. Using this utility to pipe y4m video
-is the most common way to use Vapoursynth with an encoder.
+Vapoursynth 提供了一個名為 `vspipe` 的命令行工具，用於輸出過濾後的影片。使用此工具將 y4m 影片傳輸是最常見的將 Vapoursynth 與編碼器配合使用的方法。
 
-For example, the following command would pipe the output from a Vapoursynth script into x264:
+例如，以下命令將 Vapoursynth 腳本的輸出傳輸到 x264：
 
 `vspipe -c y4m input.vpy - | x264 --demuxer y4m -o output.mkv -`
 
-## Source Filters
+## 來源濾鏡
 
-For Vapoursynth to produce output, it has to load a video in some way. This way is with source filters.
+為了使 Vapoursynth 產生輸出，它必須以某種方式載入影片。這種方式就是使用來源濾鏡。
 
-The most basic method is using `BlankClip` to create a clip of a certain resolution and frame rate. For example, the following
-script would give us a blank clip at 640x480:
+最基本的方法是使用 `BlankClip` 創建一個具有特定解析度和幀率的片段。例如，以下腳本會生成一個 640x480 的空白片段：
 
 ```python
 import vapoursynth as vs
@@ -106,17 +97,13 @@ clip = core.std.BlankClip(width=640, height=480)
 clip.set_output(0)
 ```
 
-But a plain black video isn't very useful, is it? We want to load real videos so we can do filtering on them.
-For this, there are a few different source filters we can look at.
+但單純的黑色影片並不太實用，是嗎？我們希望載入真實影片，以便對其進行過濾。為此，我們可以查看幾種不同的來源濾鏡。
 
 ### LSmashSource
 
-[LSmashSource](https://github.com/HomeOfAviSynthPlusEvolution/L-SMASH-Works) is a source filter using lsmash as the underlying source library.
-It is the most commonly used source filter, and is generally reliable for most source formats, though may have frame accuracy issues
-when seeking with certain input formats, such as VC-1. If this is a concern, it can be recommended to encode to lossless first before
-using any encoding methods that require seeking, such as av1an.
+[LSmashSource](https://github.com/HomeOfAviSynthPlusEvolution/L-SMASH-Works) 是一個使用 lsmash 作為底層源庫的來源濾鏡。它是最常用的來源濾鏡，通常對大多數源格式都很可靠，雖然在某些輸入格式（如 VC-1）尋找時可能會有幀精確度問題。如果這是個問題，建議首先編碼為無損格式，再使用需要尋找的編碼方法，如 av1an。
 
-Here is an example of loading a video file using LSmashSource:
+以下是使用 LSmashSource 載入影片的範例：
 
 ```python
 import vapoursynth as vs
@@ -130,9 +117,9 @@ clip.set_output(0)
 
 ### ffms2
 
-[ffms2](https://github.com/FFMS/ffms2) is a source filter based on ffmpeg. It generally should give the same results as LSmashSource,
-especially when using the git version which has fixed support for newer formats such as AV1. If having issues with a source file with LSmashSource,
-ffms2 can be a good fallback to try.
+[ffms2](https://github.com/FFMS/ffms2) 是基於 ffmpeg 的來源濾鏡。它通常應該能提供與 LSmashSource 相同的結果，
+尤其是使用了已修正支援更新格式（如 AV1）的 git 版本。如果在使用 LSmashSource 時遇到來源檔案問題，
+ffms2 可以是一個不錯的備選方案。
 
 ```python
 import vapoursynth as vs
@@ -146,10 +133,9 @@ clip.set_output(0)
 
 ### BestSource
 
-[BestSource](https://github.com/vapoursynth/bestsource/) is also based on ffmpeg, but uses additional techniques
-to ensure frame accuracy in all scenarios with all input formats. The downside is that it must decode the entire video
-during indexing, which means the first load of a given video will take longer. Subsequent loads will be quick, because
-BestSource caches the index in a file.
+[BestSource](https://github.com/vapoursynth/bestsource/) 也是基於 FFmpeg，
+但使用了額外的技術以確保在所有場景和所有輸入格式中都能達到幀準確性。缺點是，它必須在索引時解碼整個影片，
+這意味著第一次加載特定影片時會花費較長時間。然而，隨後的加載會很快，因為 BestSource 會將索引暫存到一個檔案中。
 
 ```python
 import vapoursynth as vs
@@ -164,5 +150,4 @@ clip = core.bs.VideoSource(
 clip.set_output(0)
 ```
 
-We add the `cachepath="/"` setting to emulate the behavior of the other source filters, which is to place the index file next to the source video.
-This helps with portability and cleaning up after ourselves. The default behavior is to place the index file in a temporary directory local to the machine.
+我們添加了 `cachepath="/"` 設定來模擬其他源過濾器的行為，即將索引檔案放在源影片旁邊。這有助於提高可攜性和清理工作。預設行為是將索引檔案放在機器本地的臨時資料夾中。

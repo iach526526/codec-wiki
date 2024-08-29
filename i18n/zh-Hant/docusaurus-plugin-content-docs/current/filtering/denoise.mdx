@@ -5,21 +5,21 @@ sidebar_position: 8
 
 # Denoise
 
-:::danger Help Wanted
-This section is in need of contributions. If you believe you can help, please see our [Contribution Guide](../contribution-guide.mdx) to get started as a contributor!
+:::danger 我們需要你！
+此部分需要更多內容。如果你有意協助，請參考我們的 [貢獻指南](../contribution-guide.mdx) 並開始貢獻！
 :::
 
-## Overview
+## 概要
 
-Denoising involves removing random noise from the video. Such noise can result from film grain, signal interference or simply low light conditions. In any case, noise can greatly reduce compression efficiency especially with older video codecs that don't support film grain synthesis.
+去噪涉及從視頻中去除隨機噪聲。這種噪聲可能來自電影顆粒、信號干擾或簡單的低光條件。無論如何，噪聲都會大大降低壓縮效率，尤其是在不支持電影顆粒合成的舊視頻編碼器中。
 
-In [FFmpeg](../utilities/ffmpeg.mdx) there are two filters made for denoising:
+在 [FFmpeg](../utilities/ffmpeg.mdx) 中，有兩個專為去噪而設的濾鏡：
 - [hqdn3d](#hqdn3d)
 - [nlmeans](#nlmeans)
 
 ## hqdn3d
 
-hqdn3d is a fast, high quality 3d denoising filter which improves compressibility. Can be applied to images and videos.
+hqdn3d 是一個快速、高質量的 3D 去噪濾鏡，可以提高壓縮性。可應用於圖像和視頻。
 
 ### Usage
 
