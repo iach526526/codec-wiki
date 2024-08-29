@@ -1,69 +1,53 @@
----
+﻿---
 title: Color Formats
 sidebar_position: 2
 ---
 
-# Color Formats
 
-To represent color values, a format is agreed upon. Color formats are
-made up of three things, the [color model](#color-models)--which includes the
-[order of the components](#component-order) and sometimes [chroma subsampling](#chroma-subsampling)--
-the [bit depth](#bit-depth), and whether it is a [packed or a planar format](#packed-vs-planar).
-In some cases, [endianness](#endianness) may be important.
 
-## Color Models
+# 色彩格式
 
-A color model is a method of representing colors in a video or image using data.
-Different color models store color and brightness information in different ways.
-There are many different color models, but this section will cover the
-models most commonly used for images and video.
+為了表示顏色值，需要確定一種色彩格式。色彩格式主要包括三個部分：
+[色彩模型](#color-models)（包括[元件順序](#component-order)以及有時的
+[色彩採樣](#chroma-subsampling)）、[bit-depth](#bit-depth)，
+以及是否為[打包格式或平面格式](#packed-vs-planar)。
+在某些情況下，[endianness](#endianness) 也可能是需要考慮的因素。
+
+## 色彩模型
+
+色彩模型是一種用於在影片或圖像中以資料形式表示顏色的方法。
+不同的色彩模型以不同方式儲存顏色和亮度訊息。雖然有許多不同的色彩模型，
+本節將重點介紹那些最常用於圖像和影片的模型。
 
 ### RGB
 
-RGB is probably the most well-known color model, and is primarily used
-in image encoding. RGB consists of three color channels, Red, Green,
-and Blue, which are then combined to determine the final color of each
-pixel. Typically, RGB is the final model that a monitor or TV
-will use to display images, because the pixels on a screen are made up
-of red, green, and blue LEDs, although it is not commonly used for video
-encoding because other models can provide better compression.
+RGB 可能是最為人熟知的色彩模型，主要用於圖像編碼。RGB 包含紅色、綠色和藍色三個顏色通道，這
+些通道會合併以確定每個像素的顏色。RGB 是顯示器和電視顯示圖像時所使用的最終色彩模型，因為屏幕上的像素由紅、綠、藍三種 LED 組成。
+儘管如此，RGB 不常用於影片編碼，因為其他色彩模型能提供更高的壓縮效率。
 
 ### YUV
 
-YUV, also known as YCbCr, is the most widely used color model for
-video encoding. It consists of three components: Y aka Luma, which
-represents luminance or brightness, and two chroma planes, which
-represent color. Generally a video player will have to convert a YUV
-video into RGB before it can be rendered, but there are significant
-compression benefits to using YUV over RGB for video.
+YUV，也稱為 YCbCr，是影片編碼中最常用的色彩模型。它由三個組件構成：Y（亮度，Luma）表示亮度，另外兩個色彩平面則代表顏色。一般來說，影片播放器需要將 YUV 轉換成 RGB 才能顯示，但使用 YUV 進行編碼比 RGB 有明顯的壓縮優勢。
 
-The most notable reason to use YCbCr is an optimization called chroma
-subsampling. This means that the chroma components can be encoded at a
-lower resolution than the luma components, which results in a smaller
-output file. You can read more about chroma subsampling [further below](#chroma-subsampling).
+YCbCr 的主要優勢在於色彩子採樣技術。這意味著色彩（顏
 
-### Component order
+色）組件可以用低於亮度組件的分辨率進行編碼，從而減少檔案大小。你可以在[後面](#chroma-subsampling)了解更多關於色彩採樣的資訊。
 
-The order in which the components in a color model are arranged is simply
-represented by writing them out. For example, `RGB` for red first,
-then green, then blue, or `BGR` for blue, green, red.
+### 元件順序
+
+色彩模型中的元件順序通過簡單地書寫出來來表示。例如，`RGB` 表示紅色在前，其次是綠色，最後是藍色；而 `BGR` 則表示藍色在前，綠色在中，紅色在最後。
 
 ## Bit depth
 
-A bit depth is how many bits are available to store the sample
-value. There are two main ways to specify the bit depth in a :
+Bit depth 指的是每個樣本值的位數。Bit depth 的表示方式主要有兩種：
 
-- bits per component. Here, `RGB888` reads as `RGB color model, with 8
-bits for the red component, 8 bits for the green component, and 8
-bits for the blue component` and `RGB565` reads as `RGB color model,
-with 5 bits for the red component, 6 bits for the green component,
-and 5 bits for the blue component`.
-- bits per sample. Here, `RGB24` reads as `RGB color model, with 24
-bits in total for the red, green, and blue components`. This is
-  ambiguous, because one does not know exactly how many bits are
-  allocated to each component. `RGB565`, `RGB556`, and `RGB655` (even
-  though the latter ones do not make much sense as the eye is most
-  sensitive to green light) all become `RGB16`.
+- 每個元件的位元數(bits)。例如，`RGB888` 表示 `RGB 色彩模型，
+每個顏色通道有 8 位`，而 `RGB565` 表示 `RGB 色彩模型，
+紅色通道 5 位，綠色通道 6 位，藍色通道 5 位`。
+- 每個樣本的位元數。例如，`RGB24` 表示 `RGB 色彩模型，紅色、
+綠色和藍色通道合計 24 位元`。這種表示方式不夠精確，
+因為無法確定每個通道的具體位數。`RGB565`、`RGB556` 和
+ `RGB655`（儘管後兩者不太合理，因為眼睛對綠光最敏感）都被簡稱為 `RGB16`。
 
 ## Packed vs planar
 

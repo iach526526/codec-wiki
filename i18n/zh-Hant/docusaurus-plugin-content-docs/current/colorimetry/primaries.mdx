@@ -1,54 +1,41 @@
----
+﻿---
 title: Color Primaries
 sidebar_position: 4
 ---
 
-# Color Primaries
+### 色彩原色
 
-This section details the first of three settings that are important
-for retaining accurate color when encoding videos, those settings
-being primaries, color matrix, and transfer characteristics.
+本節詳細介紹了在編碼影片時保持色彩準確的重要三個設定之一，即色彩原色、顏色矩陣和轉換特性。
 
-Color primaries are used to indicate the correct coordinates for the
-red, blue, and green colors. There are historical reasons for
-[why so many standards exist](https://xkcd.com/927/), and this guide
-will not go in depth into history lessons, but will explain what
-primaries are available and when to use each one.
+色彩原色用來指示紅色、藍色和綠色的正確坐標。存在許多標準的原因[在這裡](https://xkcd.com/927/)可以找到，
+雖然這篇指南不會深入歷史，但會解釋可用的原色及其適用情境。
 
-Note that for primaries, matrices, and transfer, you can view the values
-that are set on a video using a tool like [MediaInfo](https://mediaarea.net/en/MediaInfo).
-If there are no values set, the player will need to guess which values
-to use. A safe default assumption for most modern videos is BT.709,
-although this may vary depending on source and resolution for the video.
-It is strongly recommended to set the correct values when encoding.
+請注意，對於原色、矩陣和轉換特性，你可以使用像[MediaInfo](https://mediaarea.net/en/MediaInfo)這樣的工具查看影片上設定的值
+。如果沒有設定值，播放器將需要猜測應使用哪些值。對於大多數現代影片，BT.709 是一個安全的預設假設，但根據影片的來源和分辨率，這可能會有所不同。
+強烈建議在編碼時設定正確的值。
 
-Each setting has at least one name and exactly one integer value
-representing it--most encoder softwares will accept one or more of the names,
-but some tooling such as Vapoursynth and MKVToolnix accepts the integer values
-instead. The integer values are defined within universal specifications,
-and as such they will be the same across all encoding and playback tools.
+每個設定至少有一個名稱和恰好一個整數值來表示——大多數編碼軟件將接受一個或多個名稱，但一些工具如 Vapoursynth 和 MKVToolnix 則接受整數值。
+整數值在通用規範中已定義，因此在所有編碼和播放工具中都是相同的。
 
 ### 1: BT.709
 
-BT.709 is the standard used for modern high-definition video, and is a safe default assumption.
+BT.709 是現代高清影片使用的標準，也是安全的預設假設。
 
-This color primary setting is used in the following standards:
+這個色彩原色設定在以下標準中使用：
 
 - Rec. ITU-R BT.709-6
-- Rec. ITU-R BT.1361-0 conventional colour gamut
-  system and extended colour gamut system (historical)
-- IEC 61966-2-1 sRGB or sYCC
+- Rec. ITU-R BT.1361-0 常規色域系統和擴展色域系統（歷史）
+- IEC 61966-2-1 sRGB 或 sYCC
 - IEC 61966-2-4
-- Society of Motion Picture and Television Engineers
-  (SMPTE) RP 177 (1993) Annex B
+- 影片和電視工程學會（SMPTE）RP 177 (1993) 附錄 B
 
-### 2: Unspecified
+### 2: 未指定
 
-This value indicates that no color primary is set for the video, and the player must decide which value to use.
+這個值表示影片未設定色彩原色，播放器需要決定使用哪個值。
 
-mpv will use the following heuristics in this case:
+mpv 在這種情況下將使用以下啟發式規則：
 
-```
+```python
 if matrix == "BT.2020" {
     "BT.2020"
 } else if matrix == "BT.709" {
@@ -66,71 +53,68 @@ if matrix == "BT.2020" {
 
 ### 4: BT.470M
 
-BT.470M is a standard that was used in analog television systems in the United States.
+BT.470M 是一個曾在美國類比電視系統中使用的標準。
 
-This color primary setting is used in the following standards:
+這個色彩原色設定在以下標準中使用：
 
-- Rec. ITU-R BT.470-6 System M (historical)
-- United States National Television System Committee
-  1953 Recommendation for transmission standards for
-  color television
-- United States Federal Communications Commission
-  (2003) Title 47 Code of Federal Regulations 73.682 (a) (20)
+- Rec. ITU-R BT.470-6 系統 M（歷史）
+- 美國國家電視系統委員會 1953 年關於彩色電視傳輸標準的建議
+- 美國聯邦通信委員會（2003）第 47 條聯邦法規第 73.682 (a) (20) 節
 
 ### 5: BT.470BG
 
-BT.470BG is a standard that was used for European (PAL) television systems and DVDs.
+BT.470BG 是一個曾在歐洲（PAL）電視系統和 DVD 中使用的標準。
 
-This color primary setting is used in the following standards:
+這個色彩原色設定在以下標準中使用：
 
 - Rec. ITU-R BT.470-6 System B, G (historical)
 - Rec. ITU-R BT.601-7 625
 - Rec. ITU-R BT.1358-0 625 (historical)
-- Rec. ITU-R BT.1700-0 625 PAL and 625 SECAM
+- Rec. ITU-R BT.1700-0 625 PAL 和 625 SECAM
 
 ### 6: SMPTE 170M
 
-SMPTE 170M is a standard that was used for NTSC television systems and DVDs.
+SMPTE 170M 是一個曾在 NTSC 電視系統和 DVD 中使用的標準。
 
 - Rec. ITU-R BT.601-7 525
-- Rec. ITU-R BT.1358-1 525 or 625 (historical)
+- Rec. ITU-R BT.1358-1 525 或 625 (historical)
 - Rec. ITU-R BT.1700-0 NTSC
 - SMPTE ST 170 (2004)
 
 ### 7: SMPTE 240M
 
-SMPTE 240M was an interim standard used during the early days of HDTV (1988-1998). Its primaries are equivalent to SMPTE 170M.
+SMPTE 240M 是在早期 HDTV（1988-1998）期間使用的過渡標準，其色彩原色與 SMPTE 170M 相同。
 
 ### 8: Film
 
-This represents generic film using Illuminant C.
+此設定代表使用 Illuminant C 的通用電影色彩。
 
 ### 9: BT.2020
 
-BT.2020 is a standard used for ultra-high-definition video, i.e. 4K and higher. It may be used with or without HDR, as HDR is defined by the transfer characteristics.
+BT.2020 是用於超高畫質影片（即 4K 及更高）的標準。它可以與 HDR 一起使用或單獨使用，因為 HDR 是由轉換特性定義的。
 
-This color primary setting is used in the following standards:
+此色彩原色設定在以下標準中使用：
 
 - Rec. ITU-R BT.2020-2
 - Rec. ITU-R BT.2100-2
 
 ### 10: SMPTE 428
 
-SMPTE 428 is used for D-Cinema Distribution Masters, aka DCDM.
+SMPTE 428 用於數位影院發行母帶，即 DCDM。
 
-This color primary setting is used in the following standards:
+此色彩原色設定在以下標準中使用：
 
 - SMPTE ST 428-1 (2019)
-- (CIE 1931 XYZ as in ISO 11664-1)
+- (CIE 1931 XYZ，如 ISO 11664-1)
 
 ### 11: DCI-P3
 
-DCI-P3 is a wide-gamut colorspace used alongside RGB. It is used internally by most HDR monitors on the market.
+DCI-P3 是一種廣色域色彩空間，與 RGB 一起使用。它被市場上大多數 HDR 顯示器內部使用。
 
 ### 12: Display-P3
 
-Display-P3 is a variant of DCI-P3 developed by Apple because they wanted to be different.
+Display-P3 是 DCI-P3 的變體，由 Apple 開發，因為他們希望有所不同。
 
 ### 22: EBU Tech 3213
 
-Nobody really knows what this is.
+沒有人真正知道這是什麼。
