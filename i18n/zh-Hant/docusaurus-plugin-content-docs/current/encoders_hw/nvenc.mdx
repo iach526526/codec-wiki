@@ -5,18 +5,18 @@ sidebar_position: 1
 
 # NVENC
 
-:::caution Pending Review
-The content in this entry may not be entirely accurate, & is pending further review to assess the quality of the information.
+:::caution 待審核
+本條目內容尚待審核，其準確性可能需要進一步確認。 
 :::
 
-NVENC for NVIDIA GPUs is a dedicated hardware video encoding engine integrated into NVIDIA's graphics processors. It allows applications to leverage dedicated multimedia encoding hardware to accelerate video encoding tasks, significantly improving performance when compared to CPU-based software encoding. It competes with similar frameworks like Intel's [QSV](./qsv.mdx) & AMD's [AMF](./amf.mdx).
+NVENC 是 NVIDIA GPU 中專用的硬體視訊編碼引擎，整合在 NVIDIA 的圖形處理器中。它允許應用程式利用專用的多媒體編碼硬體來加速視訊編碼任務，與基於 CPU 的軟體編碼相比，顯著提升性能。NVENC 與 Intel 的 [QSV](./qsv.mdx) 和 AMD 的 [AMF](./amf.mdx) 等類似框架競爭。
 
-The primary purpose of NVENC is to offload the computationally intensive video encoding workloads from the CPU to the dedicated multimedia hardware on the GPU, thereby freeing up CPU resources for other tasks. This is particularly beneficial in scenarios where fast video encoding is required, such as screen recording, streaming, & video conferencing.
+NVENC 的主要目的是將計算密集型的視訊編碼工作從 CPU 卸載到 GPU 的專用多媒體硬體上，從而釋放 CPU 資源以處理其他任務。這在需要快速視訊編碼的場景中特別有利，例如螢幕錄製、串流和視訊會議。
 
-NVENC supports a range of popular video codecs, including [H.264](../video/AVC.mdx) , [H.265](../video/HEVC.mdx), [VP9](../video/VP9.mdx), and more recently [AV1](../video/AV1.mdx) on their latest GPUs. It provides hardware-accelerated encoding capabilities for these codecs, typically achieving real-time or faster than real-time encoding performance, depending on resolution, bitrate, and hardware capability.
+NVENC 支援多種流行的視訊編碼格式，包括 [H.264](../video/AVC.mdx)、[H.265](../video/HEVC.mdx)、[VP9](../video/VP9.mdx)，以及最近在最新 GPU 上支援的 [AV1](../video/AV1.mdx)。它為這些編碼格式提供硬體加速的編碼能力，通常可以實現即時或比即時更快的編碼速度，具體取決於解析度、位元率和硬體能力。
 
-While NVENC excels in encoding speed, it generally sacrifices some compression efficiency compared to modern high-quality CPU-based software encoders at slower presets.
+雖然 NVENC 在編碼速度上表現出色，但相比現代高品質的基於 CPU 的軟體編碼器，在較慢的預設下，它通常會犧牲一些壓縮效率。
 
-NVENC is designed to be easily integrated into various multimedia frameworks and applications. It is supported by popular tools like [FFmpeg](../utilities/ffmpeg.mdx), OBS Studio, and others, allowing developers to seamlessly leverage GPU-accelerated encoding without the need for low-level programming.
+NVENC 被設計為容易整合到各種多媒體框架和應用程式中。它受到像 [FFmpeg](../utilities/ffmpeg.mdx)、OBS Studio 等流行工具的支援，使開發者能夠無縫地利用 GPU 加速的編碼，而無需進行低層次的程式設計。
 
-When compared to AMD's AMF and Intel's QSV, NVENC is known for its high encoding performance, low latency, and broad compatibility with NVIDIA GPUs across different platforms. It is particularly popular among game streamers, content creators, and video professionals who require fast encoding speeds for their workflows. In terms of video compression efficiency, NVENC & QSV trade blows while AMF is generally left behind.
+與 AMD 的 AMF 和 Intel 的 QSV 相比，NVENC 以其高編碼性能、低延遲以及廣泛的 NVIDIA GPU 兼容性著稱。它在遊戲串流、內容創作和視訊專業人士中特別受歡迎，這些人需要快速的編碼速度來滿足他們的工作流程。在視訊壓縮效率方面，NVENC 和 QSV 互有優劣，而 AMF 通常處於劣勢。

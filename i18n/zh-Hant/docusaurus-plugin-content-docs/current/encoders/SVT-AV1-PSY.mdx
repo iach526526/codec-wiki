@@ -117,102 +117,97 @@ SVT-AV1-PSY 的預設與主線 SVT-AV1 不同，以便在預設情況下提供�
 
 <Tabs>
     <TabItem value="unixlike" label="Linux & macOS">
-        *A precompiled AVX2-optimized binary of SVT-AV1-PSY can be installed for x86_64 Linux via [rAV1ator CLI](../utilities/rav1ator-cli.mdx). However, it is always recommended to build from source.*
+        *針對 x86_64 Linux，用戶可以通過 [rAV1ator CLI](../utilities/rav1ator-cli.mdx) 安裝預編譯的 AVX2 優化版 SVT-AV1-PSY 二進位檔案。然而，仍然建議從源代碼進行編譯。*
 
-        To build SVT-AV1 from source, first clone the desired SVT-AV1 repository & enter the build directory.
+        要從源代碼編譯 SVT-AV1，首先複製所需的 SVT-AV1 儲存庫，並進入構建目錄。
 
-        ```bash title="Clone SVT-AV1-PSY"
+        ```bash title="複製 SVT-AV1-PSY"
         git clone https://github.com/gianni-rosato/svt-av1-psy
         cd SVT-AV1/Build/linux
         ```
 
-        In the directory, simply run `./build.sh [flags]` to build. Be aware that building requires CMake version 3.16 or higher and either GCC or Clang. It is recommended to use Clang.
+        在該目錄下，直接執行 `./build.sh [flags]` 進行編譯。請注意，編譯需要 CMake 版本 3.16 或更高版本，以及 GCC 或 Clang。推薦使用 Clang。
 
-        ```bash title="Build release"
+        ```bash title="編譯 release 版本"
         ./build.sh release
         ```
 
-        ```bash title="Statically build just the encoder with clang and enable link-time optimization"
+        ```bash title="使用 clang 靜態編譯僅限編碼器並啟用連結時最佳化"
         ./build.sh jobs=8 all cc=clang cxx=clang++ no-dec enable-lto static native
         ```
 
-        The compiled binaries will be in the `Bin/Release` directory, including SvtAv1EncApp. If you just want the encoder, adding the `no-dec` flag will skip building SvtAv1DecApp and save on compilation time.
+        編譯後的二進位檔案將位於 `Bin/Release` 目錄下，包括 SvtAv1EncApp。如果你只需要編碼器，可以添加 `no-dec` 標誌以跳過 SvtAv1DecApp 的編譯，從而節省編譯時間。
 
-        If you'd like to build from the latest release (2.1.0 at the time of writing - last updated 23 May 2024) please run `git reset --hard 5471bd78311d70ab4691af1ae54fd80e25f214f5` in the cloned directory. It is recommended that you do this, as new changes to git aren't always stable right away & a release will guarantee more stability.
+        如果你希望從最新版本（截至本文撰寫時為 2.1.0 - 最後更新於 2024 年 5 月 23 日）進行編譯，請在複製的目錄中執行 `git reset --hard 5471bd78311d70ab4691af1ae54fd80e25f214f5`。建議這樣做，因為新的 git 變更並不總是馬上穩定，版本發佈則能更有保證地穩定。
 
-        If you want extra performance, it is possible to build SVT-AV1 using PGO (Profile-guided Optimization). **Be aware that this particular script infers that you have a .y4m file (or multiple) in `/dev/shm` for transcoding**. You can compile statically linked SVT-AV1 with PGO (and LTO, or link-time optimization) by following this script:
+        如果你想要額外的性能，可以使用 PGO（Profile-guided Optimization，配置導向的優化）編譯 SVT-AV1。**請注意，此腳本假設你在 `/dev/shm` 中有一個 .y4m 檔案（或多個）進行轉碼**。你可以按照以下腳本，使用 PGO（以及 LTO，連結時最佳化）進行靜態編譯：
 
-        ```bash title="Bulding SVT-AV1 with profile guided optimization"
+        ```bash title="使用配置導向的優化編譯 SVT-AV1"
         git clone https://gitlab.com/AOMediaCodec/SVT-AV1/
         cd SVT-AV1/Build/linux
         ./build.sh cc=gcc cxx=g++ enable-lto enable-pgo static native jobs=$(nproc) pgo-dir=/dev/shm pgo-videos=/dev/shm release
         ```
 
-        If you wish to store videos elsewhere or provide custom parameters to the SvtAv1EncApp binary, try this script:
+        如果你希望將影片儲存在其他位置，或向 SvtAv1EncApp 二進位檔案提供自定義參數，可以嘗試此腳本：
 
         ```bash
         git clone https://gitlab.com/AOMediaCodec/SVT-AV1/
         cd SVT-AV1/Build/linux
         ./build.sh cc=gcc cxx=g++ enable-lto enable-pgo static native jobs=$(nproc) pgo-dir=/dev/shm pgo-compile-gen release
-        ../../Bin/Release/SvtAv1EncApp # Run this binary as many times as you'd like with arguments of your choice to collect data
+        ../../Bin/Release/SvtAv1EncApp # 可使用任意參數執行此二進位檔案，進行多次資料收集
         ./build.sh cc=gcc cxx=g++ enable-lto enable-pgo static native jobs=$(nproc) pgo-dir=/dev/shm pgo-compile-use release
         ```
     </TabItem>
     <TabItem value="windows" label="Windows">
-        **MSYS2** is the best option for building in Windows, as it provides a Unix-like environment for building SVT-AV1-PSY. This makes the compilation procedure the same as described for Linux & macOS. The full build process is detailed here.
+        **MSYS2** 是在 Windows 上編譯 SVT-AV1-PSY 的最佳選擇，因為它提供了類似 Unix 的環境，使得編譯過程與 Linux 和 macOS 上的步驟一致。完整的編譯過程詳述如下。
 
-        0. Make sure you have downloaded & installed MSYS2 from [the MSYS2 website](https://www.msys2.org/) before beginning the build process.
+        0. 在開始編譯之前，請確保已經從 [MSYS2 網站](https://www.msys2.org/) 下載並安裝了 MSYS2。
 
-        1. Start the UCRT64 console & install the required dependencies:
+        1. 啟動 UCRT64 終端並安裝所需的依賴項：
         ```bash
         pacman -Syu --needed git mingw-w64-ucrt-x86_64-toolchain mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-ninja mingw-w64-ucrt-x86_64-yasm
         ```
 
-        2. \[Optional\] Clang is the recommended compiler for SVT-AV1 & SVT-AV1-PSY, so you may wish to download it with the following command:
+        2. \[可選\] Clang 是推薦的編譯器，因此你可以使用以下命令來下載：
 
         ```bash
         pacman -Syu --needed mingw-w64-ucrt-x86_64-clang
         ```
 
-        3. Now, we may follow the steps for Linux & macOS to complete building. Please note that CMake may require you to include `-G "Ninja"` in any CMake commands.
+        3. 現在，可以按照 Linux 和 macOS 的步驟完成編譯。請注意，CMake 可能需要你在任何 CMake 命令中包含 `-G "Ninja"`。
 
-        ```bash title="Clone SVT-AV1-PSY"
+        ```bash title="複製 SVT-AV1-PSY"
         git clone https://github.com/gianni-rosato/svt-av1-psy
         cd SVT-AV1/Build/linux
         ```
 
-        In the directory, simply run `./build.sh [flags]` to build. Be aware that building requires CMake version 3.16 or higher and either GCC or Clang. It is recommended to use Clang, and ideally it will be installed as per Step 2.
+        在目錄中，直接執行 `./build.sh [flags]` 進行編譯。請注意，編譯需要 CMake 版本 3.16 或更高版本，以及 GCC 或 Clang。推薦使用 Clang，理想情況下應按照步驟 2 安裝。
 
-        ```bash title="Build release"
+        ```bash title="編譯 release 版本"
         ./build.sh release
         ```
 
-        ```bash title="Statically build just the encoder with clang and enable link-time optimization"
+        ```bash title="使用 clang 靜態編譯僅限編碼器並啟用連結時最佳化"
         ./build.sh jobs=8 all cc=clang cxx=clang++ no-dec enable-lto static native
         ```
 
-        The compiled binaries will be in the `Bin/Release` directory, including SvtAv1EncApp. If you just want the encoder, adding the `no-dec` flag will skip building SvtAv1DecApp and save on compilation time.
+        編譯後的二進位檔案將位於 `Bin/Release` 目錄下，包括 SvtAv1EncApp。如果你只需要編碼器，可以添加 `no-dec` 標誌以跳過 SvtAv1DecApp 的編譯，從而節省編譯時間。
 
-        If you'd like to build from the latest release (2.1.0 at the time of writing - last updated 23 May 2024) please run `git reset --hard 5471bd78311d70ab4691af1ae54fd80e25f214f5` in the cloned directory.
+        如果你希望從最新版本（截至本文撰寫時為 2.1.0 - 最後更新於 2024 年 5 月 23 日）進行編譯，請在複製的目錄中執行 `git reset --hard 5471bd78311d70ab4691af1ae54fd80e25f214f5`。
     </TabItem>
 </Tabs>
 
-## Projects Featuring SVT-AV1-PSY
+以下是一些包含 SVT-AV1-PSY 的專案：
 
-Some projects that feature SVT-AV1-PSY include:
+- [Aviator](../utilities/Aviator.mdx) ~ 由 @gianni-rosato 開發的 AV1 編碼圖形界面
+- [rAV1ator CLI](../utilities/rav1ator-cli.mdx) ~ 由 @gianni-rosato 開發的使用 Av1an 進行影片編碼的終端用戶界面（TUI）
+- [SVT-AV1-PSY 在 AUR](https://aur.archlinux.org/packages/svt-av1-psy-git) ~ 由 @BlueSwordM 開發
+- [SVT-AV1-PSY 在 CachyOS](https://github.com/CachyOS/CachyOS-PKGBUILDS/pull/144) ~ 由 @BlueSwordM 提供
+- [自訂 Handbrake 構建](https://github.com/vincejv/docker-handbrake) ~ 由 @vincejv 開發
+- [Staxrip](https://github.com/staxrip/staxrip) ~ 由 @Dendraspis 開發的 Windows 影片與音頻編碼圖形界面
 
-- [Aviator](../utilities/Aviator.mdx) ~ an AV1 encoding GUI by @gianni-rosato
-- [rAV1ator CLI](../utilities/rav1ator-cli.mdx) ~ a TUI for video encoding with Av1an by @gianni-rosato
-- [SVT-AV1-PSY on the AUR](https://aur.archlinux.org/packages/svt-av1-psy-git) ~ by @BlueSwordM
-- [SVT-AV1-PSY in CachyOS](https://github.com/CachyOS/CachyOS-PKGBUILDS/pull/144) ~ by @BlueSwordM
-- [Custom Handbrake Builds](https://github.com/vincejv/docker-handbrake) ~ by @vincejv
-- [Staxrip](https://github.com/staxrip/staxrip) ~ a video & audio encoding GUI for Windows by @Dendraspis
+## 授權條款
 
-## License
+在 v0.8.7 之前，SVT-AV1 採用 BSD-2-clause 授權條款以及 Alliance for Open Media Patent License 1.0 授權。從 v0.9 開始，SVT-AV1 採用 BSD-3-clause clear 授權條款以及 Alliance for Open Media Patent License 1.0 授權。
 
-Up to v0.8.7, SVT-AV1 is licensed under the BSD-2-clause license and the
-Alliance for Open Media Patent License 1.0. Starting from v0.9, SVT-AV1 is licensed
-under the BSD-3-clause clear license and the Alliance for Open Media Patent
-License 1.0.
-
-SVT-AV1-PSY does not feature license modifications from mainline SVT-AV1.
+SVT-AV1-PSY 並未在主線 SVT-AV1 授權條款上做出修改。
