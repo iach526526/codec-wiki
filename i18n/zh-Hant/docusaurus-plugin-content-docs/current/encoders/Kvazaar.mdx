@@ -83,7 +83,7 @@ Kvazaar 支援以下色彩空間：
 
 以下是一些單獨使用 Kvazaar 的範例：
 
-```bash title="簡單的 Y4M 輸入，QP 20，原始 265 比特流輸出"
+```bash title="簡單的 Y4M 輸入，QP 20，原始 265 位元流輸出"
 kvazaar -i input.y4m --input-file-format y4m --qp 20 -o output.265
 ```
 
@@ -91,7 +91,7 @@ kvazaar -i input.y4m --input-file-format y4m --qp 20 -o output.265
 kvazaar -i input.y4m --input-file-format y4m --qp 20 --preset slow -o output.265
 ```
 
-以下命令仍使用 `kvazaar` 二進制檔，但從 YUV4MPEG 管道而不是文件中讀取。這對於將 FFmpeg 的輸出管道傳遞給 Kvazaar 很有用。
+以下命令仍使用 `kvazaar` 二進制檔，但從 YUV4MPEG 管道而不是檔案中讀取。這對於將 FFmpeg 的輸出管道傳遞給 Kvazaar 很有用。
 
 ```bash title="FFmpeg 管道"
 ffmpeg -v error -i input.mkv -f yuv4mpegpipe -strict -1 - | kvazaar -i - --input-file-format y4m --qp 20 --preset slow -o output.265

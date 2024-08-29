@@ -20,7 +20,7 @@ SVT-AV1-PSY 項目由 [Gianni Rosato](https://github.com/gianni-rosato)、[Julio
 
 SVT-AV1-PSY 是 SVT-AV1 的超集，這意味著任何有效的 SVT-AV1 命令在 SVT-AV1-PSY 中也能正常工作，只要修改過的預設不與提供的設定衝突。
 
-SVT-AV1-PSY 在 [Aviator](../utilities/Aviator.mdx) 中作為默認編碼器使用，也可以在 [rAV1ator CLI](../utilities/rav1ator-cli.mdx) 中使用，通過該工具提供的預編譯二進位檔或自己編譯一個二進位檔來使用。
+SVT-AV1-PSY 在 [Aviator](../utilities/Aviator.mdx) 中作為預設編碼器使用，也可以在 [rAV1ator CLI](../utilities/rav1ator-cli.mdx) 中使用，通過該工具提供的預編譯二進位檔或自己編譯一個二進位檔來使用。
 
 SVT-AV1-PSY 的貢獻者與開放媒體聯盟或任何沒有貢獻於 SVT-AV1-PSY 項目的上游 SVT-AV1 項目貢獻者沒有任何關聯。
 
@@ -36,15 +36,15 @@ SVT-AV1-PSY 包含了多個主線 SVT-AV1 中未包含的新功能，這些功�
 
 - `--variance-boost-strength` *1 至 4* (**[合併至主線](https://gitlab.com/AOMediaCodec/SVT-AV1/-/merge_requests/2195)**)
 
-提供對我們增強的 AQ 模式 0 和 2 的控制，這些模式可以利用每幀的變異訊息，以在高/低對比度場景下實現更一致的品質。提供了四個曲線選項，默認為曲線 2。1：輕微，2：溫和，3：中等，4：激進。
+提供對我們增強的 AQ 模式 0 和 2 的控制，這些模式可以利用每幀的變異訊息，以在高/低對比度場景下實現更一致的品質。提供了四個曲線選項，預設為曲線 2。1：輕微，2：溫和，3：中等，4：激進。
 
 - `--variance-octile` *1 至 8* (**[合併至主線](https://gitlab.com/AOMediaCodec/SVT-AV1/-/merge_requests/2195)**)
 
-控制算法在提升超塊時的「選擇性」，基於其低/高 8x8 變異比率。值為 1 是最不選擇性的，如果超塊的 1/8 變異低則會輕易提升。相反，值為 8 則只有在整個超塊的變異都低時才會提升。較低的值會增加位元率。默認值為 6。
+控制算法在提升超塊時的「選擇性」，基於其低/高 8x8 變異比率。值為 1 是最不選擇性的，如果超塊的 1/8 變異低則會輕易提升。相反，值為 8 則只有在整個超塊的變異都低時才會提升。較低的值會增加位元率。預設值為 6。
 
 - `--enable-alt-curve` *0 和 1*
 
-啟用替代的變異提升曲線，具有不同的比特分配和視覺特徵。默認為 0。
+啟用替代的變異提升曲線，具有不同的比特分配和視覺特徵。預設為 0。
 
 - `Presets -2 & -3`
 
@@ -56,7 +56,7 @@ SVT-AV1-PSY 包含了多個主線 SVT-AV1 中未包含的新功能，這些功�
 
 - `--sharpness` *-7 至 7*
 
-用於修改環路濾鏡去塊的銳利度和比特失真率，以改善視覺保真度的參數。默認為 0（無銳利度）。
+用於修改環路濾鏡去塊的銳利度和比特失真率，以改善視覺保真度的參數。預設為 0（無銳利度）。
 
 - `--dolby-vision-rpu` *檔案路徑*
 
@@ -76,44 +76,44 @@ SVT-AV1-PSY 包含了多個主線 SVT-AV1 中未包含的新功能，這些功�
 
 - `--qp-scale-compress-strength` *0 至 3*
 
-Increases video quality temporal consistency, especially with clips that contain film grain and/or contain fast-moving objects.
+提高影片品質的時間一致性，尤其是對於包含電影顆粒和/或快速移動物體的剪輯。
 
 - `--enable-dlf 2`
 
-Enables a more accurate loop filter that prevents blocking, for a modest increase in compute time (most noticeable at presets 7 to 9)
+啟用更精確的循環濾波器，以防止塊效應，對計算時間略有增加（在預設值 7 到 9 之間最為明顯）。
 
-- `Higher-quality presets for 8K`
+- `更高品質的 8K 預設`
 
-Lowers the minimum available preset from 8 to 2 for higher-quality 8K encoding (64 GB of RAM recommended per encoding instance)
+將最低可用預設值從 8 降低到 2 以支援更高品質的 8K 編碼（建議每個編碼實例配備 64 GB 的 RAM）。
 
-- `--frame-luma-bias` *0 to 100*
+- `--frame-luma-bias` *0 至 100*
 
-Enables frame-level luma bias to improve quality in dark scenes by adjusting frame-level QP based on average luminance across each frame
+啟用幀級亮度偏差，通過根據每幀的平均亮度調整幀級 QP 來提高暗場場景的品質。
 
-## Modified Defaults
+## 修改過的預設
 
-SVT-AV1-PSY has different defaults than mainline SVT-AV1 in order to provide better visual fidelity out of the box. They include:
+SVT-AV1-PSY 的預設與主線 SVT-AV1 不同，以便在預設情況下提供更好的視覺保真度。包括：
 
-- Default 10-bit color depth when given a 10-bit input.
-- Disable film grain denoising by default, as it often harms visual fidelity. (**[Merged to Mainline](https://gitlab.com/AOMediaCodec/SVT-AV1/-/commit/8b39b41df9e07bbcdbd19ea618762c5db3353c03)**)
-- Default to Tune 2 instead of Tune 1, as it reliably outperforms Tune 1 perceptually.
-- Enable quantization matrices by default.
-- Set minimum QM level to 0 by default.
-- `--enable-variance-boost` enabled by default.
+- 當輸入為 10 位色彩深度時，預設為 10 位色彩深度。
+- 預設禁用電影顆粒降噪，因為這通常會損害視覺保真度。 (**[已合併至主線](https://gitlab.com/AOMediaCodec/SVT-AV1/-/commit/8b39b41df9e07bbcdbd19ea618762c5db3353c03)**)
+- 預設使用 Tune 2，而不是 Tune 1，因為在感知上，它通常優於 Tune 1。
+- 預設啟用量化矩陣。
+- 預設將最小 QM 級別設為 0。
+- 預設啟用 `--enable-variance-boost`。
 
-### Other Changes
+### 其他變更
 
 - `--color-help`
 
-Prints the information found in Appendix A.2 of the user guide in order to help users more easily understand the Color Description Options in SvtAv1EncApp.
+列印用戶指南附錄 A.2 中的信息，以幫助用戶更輕鬆地理解 SvtAv1EncApp 中的顏色描述選項。
 
 - `Micro-Releases`
 
-In order to make SVT-AV1-PSY feature additions more clear, micro-release tags indicate when significant new feature additions have been made. Micro-release tags are letters starting with `A`, so new releases will be tagged as `v#.#.#-A`, `v#.#.#-B`, etc. This is discussed earlier in this entry.
+為了使 SVT-AV1-PSY 的功能新增更為明確，微版本標籤指示了何時進行了重要的新功能添加。微版本標籤為以 `A` 開頭的字母，因此新的版本將標記為 `v#.#.#-A`、`v#.#.#-B` 等。這在本文之前已有討論。
 
-## Installation
+## 安裝
 
-Building & installing SVT-AV1-PSY is the same as building & installing mainline SVT-AV1.
+構建和安裝 SVT-AV1-PSY 與構建和安裝主線 SVT-AV1 的過程相同。
 
 <Tabs>
     <TabItem value="unixlike" label="Linux & macOS">
