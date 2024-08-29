@@ -1,39 +1,29 @@
----
+﻿---
 title: Basics of Filtering
 sidebar_position: 3
 ---
 
-# Basics of Filtering with Vapoursynth
+# Vapoursynth 過濾的基礎
 
-## Intro to Filters
+## 過濾器介紹
 
-In order to do filtering, we are going to need some filters. Vapoursynth includes some basic filters, but there are a lot more useful filters
-built by the community that can be incredibly useful to us.
+進行影片過濾時，我們需要使用一些過濾器。Vapoursynth 本身內建了一些基本的過濾器，不過社群也開發了許多非常實用的過濾器，對我們來說相當有幫助。
 
-For example, we are going to make use of some of the functions in [vs-tools](https://github.com/Jaded-Encoding-Thaumaturgy/vs-tools).
-If you are on Arch, the recommended way to install this is via the AUR, using the `vapoursynth-plugin-vstools-git` package.
-For other operating systems, it is simpler to install all of the JET plugins at once, using the [vs-jet utility](https://github.com/Jaded-Encoding-Thaumaturgy/vs-jet).
-Note that these do require Python, which you should already have installed if you've installed Vapoursynth. You may have noticed in the previous section
-that all Vapoursynth scripts use Python syntax. It is not necessary to know Python in order to write Vapoursynth scripts, although it can be helpful
-for some more advanced techniques.
+例如，我們會使用 [vs-tools](https://github.com/Jaded-Encoding-Thaumaturgy/vs-tools) 的部分功能。如果你使用的是 Arch 作業系統，推薦從 AUR 透過 `vapoursynth-plugin-vstools-git` 軟體包來安裝。如果你使用其他作業系統，可以使用 [vs-jet 工具](https://github.com/Jaded-Encoding-Thaumaturgy/vs-jet) 一次性安裝所有的 JET 擴充套件。需要注意的是，這些工具需要 Python。如果你已經安裝 Vapoursynth，應該也已經有 Python 環境了。在之前的章節中，你可能已經注意到，所有 Vapoursynth 腳本都使用 Python 語法。雖然編寫 Vapoursynth 腳本不一定需要深入瞭解 Python，但熟悉 Python 會幫助你掌握一些進階技巧。
 
-## Filter Order
+## 過濾器的應用順序
 
-Order matters when applying filters to a video. There are certain actions that must be taken at the very start, and certain actions that are better to be done
-later in a filter chain. The following image shows a recommended order for many of the most common filter actions:
+過濾器的應用順序非常重要。某些操作必須在過濾過程的最開始進行，而有些則適合在較後的步驟執行。以下圖片展示了常見過濾操作的推薦順序：
 
-![filter chain](/img/vs2.webp)
+![過濾器鏈](/img/vs2.webp)
 
-If this seems a bit complicated at first, that's okay. We will learn about each of these steps one at a time, and when
-each of these filters might be needed.
+如果你一開始覺得有些複雜，不必擔心。我們會逐步介紹這些過程，並講解在什麼情況下應該使用這些過濾器。
 
-## Bit Depth and Colorimetry
+## 位元深度與色彩處理
 
-In most cases, the first action we want to take on a video is to ensure the correct [matrix, primaries, and transfer characteristics](../colorimetry/intro.mdx) are set, and convert the video to 16-bit.
-The colorimetry properties are important for ensuring accurate colors, and 16-bit helps filters to work in higher quality and create fewer artifacts.
+通常，我們在處理影片的第一步，是確保已正確設定 [矩陣、主色和傳輸特性](../colorimetry/intro.mdx)，並將影片轉換為 16 位元。色彩處理有助於確保色彩的準確性，而轉換為 16 位元可以提升過濾器的處理品質，減少失真。
 
-The currently recommended way to handle this is with the `vstools.initialize_clip` function. This function will handle both ensuring that colorimetry is set, and converting to 16-bit with appropriate dithering if needed.
-We can add it to a script in the following way:
+我們目前推薦使用 `vstools.initialize_clip` 函數來執行這些操作。此函數會確保色彩設定正確，並在需要時，使用適當的抖動將影片轉換為 16 位元。可以通過以下方式將此功能加入你的腳本中：
 
 ```python
 import vapoursynth as vs
@@ -46,21 +36,20 @@ clip = vstools.initialize_clip(clip)
 clip.set_output(0)
 ```
 
-If the video has existing colorimetry data set on it, `initialize_clip` will keep the existing data. Otherwise, it will assume colorimetry based on the video resolution.
-Usually, those assumptions will be correct. However, there may be cases where we know that the assumptions are incorrect, and we need to set them manually.
-For example, we may have a 4k video that we know was upscaled from a 1080p video, and we want to force BT.709 colorimetry. In that case, we can specify the properties to `initialize_clip`,
-and it will use the properties we specify instead of making guesses.
+如果影片已經設定了色彩資料，`initialize_clip` 會保留現有資料。否則，它會根據影片分辨率假設色彩資料。通常，這些假設是正確的。
+然而，在某些情況下，我們知道這些假設是不正確的，並且需要手動設定。
+
+例如，我們可能有一個從 1080p 升級到 4k 的影片，我們想強制使用 BT.709 色彩。在這種情況下，我們可以將所需的屬性指定給 `initialize_clip`，
+它將使用我們指定的屬性，而不是進行猜測。
 
 ```python
 from vstools import Primaries, Matrix, Transfer
 clip = vstools.initialize_clip(clip, primaries=Primaries.BT709, matrix=Matrix.BT709, transfer=Transfer.BT709)
 ```
 
-`initialize_clip` also has a companion function called `finalize_clip` which will, by default, convert the video down to 10-bit with dithering, and if the video is in limited color range,
-clip all pixels to fit within the limited color range (this would be done by the player on playback, but if we do it now, we can save a few bits for the encoder). The function also takes
-a `bits` parameter in case you would like to finalize to 8-bits instead.
+`initialize_clip` 還有一個配套函數叫做 `finalize_clip`。這個函數會預設將影片轉換為 10 位元，並使用抖動技術處理。如果影片使用的是有限色域，該函數會將所有像素裁剪到有限色域範圍內（這通常是由播放器在播放時處理，但如果我們在這個階段進行處理，可以為編碼器節省一些位元）。該函數也接受一個 `bits` 參數，如果你希望將影片最終處理成 8 位元，可以使用這個參數來調整。
 
-As a result, a very basic template for a Vapoursynth script would be something like this:
+因此，一個非常基本的 Vapoursynth 腳本範本可能會像這樣：
 
 ```python
 import vapoursynth as vs
@@ -78,44 +67,39 @@ clip = vstools.finalize_clip(clip)
 clip.set_output(0)
 ```
 
-## Cropping
+## 裁切
 
 ![screenshot](/img/crop_1.jpg)
 
-Sometimes, you may encounter a source that has black bars on the sides or on the top and bottom. Generally, we don't like to keep these, and want to remove them. This process is called "cropping".
+有時候，我們會遇到帶有黑邊的影片源，這些黑邊可能位於影片的兩側或上下方。通常，我們不會保留這些黑邊，而是希望將其移除。這個過程稱為「裁切」。
 
-First, we need to figure out how many pixels to crop from each side. Fortunately, vs-preview has a tool to make this easy. Using this tool, which is found under the "Misc" section in the bottom right
-of the app, allows us to experiment with crop values and find the correct ones without having to reload the Vapoursynth script.
+首先，我們需要確定從每一側裁切多少像素。幸運的是，vs-preview 提供了一個工具來輕鬆完成這個步驟。這個工具位於應用程式右下角的「Misc」部分，讓我們可以嘗試不同的裁切數值，並找到合適的裁切值，而不必每次都重新載入 Vapoursynth 腳本。
 
 ![crop tool](/img/crop_tool.webp)
 
-Once we flip the tool to "On", we can adjust each of the dimensions until we see the black borders disappear. We want to try to get as exact as possible, although the crop values must be a multiple of 2
-when working with YUV420 video (which is the most common). In this case, we know we want to remove from the top and bottom, so we will adjust those values until we find the right ones. Note that the size of the bars
-may often be the same on both sides, but not always, so do be careful to check both sides.
+當我們將工具切換到「開啟」狀態後，就可以調整各個維度，直到黑邊消失。我們應盡量精確調整，雖然在處理 YUV420 影片（最常見的格式）時，裁切值必須是 2 的倍數。在這個例子中，我們知道需要移除上下方的黑邊，因此我們將調整這些數值，直到找到合適的裁切值。需要注意的是，黑邊的大小在兩側可能相同，但也不一定，所以務必要檢查兩側的情況。
 
 ![zoom tool](/img/zoom_tool.avif)
 
-vs-preview's zoom tool shown here can also be helpful to ensure we've gotten the right values.
+vs-preview 的縮放工具也非常有幫助，可以用來確保我們獲得正確的裁切數值。
 
-Once we've found the correct values, we can click "Copy cropping command" to copy our value to the clipboard. We can then paste it into our Vapoursynth script, being sure to add the appropriate variable name for our clip.
+一旦找到合適的數值，我們可以點擊「複製裁切命令」，將該值複製到剪貼簿，然後將其粘貼到 Vapoursynth 腳本中，並為我們的影片片段添加相應的變數名稱。
 
 ```python
 clip = clip.std.Crop(0, 0, 138, 138)
 ```
 
-Remember to turn off the crop tool in vs-preview, or else we'll be doubling the crops from here on. Now, go ahead and reload the preview with Ctrl+R. No more black bars.
+記得在 vs-preview 中關閉裁切工具，否則後續操作中會導致重複裁切。接著，按 Ctrl+R 重新載入預覽。這樣一來，黑邊就消失了。
 
 ![screenshot](/img/crop_2.jpg)
 
-## Resizing
+## 調整尺寸
 
-Resizing is the process of changing the resolution of a video, whether that's making it bigger or smaller. Note that although the general idea is that "higher resolution is better",
-we generally don't want to upscale content. This simply makes output videos larger in file size, but doesn't result in an increase in quality, because the higher resolution is artificial.
-However, there are times when you may want or need to resize a video. Unfortunately, this is not as simple as it sounds, because we want to select a high-quality resizing method.
+調整尺寸是改變影片解析度的過程，無論是放大還是縮小。需要注意的是，雖然通常認為「解析度越高越好」，但我們通常不會放大內容。這只會使輸出影片的檔案大小變大，但解析度提高是人工的，並不會帶來畫質的提升。然而，有時候你可能需要或必須調整影片的尺寸。不幸的是，這並不像聽起來那麼簡單，因為我們需要選擇一個高品質的調整尺寸方法。
 
-With this section, we'll introduce [slow.pics](https://slow.pics/), a very useful tool for comparing screenshots. Here, we'll be using it to show the differences between various resizers.
+在這一部分中，我們將介紹 [slow.pics](https://slow.pics/) 這個非常實用的工具來比較螢幕截圖。在這裡，我們將使用它來展示不同調整器之間的差異。
 
-Vapoursynth comes with several resizers built-in, which will be the easiest to use. Of these, we'll be showcasing the following:
+Vapoursynth 內建了幾個調整尺寸的工具，這些工具最容易使用。我們將展示其中的幾個：
 
 ```python
 clip = clip.resize.Bicubic(1920, 1080)
@@ -123,11 +107,11 @@ clip = clip.resize.Lanczos(1920, 1080)
 clip = clip.resize.Spline36(1920, 1080)
 ```
 
-Bicubic is the most widely used resizer. It is very fast and produces decent quality, but may produce less sharpness than more advanced scalers.
-Lanczos produces more sharpness, but may also produce more [ringing](./dehalo.mdx).
-Spline36 uses a spline-based resizing method, and produces results somewhere between Bicubic and Lanczos.
+Bicubic 是最廣泛使用的調整尺寸工具。它非常快速並能產生不錯的畫質，但相較於更高階的縮放器，可能會產生較少的銳度。  
+Lanczos 能產生更高的銳度，但也可能會導致更多的[振鈴效應](./dehalo.mdx)。  
+Spline36 使用樣條曲線的調整方法，其結果介於 Bicubic 和 Lanczos 之間。
 
-However, using plugins, we have access to some more advanced scalers.
+然而，通過使用擴充套件，我們可以使用一些更高階的縮放器。
 
 ```python
 clip = vskernels.Catrom().scale(clip, 1920, 1080)
@@ -136,24 +120,21 @@ clip = vskernels.Hermite(linear=True).scale(clip, 1920, 1080)
 clip = vsscale.SSIM().scale(clip, 1920, 1080)
 ```
 
-Here we will look at downscalers.
+接下來，我們將討論幾種常見的縮小尺寸方法。
 
-Catrom, short for Catmull-Rom, is a variant of Bicubic which uses different parameters in order to achieve a better balance between sharpness and ringing.
-It is often considered the best of the Bicubic kernels for image quality.
+Catrom，全名 Catmull-Rom，是 Bicubic 的一種變體，使用不同的參數來在銳度與振鈴效應之間取得更好的平衡。它通常被認為是 Bicubic 核心中影像品質最佳的一種。
 
-In the second example, you can see that we pass an additional `sigmoid=True` parameter to `Catrom`. This performs the scaling using a sigmoid function, which flattens the ends of the scaling curve to reduce ringing.
+在第二個例子中，你會看到我們傳遞了一個額外的 `sigmoid=True` 參數給 `Catrom`。這會使用 sigmoid 函數進行縮放，平滑縮放曲線的兩端以減少振鈴效應。
 
-The third example here, Hermite, is another variant of Bicubic, and we are passing `linear=True` to perform the rescaling in linear light rather than in gamma light. This kernel is very good in regard to
-not producing ringing, but it does have the effect of thinning line art. Therefore, although some users prefer it, other users dislike it.
+第三個例子是 Hermite，這是另一種 Bicubic 的變體，我們傳遞了 `linear=True` 參數來在線性光照下而非伽馬光照下進行縮放。這種核心的優點是幾乎不會產生振鈴效應，但它會讓線條藝術變得更細。因此，雖然有些用戶偏好它，其他用戶則不太喜歡。
 
-Fourth, we have SSIM, which is a downscaler tuned around the SSIM video quality metric. This downscaler is intended to prioritize preserving detail and sharpness when downscaling.
+第四種是 SSIM，這是一種基於 SSIM 影像品質指標調整的縮放器。這個縮放器旨在縮小尺寸時優先保留細節和銳度。
 
-In [this comparison](https://slow.pics/c/mb5Rm3k3), we can see the differences between the different scalers, on an image that was upscaled to 4k by nnedi3, then downscaled back using the scaler noted in the image title.
-Here we have a couple of other [examples](https://slow.pics/c/kQvDOMYh) comparing in particular the [higher-quality scalers](https://slow.pics/c/UVwS62Vs).
+在[這個比較](https://slow.pics/c/mb5Rm3k3)中，我們可以看到不同縮放器的差異，圖片經由 nnedi3 放大到 4k，再使用圖片標題中提到的縮放器縮小回來。此外，這裡還有其他[例子](https://slow.pics/c/kQvDOMYh)，特別比較了[高品質縮放器](https://slow.pics/c/UVwS62Vs)。
 
-Of these, my current recommendation would be `Catrom(sigmoid=True)` for anime, and `SSIM` for live action. Some users may prefer `Hermite(linear=True)` for anime.
+在這些選項中，我目前的推薦是動畫使用 `Catrom(sigmoid=True)`，真人影片使用 `SSIM`。某些用戶可能偏好動畫使用 `Hermite(linear=True)`。
 
-For upscaling, we have the following high quality options:
+至於放大尺寸，我們有以下幾個高品質的選擇：
 
 ```python
 clip = vskernels.EwaLanczos().scale(clip, 3840, 2160)
@@ -161,45 +142,41 @@ clip = vsaa.Nnedi3().scale(clip, 3840, 2160)
 clip = vsscale.Waifu2x().scale(clip, 3840, 2160)
 ```
 
-Ewa-Lanczos is a variant of lanczos intended for high sharpness, making it good for upscaling, where we want an image to look sharper so that it does not appear upscaled.
+Ewa-Lanczos 是 Lanczos 的一種變體，專為高銳度設計，適合用於放大時，讓影像看起來更銳利，以避免放大後顯得模糊。
 
-Nnedi3 is a neural-network-based upscaler which attempts to interpolate every second line to produce a sharp, upscaled image. It is generally safe for use on all content, and produces good results.
+Nnedi3 是一種基於神經網絡的放大器，試圖通過插值每隔一行來生成銳利的放大影像。它通常適用於所有內容，並能產生良好的效果。
 
-Waifu2x is another AI-assisted upscaler, this one tuned specifically on anime. It produces very high quality and sharp images. However, the results of using it on live action content are unknown, so it is recommended to only use it on anime.
+Waifu2x 是另一種 AI 輔助的放大器，專門針對動畫進行調整。它能產生非常高品質且銳利的影像。不過，用於真人影片的效果尚不明確，因此建議僅用於動畫。
 
-[Here](https://slow.pics/c/CpISIk1z) we can see the effects of these upscalers. My current recommendation would be `EwaLanczos` for live action, and `Waifu2x` for anime.
+[這裡](https://slow.pics/c/CpISIk1z)展示了這些放大器的效果。目前，我的建議是對於真人影片使用 `EwaLanczos`，對於動畫使用 `Waifu2x`。
 
 ```python
 clip = soifunc.good_resize(clip, 1920, 1080)
 clip = soifunc.good_resize(clip, 1920, 1080, anime=True)
 ```
 
-Lastly, we have `soifunc.good_resize`, which is a smart hybrid scaler which automatically chooses the best scaler depending on whether we are upscaling or downscaling,
-and may use a different scaler for chroma than it does for luma for even better quality.
-Note that the scalers chosen by this function may change over time as new knowledge surfaces, and are based on the above recommendations.
-We can also add the `anime=True` parameter (false by default) to change the scalers to be tuned
-more toward the fine line art that is present in anime, rather than the highly detailed elements such as skin and hair that are present in live action.
-With these features, it is intended to be an easy-to-use general purpose high-quality upscaler.
+最後，我們介紹 `soifunc.good_resize`，這是一個聰明的混合縮放器，能夠根據縮放需求自動選擇最佳縮放器。
+當放大或縮小影像時，它會選擇不同的縮放器，並且可能會對色彩和亮度使用不同的縮放器以達到更高的品質。需要注意的是，
+這個函數選擇的縮放器可能會隨著新的知識出現而變更，並且是基於上述建議來選擇的。我們還可以加入 `anime=True` 參數（預設為 false）來調整縮放器，
+更加適應動畫中的細線條藝術，而不是真人影片中如皮膚和頭髮這樣的高細節元素。這些功能使得它成為一個易於使用且通用的高品質縮放器。
 
-## Trimming
+## 切割影片
 
-Sometimes, we may need to cut out a portion of the video, for example, if we want to encode only the opening theme, or if our source has commercials that we want to remove.
-Vapoursynth supports this using Python's slice syntax.
+有時候，我們可能需要剪掉影片的一部分，例如只想編碼開場主題，或者想要移除來源影片中的廣告。Vapoursynth 支援使用 Python 的切片語法來完成這項操作。
 
 ```python
 clip = clip[1805:3185]
 ```
 
-This snippet will trim the clip to include frames 1805-3184. Note that frame 3185 is _not_ included.
+以下的代碼片段將會將影片剪裁到僅保留第 1805 到 3184 幀的部分。需要注意的是，幀 3185 不會被包含在內。
 
-Now, let's say we wanted to _exclude_ this segment. We can do this by making clips of the segments we'd like to keep, and joining them together.
+現在，假設我們想要排除這一段。我們可以通過創建我們想要保留的片段，然後將它們拼接在一起來實現這一目標。例如：
 
 ```python
 clip = clip[:1805] + clip[3185:]
 ```
 
-This snippet will create trims for the start of the clip to and including frame 1804, and from frame 3185 to the end of the clip. It then joins them together into one clip, in the order we specify.
-If we wanted to reverse the segments, so that segment 2 comes first, we could do that simply by changing the order:
+這段代碼會將影片剪裁成兩部分：從影片開頭到第 1804 幀（包括第 1804 幀），以及從第 3185 幀到影片結尾的部分。接著，將這兩部分按照指定的順序拼接在一起。如果我們希望將第二部分（從第 3185 幀到結尾）放在前面，只需調整順序即可：
 
 ```python
 clip = clip[3185:] + clip[:1805]

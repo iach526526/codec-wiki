@@ -49,7 +49,7 @@ Remember to set appropriate video/audio codec parameters in the command before `
 
 - `result`：指定輸出 `.trf` 檔案的儲存位置。
 - `shakiness`：設定減少運動的程度，數值越高，減少效果越強（穩定化效果越佳），預設為 `5`。`1` 為最少減少，`10` 為最多減少。
-- `accuracy`：運動減少的準確度，數值越高，準確度越高，預設為 `15`。該設定會影響檢測時的 CPU 使用率。FFmpeg 不允許設置低於 `3` 的值。`3` 的處理速度為 `21 fps`，而 `15` 的處理速度為 `14 fps`。該過程相當耗費 CPU 資源。
+- `accuracy`：運動減少的準確度，數值越高，準確度越高，預設為 `15`。該設定會影響檢測時的 CPU 使用率。FFmpeg 不允許設定低於 `3` 的值。`3` 的處理速度為 `21 fps`，而 `15` 的處理速度為 `14 fps`。該過程相當耗費 CPU 資源。
 
 更多參數說明，請參見 [這裡](https://ffmpeg.org/ffmpeg-filters.html#vidstabdetect-1)。
 
@@ -69,5 +69,5 @@ Remember to set appropriate video/audio codec parameters in the command before `
 ## 注意事項
 
 - Stabilizing過程可能會損失影片品質，主要是由於縮放和插值的影響。
-- 最終影片可能會顯示整體搖晃，特別是在使用高穩定化設置時，這是濾鏡的正常運作方式。
-- 由於需要進行兩次處理，您也可以考慮使用兩次編碼，以達到更佳效果。
+- 最終影片可能會顯示整體搖晃，特別是在使用高穩定化設定時，這是濾鏡的正常運作方式。
+- 由於需要進行兩次處理，你也可以考慮使用兩次編碼，以達到更佳效果。
