@@ -1,4 +1,4 @@
----
+﻿---
 title: SVT-AV1-PSY
 sidebar_position: 5
 ---
@@ -8,73 +8,73 @@ import TabItem from '@theme/TabItem';
 
 # SVT-AV1-PSY
 
-:::info Community Fork
-This entry is about a fork of SVT-AV1 called SVT-AV1-PSY. If you'd like to learn about the mainline SVT-AV1 encoder before reading, visit our [SVT-AV1 wiki entry](./SVT-AV1.mdx).
+:::info 社群分支
+這一節介紹的是 SVT-AV1 的一個分支——SVT-AV1-PSY。如果你想在閱讀之前了解主線 SVT-AV1 編碼器，請參閱我們的 [SVT-AV1 維基條目](./SVT-AV1.mdx)。
 :::
 
-SVT-AV1-PSY is a project that aims to enhance the Scalable Video Technology for AV1 Encoder with perceptual enhancements for psychovisually optimal AV1 encoding. The ultimate goal is to create the best encoding implementation for perceptual quality with AV1. The development of this project involves a collaborative effort from a team of dedicated developers and contributors who are committed to improving the perceptual quality of AV1 encoding.
+SVT-AV1-PSY 是一個旨在為 AV1 編碼器增強心理視覺優化的項目。其終極目標是創造出最具感知品質的 AV1 編碼實現。該項目由一組專注於提高 AV1 編碼感知品質的開發者和貢獻者共同努力開發。
 
-The SVT-AV1-PSY project is maintained by [Gianni Rosato](https://github.com/gianni-rosato), [Julio Barba](https://github.com/juliobbv), & [Clybius](https://github.com/Clybius), as well as a number of community contributors including [BlueSwordM](https://github.com/BlueSwordM), the maintainer of the [SVT-AV1-PSY AUR package](https://aur.archlinux.org/packages/svt-av1-psy-git) & the original author of [aom-av1-psy](https://github.com/BlueSwordM/aom-av1-psy).
+SVT-AV1-PSY 項目由 [Gianni Rosato](https://github.com/gianni-rosato)、[Julio Barba](https://github.com/juliobbv) 和 [Clybius](https://github.com/Clybius) 維護，以及一眾社群貢獻者，包括 [BlueSwordM](https://github.com/BlueSwordM)，他是 [SVT-AV1-PSY AUR 套件](https://aur.archlinux.org/packages/svt-av1-psy-git) 的維護者，也是 [aom-av1-psy](https://github.com/BlueSwordM/aom-av1-psy) 的原作者。
 
-The development process involves community testing and optimization to ensure that the encoder and decoder deliver optimal performance. The team uses a variety of tools and methodologies to analyze and improve the performance of the encoder and decoder, including subjective analyses. [SSIMULACRA2](../metrics/SSIMULACRA2.mdx) and [XPSNR](../metrics/XPSNR.mdx) are used extensively for metrics testing, and the team is committed to improving the overall quality and performance of the encoder using these two metrics as general guidelines and benchmarks. However, the stated goal is not to improve metric scores but to improve the overall perceptual quality of the encoder; naturally, changes are often made to SVT-AV1-PSY that end up degrading metric performance in favor of perceptual fidelity per bit.
+開發過程中，社群測試和優化是不可或缺的，以確保編碼器和解碼器提供最佳性能。開發團隊使用各種工具和方法來分析和提升編碼器和解碼器的性能，包括主觀分析。他們廣泛使用 [SSIMULACRA2](../metrics/SSIMULACRA2.mdx) 和 [XPSNR](../metrics/XPSNR.mdx) 進行度量測試，並致力於使用這兩種度量作為一般指導和基準來改進編碼器的整體品質和性能。然而，明確的目標並不是提升度量分數，而是提高編碼器的整體感知品質，因此自然會有一些改變會使得度量性能下降，但有助於提高每比特的感知保真度。
 
-SVT-AV1-PSY is a superset of SVT-AV1, meaning any valid SVT-AV1 command will work with SVT-AV1-PSY given the modified defaults do not conflict with the settings provided.
+SVT-AV1-PSY 是 SVT-AV1 的超集，這意味著任何有效的 SVT-AV1 命令在 SVT-AV1-PSY 中也能正常工作，只要修改過的預設不與提供的設定衝突。
 
-SVT-AV1-PSY is used by default in [Aviator](../utilities/Aviator.mdx) and can be used in [rAV1ator CLI](../utilities/rav1ator-cli.mdx) by using the pre-compiled binaries available with the tool or by building a binary yourself.
+SVT-AV1-PSY 在 [Aviator](../utilities/Aviator.mdx) 中作為默認編碼器使用，也可以在 [rAV1ator CLI](../utilities/rav1ator-cli.mdx) 中使用，通過該工具提供的預編譯二進位檔或自己編譯一個二進位檔來使用。
 
-SVT-AV1-PSY contributors are not in any way affiliated with the Alliance for Open Media or any upstream SVT-AV1 project contributors who have not also contributed to the SVT-AV1-PSY project.
+SVT-AV1-PSY 的貢獻者與開放媒體聯盟或任何沒有貢獻於 SVT-AV1-PSY 項目的上游 SVT-AV1 項目貢獻者沒有任何關聯。
 
-## Micro-Release Framework
+## Micro-Release 框架
 
-SVT-AV1-PSY features additions outside of mainline SVT-AV1 that are often considered to be significant, but don't line up with a major mainline release. Therefore, the SVT-AV1-PSY release framework is different, and the encoder is currently being developed around micro-releases to make this clear.
+SVT-AV1-PSY 的功能擴展超出了主線 SVT-AV1 的範疇，這些功能通常被視為重要但不符合主要主線版本的標準。因此，SVT-AV1-PSY 採用了不同的釋放框架，並且目前圍繞Micro-Release 進行開發，以便清楚地表明這一點。
 
-Micro-releases are tagged with letters starting at `A` to indicate that they contain significant new features and aren't equivalent to mainline releases; for example, `v2.0.0-A` was a micro-release with significant new features exclusive to SVT-AV1-PSY that followed the prior `v2.0.0` release (which came out with PSY + mainline features in tandem with mainline `v2.0.0`). Releases without letters are in-line with mainline SVT-AV1 releases, and may contain significant PSY feature additions as well.
+Micro-Release 以字母標記，從 `A` 開始，表示它們包含重要的新功能，並不等同於主線版本；例如，`v2.0.0-A` 是一個Micro-Release ，包含了僅在 SVT-AV1-PSY 中獨有的重要新功能，緊隨其後的是之前的 `v2.0.0` 版本（該版本與主線 `v2.0.0` 一起發布，包含了 PSY 和主線功能）。沒有字母的版本則與主線 SVT-AV1 版本保持一致，也可能包含重要的 PSY 功能擴展。
 
-## Feature Additions
+## 功能擴展
 
-SVT-AV1-PSY includes a number of new features that are not present in mainline SVT-AV1. These features are designed to improve the visual quality of AV1 encodes, and offer more flexibility when configuring the encoder for a wide range of encoding scenarios. Many of these changes are being integrated into mainline SVT-AV1 as the project matures.
+SVT-AV1-PSY 包含了多個主線 SVT-AV1 中未包含的新功能，這些功能旨在提升 AV1 編碼的視覺品質，並在配置編碼器以應對各種編碼情境時提供更多靈活性。隨著項目的成熟，許多這些變更正在被整合進主線 SVT-AV1。
 
-- `--variance-boost-strength` *1 to 4* (**[Merged to Mainline](https://gitlab.com/AOMediaCodec/SVT-AV1/-/merge_requests/2195)**)
+- `--variance-boost-strength` *1 至 4* (**[合併至主線](https://gitlab.com/AOMediaCodec/SVT-AV1/-/merge_requests/2195)**)
 
-Provides control over our augmented AQ Modes 0 and 2 which can utilize variance information in each frame for more consistent quality under high/low contrast scenes. Four curve options are provided, and the default is curve 2. 1: mild, 2: gentle, 3: medium, 4: aggressive
+提供對我們增強的 AQ 模式 0 和 2 的控制，這些模式可以利用每幀的變異訊息，以在高/低對比度場景下實現更一致的品質。提供了四個曲線選項，默認為曲線 2。1：輕微，2：溫和，3：中等，4：激進。
 
-- `--variance-octile` *1 to 8* (**[Merged to Mainline](https://gitlab.com/AOMediaCodec/SVT-AV1/-/merge_requests/2195)**)
+- `--variance-octile` *1 至 8* (**[合併至主線](https://gitlab.com/AOMediaCodec/SVT-AV1/-/merge_requests/2195)**)
 
-Controls how "selective" the algorithm is when boosting superblocks, based on their low/high 8x8 variance ratio. A value of 1 is the least selective, and will readily boost a superblock if only 1/8th of the superblock is low variance. Conversely, a value of 8 will only boost if the *entire* superblock is low variance. Lower values increase bitrate. The default value is 6.
+控制算法在提升超塊時的「選擇性」，基於其低/高 8x8 變異比率。值為 1 是最不選擇性的，如果超塊的 1/8 變異低則會輕易提升。相反，值為 8 則只有在整個超塊的變異都低時才會提升。較低的值會增加位元率。默認值為 6。
 
-- `--enable-alt-curve` *0 and 1*
+- `--enable-alt-curve` *0 和 1*
 
-Enable an alternative variance boost curve, with different bit allocation and visual characteristics. The default is 0.
+啟用替代的變異提升曲線，具有不同的比特分配和視覺特徵。默認為 0。
 
 - `Presets -2 & -3`
 
-Terrifically slow encoding modes for research purposes.
+非常慢的編碼模式，用於研究目的。
 
 - `Tune 3`
 
-A new tune based on Tune 2 (SSIM) called SSIM with Subjective Quality Tuning. Generally harms metric performance in exchange for better visual fidelity.
+基於 Tune 2（SSIM）的一種新調整，稱為 SSIM 與主觀品質調整。通常會損害指標性能，以換取更好的視覺保真度。
 
-- `--sharpness` *-7 to 7*
+- `--sharpness` *-7 至 7*
 
-A parameter for modifying loopfilter deblock sharpness and rate distortion to improve visual fidelity. The default is 0 (no sharpness).
+用於修改環路濾鏡去塊的銳利度和比特失真率，以改善視覺保真度的參數。默認為 0（無銳利度）。
 
-- `--dolby-vision-rpu` *path to file*
+- `--dolby-vision-rpu` *檔案路徑*
 
-Set the path to a Dolby Vision RPU for encoding Dolby Vision video. SVT-AV1-PSY needs to be built with the `enable-libdovi` flag enabled in build.sh (see `./Build/linux/build.sh --help` for more info) (Thank you @quietvoid !)
+設定 Dolby Vision RPU 的路徑以編碼 Dolby Vision 影片。SVT-AV1-PSY 需要使用 `enable-libdovi` 標誌進行構建（詳情請參見 `./Build/linux/build.sh --help`）（感謝 @quietvoid！）
 
 - `Progress 3`
 
-A new progress mode that provides more detailed information about the encoding process.
+一種新進度模式，提供有關編碼過程的更多詳細訊息。
 
-- `--fgs-table` *path to file* (**[Merged to Mainline](https://gitlab.com/AOMediaCodec/SVT-AV1/-/commit/ae7ce1abc5f3f7913624f728ae123f8b8c1e30de)**)
+- `--fgs-table` *檔案路徑* (**[合併至主線](https://gitlab.com/AOMediaCodec/SVT-AV1/-/commit/ae7ce1abc5f3f7913624f728ae123f8b8c1e30de)**)
 
-Argument for providing a film grain table for synthetic film grain (similar to aomenc's '--film-grain-table=' argument).
+提供合成膠卷顆粒的影片顆粒表的參數（類似於 aomenc 的 `--film-grain-table=` 參數）。
 
 - `Extended CRF`
 
-Provides a more versatile and granular way to set CRF. Range has been expanded to 70 (from 63) to help with ultra-low bitrate encodes, and can now be set in quarter-step (0.25) increments.
+提供更靈活和細緻的 CRF 設定方式。範圍擴展至 70（從 63 起），以幫助處理超低位元率編碼，並且現在可以以四分之一步（0.25）增量進行設定。
 
-- `--qp-scale-compress-strength` *0 to 3*
+- `--qp-scale-compress-strength` *0 至 3*
 
 Increases video quality temporal consistency, especially with clips that contain film grain and/or contain fast-moving objects.
 
