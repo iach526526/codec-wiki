@@ -1,45 +1,43 @@
----
+﻿---
 title: Matrix Coefficients
 sidebar_position: 6
 ---
 
-# Matrix Coefficients
+### 矩陣係數
 
-Matrix coefficients represent the multiplication matrix that is used when
-converting from YUV to RGB. As with primaries, the integer values are defined
-within universal specifications, and as such they will be the same across all
-encoding and playback tools.
+矩陣係數表示在將 YUV 轉換為 RGB 時使用的乘法矩陣。
+與色彩原點一樣，這些整數值是根據通用規範定義的，
+因此在所有編碼和播放工具中都會保持一致。
 
-The following values are available:
+以下是可用的矩陣係數值：
 
 ### 0: Identity
 
-Specifies that the identity matrix should be used, i.e. this data is already in an RGB-compatible colorspace.
+指定應使用單位矩陣，即資料已經處於 RGB 兼容的色彩空間中。
 
-This matrix coefficient setting is used in the following standards:
+此矩陣係數設定適用於以下標準：
 
-- GBR (often referred to as RGB)
-- YZX (often referred to as XYZ)
+- GBR（通常稱為 RGB）
+- YZX（通常稱為 XYZ）
 - IEC 61966-2-1 sRGB
 - SMPTE ST 428-1 (2019)
 
 ### 1: BT.709
 
-BT.709 is the standard used for modern high-definition video, and is a safe default assumption.
+BT.709 是現代高畫值影片使用的標準，是一個安全的預設值。
 
-This matrix coefficient setting is used in the following standards:
+此矩陣係數設定適用於以下標準：
 
 - Rec. ITU-R BT.709-6
-- Rec. ITU-R BT.1361-0 conventional colour gamut system and extended colour
-  gamut system (historical)
+- Rec. ITU-R BT.1361-0 傳統色彩範圍系統和擴展色彩範圍系統（歷史）
 - IEC 61966-2-4 xvYCC709
-- SMPTE RP 177 (1993) Annex B
+- SMPTE RP 177 (1993) 附錄 B
 
-### 2: Unspecified
+### 2: 未指定
 
-This value indicates that no color matrix is set for the video, and the player must decide which value to use.
+此值表示影片未設定色彩矩陣，播放器必須決定使用哪個值。
 
-mpv will use the following heuristics in this case:
+在這種情況下，mpv 將使用以下啟發式方法：
 
 ```
 if width >= 1280 || height > 576 {
@@ -51,13 +49,13 @@ if width >= 1280 || height > 576 {
 
 ### 4: BT.470M
 
-BT.470M is a standard that was used in analog television systems in the United States.
+BT.470M 是在美國的模擬電視系統中使用的標準。
 
 ### 5: BT.470BG
 
-BT.470BG is a standard that was used for European (PAL) television systems and DVDs.
+BT.470BG 是在歐洲（PAL）電視系統和 DVD 中使用的標準。
 
-This matrix coefficient setting is used in the following standards:
+此矩陣係數設定適用於以下標準：
 
 - Rec. ITU-R BT.470-6 System B, G (historical)
 - Rec. ITU-R BT.601-7 625
@@ -68,9 +66,10 @@ This matrix coefficient setting is used in the following standards:
 
 ### 6: SMPTE 170M
 
-SMPTE 170M is a stanrard that was used for NTSC television systems and DVDs. Its matrix coefficients are equivalent to BT.470BG.
+SMPTE 170M 是一個曾用於 NTSC 電視系統和 DVD 的標準。
+其矩陣係數與 BT.470BG 相同。
 
-This matrix coefficient setting is used in the following standards:
+此矩陣係數設定在以下標準中使用：
 
 - Rec. ITU-R BT.601-7 525
 - Rec. ITU-R BT.1358-1 525 or 625 (historical)
@@ -79,40 +78,43 @@ This matrix coefficient setting is used in the following standards:
 
 ### 7: SMPTE 240M
 
-SMPTE 240M was an interim standard used during the early days of HDTV (1988-1998).
+SMPTE 240M 是在 HDTV 早期（1988-1998 年）期間使用的過渡標準。
 
 ### 8: YCgCo
 
-The YCoCg color model, also known as the YCgCo color model,
-is the color space formed from a simple transformation of
-an associated RGB color space into a luma value and
-two chroma values called chrominance green and chrominance orange.
+YCgCo 色彩模型，也稱為 YCgCo 色彩模型，
+是從相關的 RGB 色彩空間進行簡單變換而形成的色彩空間，
+其中包含一個亮度值和兩個色彩值，分別稱為色彩綠（chrominance green）
+和色彩橙（chrominance orange）。
+### 9: BT.2020 非恆定亮度
 
-### 9: BT.2020 Non-Constant Luminance
+BT.2020 是用於超高畫質影片（即 4K 及以上）的標準。它可以與 HDR 一起使用，也可以不使用 HDR，因為 HDR 由轉換特性定義。如果你不確定是否需要非恆定亮度，通常選擇非恆定亮度即可。
 
-BT.2020 is a standard used for ultra-high-definition video, i.e. 4K and higher. It may be used with or without HDR, as HDR is defined by the transfer characteristics. If you do not know if you want non-constant or constant luminance, you probably want non-constant.
+此矩陣係數設定在以下標準中使用：
 
-This matrix coefficient setting is used in the following standards:
-
-- Rec. ITU-R BT.2020-2 (non-constant luminance)
+- Rec. ITU-R BT.2020-2（非恆定亮度）
 - Rec. ITU-R BT.2100-2 Y′CbCr
 
-### 10: BT.2020 Constant Luminance
+### 10: BT.2020 恆定亮度
 
-This is a variant of BT.2020 with constant luminance values, represented using the YcCbcCrc colorspace. You probably want the non-constant luminance variant instead, unless you know you want this one.
+這是 BT.2020 的一個變體，具有恆定亮度值，
+使用 YcCbcCrc 色彩空間表示。除非你確定需要這個變體，
+否則通常選擇非恆定亮度變體。
 
 ### 11: SMPTE 2085
 
-SMPTE 2085 is a standard used with HDR signals in the XYZ colorspace. I've never actually seen it used in the wild.
+SMPTE 2085 是一個用於 HDR 信號的標準，使用 XYZ 色彩空間。
+實際上，我從未見過它在現實中使用。
 
-### 12: Chromaticity-Derived Non-Constant Luminance
+### 12: 色彩衍生非恆定亮度
 
-I'm not really sure when you would use this.
+不太確定在什麼情況下會使用這個設定。
 
-### 13: Chromaticity-Derived Constant Luminance
+### 13: 色彩衍生恆定亮度
 
-I'm not really sure when you would use this.
+不太確定在什麼情況下會使用這個設定。
 
 ### 14: ICtCp
 
-ICtCp is an alternative colorspace developed for use with HDR and wide gamut video, by Dolby because they love doing extra stuff like this. I've never actually seen it used in the wild.
+ICtCp 是由 Dolby 為 HDR 和廣色域影片開發的另一種色彩空間，因為他們總是喜歡多做一些額外的開發。
+不過，我在實際應用中從未見過它被使用過。
