@@ -1,4 +1,5 @@
 # Codec Wiki
+![alt text](index-demo.png)
 
 A community maintained wiki for all things encoding.
 
@@ -18,20 +19,20 @@ A community maintained wiki for all things encoding.
 % git clone git@github.com:av1-community-contributors/codec-wiki.git -b main
 ```
 
-2. Test your changes locally before making a commit:
+1. Test your changes locally before making a commit:
 ```bash
 % yarn
 % yarn start
 ```
 
-3. Push changes to `main` branch:
+1. Push changes to `main` branch:
 ```bash
 % git add .
 % git commit -m "Commit Message"
 % git push -u origin main
 ```
 
-4. Deploy to `deployment` branch to make live on site:
+1. Deploy to `deployment` branch to make live on site:
 ```bash
 % GIT_USER=<username> DEPLOYMENT_BRANCH=deployment yarn deploy
 ```
@@ -66,6 +67,3 @@ This command generates static content into the `build` directory and can be serv
 ### Deployment
 
 See initial instructions at the top.
-
-### demo
-![alt text](index-demo.png)
