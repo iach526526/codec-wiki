@@ -66,3 +66,6 @@ This command generates static content into the `build` directory and can be serv
 ### Deployment
 
 See initial instructions at the top.
+
+### demo
+![alt text](index-demo.png)
