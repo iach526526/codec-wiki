@@ -1,49 +1,49 @@
----
+﻿---
 title: VideoToolbox
 sidebar_position: 4
 ---
 
 # VideoToolbox
 
-:::info Under Maintenance
-The content in this entry is incomplete & is in the process of being completed.
+:::info 內容維護中
+本條目內容尚未完成，正在進行補充。
 :::
 
-Apple's VideoToolbox is a low-level framework that provides direct access to hardware encoders and decoders. It offers services for video compression and decompression, as well as conversion between raster image formats stored in CoreVideo pixel buffers. The VideoToolbox encoder works by compressing video data for various applications such as low-latency conferencing, live streaming, and offline transcoding. It supports hardware encoding on most Macs from 2011 and later, and uses Apple's Media Engine on devices with Apple T2 chips or Apple Silicon.
+Apple 的 VideoToolbox 是一個低階框架，提供對硬體編碼器和解碼器的直接訪問。它提供了視訊壓縮和解壓縮的服務，並支援在 CoreVideo 像素緩衝區中儲存的光柵圖像格式之間的轉換。VideoToolbox 編碼器通過壓縮視訊資料來支援各種應用，例如低延遲會議、實時流媒體和離線轉檔。它在大多數 2011 年及以後的 Mac 上支援硬體編碼，並在配備 Apple T2 芯片或 Apple Silicon 的設備上使用 Apple 的 Media Engine。
 
-The encoder can be configured to optimize encoding for specific applications, and it supports various video codecs including [H.264](../video/AVC.mdx), [H.265](../video/HEVC.mdx), with support for H.265 8-bit and 10-bit encoding. It is worth noting that the VideoToolbox encoder is designed for applications that require direct access to hardware encoders and decoders.
+該編碼器可以配置以優化針對特定應用的編碼，支援包括 [H.264](../video/AVC.mdx)、[H.265](../video/HEVC.mdx)（支援 H.265 8 位和 10 位編碼）等各種影片編解碼器。值得注意的是，VideoToolbox 編碼器是為需要直接訪問硬體編碼器和解碼器的應用程序設計的。
 
-Apple's VideoToolbox framework also supports hardware accelerated video decoding for a number of video codecs. As of the Apple M3, these include [H.264](../video/AVC.mdx), [H.265](../video/HEVC.mdx), [ProRes](../video/prores.mdx), ProRes RAW, and [AV1](../video/AV1.mdx).
+Apple 的 VideoToolbox 框架還支援對多種影片編解碼器的硬體加速解碼。從 Apple M3 開始，包括 [H.264](../video/AVC.mdx)、[H.265](../video/HEVC.mdx)、[ProRes](../video/prores.mdx)、ProRes RAW 和 [AV1](../video/AV1.mdx)。
 
-## Usage
+## 使用方法
 
-Encoding with Videotoolbox on macOS is possible via [FFmpeg](../utilities/ffmpeg.mdx), a versatile command line utility, or Handbrake, a GUI for video encoding.
+在 macOS 上使用 VideoToolbox 進行編碼可以通過 [FFmpeg](../utilities/ffmpeg.mdx)（一個多功能的命令行工具）或 Handbrake（一個影片編碼的 GUI 工具）完成。
 
 ### FFmpeg
 
-To use H.264 or H.265 (HEVC) hardware encoding in macOS via VideoToolbox, just use the encoder `-c:v h264_videotoolbox` or `-c:v hevc_videotoolbox` for H.264 or HEVC respectively.
+要在 macOS 上使用 H.264 或 H.265 (HEVC) 硬體編碼，只需使用編碼器 `-c:v h264_videotoolbox` 或 `-c:v hevc_videotoolbox` 來分別處理 H.264 或 HEVC。
 
-Here are some example commands for encoding with VideoToolbox on Apple Silicon via FFmpeg:
+以下是一些使用 FFmpeg 在 Apple Silicon 上通過 VideoToolbox 進行編碼的示例命令：
 
-```bash title="H.264 encoding (high profile)"
+```bash title="H.264 編碼（高級配置檔）"
 ffmpeg -i input.mkv -c:v h264_videotoolbox -profile 100 -q:v [0-100] output.mp4
 ```
 
-```bash title="8-bit HEVC encoding (main profile)"
+```bash title="8 位 HEVC 編碼（主配置檔）"
 ffmpeg -i input.mkv -c:v hevc_videotoolbox -profile 1 -q:v [0-100] -tag:v hvc1 output.mp4
 ```
 
-```bash title="10-bit HEVC encoding (main10 profile)"
+```bash title="10 位 HEVC 編碼（主 10 配置檔）"
 ffmpeg -i input.mkv -c:v hevc_videotoolbox -profile 2 -q:v [0-100] -tag:v hvc1 output.mp4
 ```
 
-Just run `ffmpeg -help encoder=hevc_videotoolbox` or `ffmpeg -help encoder=h264_videotoolbox` for more info.
+要獲得更多資訊，請執行 `ffmpeg -help encoder=hevc_videotoolbox` 或 `ffmpeg -help encoder=h264_videotoolbox`。
 
 ### Handbrake
 
-To be filled.
+待補充。
 
-*Sources*
-(1) Video Toolbox | Apple Developer Documentation. https://developer.apple.com/documentation/videotoolbox.
-(2) HandBrake Documentation — Apple VideoToolbox. https://handbrake.fr/docs/en/latest/technical/video-videotoolbox.html.
-(3) Apple's T2 chip makes a giant difference in video encoding for most .... https://appleinsider.com/articles/19/04/09/apples-t2-chip-makes-a-giant-difference-in-video-encoding-for-most-users.
+*來源*
+(1) [Video Toolbox | Apple Developer Documentation](https://developer.apple.com/documentation/videotoolbox)
+(2) [HandBrake Documentation — Apple VideoToolbox](https://handbrake.fr/docs/en/latest/technical/video-videotoolbox.html)
+(3) [Apple's T2 chip makes a giant difference in video encoding for most](https://appleinsider.com/articles/19/04/09/apples-t2-chip-makes-a-giant-difference-in-video-encoding-for-most-users)
