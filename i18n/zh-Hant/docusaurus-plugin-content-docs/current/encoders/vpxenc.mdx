@@ -1,4 +1,4 @@
----
+﻿---
 title: vpxenc
 sidebar_position: 8
 ---
@@ -8,26 +8,30 @@ import TabItem from '@theme/TabItem';
 
 # vpxenc
 
-:::info Under Maintenance
-The content in this entry is incomplete & is in the process of being completed.
+:::info 內容維護中
+本條目內容尚未完成，正在進行補充。
 :::
 
-vpxenc is part of the libvpx library for working with the [VP9](../video/VP9.mdx) & [VP8](../video/VP8.mdx) video codecs. It is capable of encoding & decoding both formats, where vpxenc is the multipurpose encoder. VP9 competes with [HEVC](../video/HEVC.mdx) (h265) & [AVC](../video/AVC.mdx) (h264) in coding efficiency, and has been superseded by [AV1](../video/AV1.mdx). VP8 competes with AVC. 
+:::info 進行維護中
+本條目內容尚不完整，正在進行中。
+:::
 
-By default, vpxenc isn't as competitive as it could be, but even when used properly, most tests show that h265 offers slightly better quality per bit with efficient encoders like [x265](../encoders/x265.mdx).
+vpxenc 是 libvpx 庫的一部分，用於處理 [VP9](../video/VP9.mdx) 和 [VP8](../video/VP8.mdx) 影片編解碼器。vpxenc 是一款多用途的編碼器，支援這兩種格式的編碼和解碼。VP9 與 [HEVC](../video/HEVC.mdx)（h265）和 [AVC](../video/AVC.mdx)（h264）在編碼效率上競爭，並已被 [AV1](../video/AV1.mdx) 取代。VP8 與 AVC 競爭。
 
+預設情況下，vpxenc 的競爭力並不如其潛力那樣出色，但即使在正確使用的情況下，大多數測試顯示，h265 在像 [x265](../encoders/x265.mdx) 這樣的高效編碼器的支援下，提供了稍微更高的每位比特品質。
 
 ## FFmpeg
 
-vpxenc is available in FFmpeg via `libvpx` for **VP8** and `libvpx-vp9` for **VP9**, to check if you have it, run `ffmpeg -h encoder=libvpx` or `ffmpeg -h encoder=libvpx-vp9`.
-Non-FFmpeg standard VP8/VP9 parameters are **not** supported.
+在 FFmpeg 中，vpxenc 可通過 `libvpx` 支援 **VP8**，以及 `libvpx-vp9` 支援 **VP9**。要檢查是否已安裝，可以執行 `ffmpeg -h encoder=libvpx` 或 `ffmpeg -h encoder=libvpx-vp9`。
+不支援非 FFmpeg 標準的 VP8/VP9 參數。
 
+## 支援的色彩空間
 
-## Supported Color Space
+vpxenc 支援以下色彩空間：
 
 vpxenc supports the following color spaces:
 
-| Format           | Chroma Subsampling | Supported Bit Depth(s) |
+| 格式             | 色彩抽樣         | 支援的位元深度       |
 |------------------|:------------------:|-----------------------|
 | YUV420P          | 4:2:0              | 8-bit                 |
 | YUVA420P         | 4:2:0              | 8-bit (Alpha Channel) |
@@ -47,87 +51,85 @@ vpxenc supports the following color spaces:
 | GBRP12LE         | -                  | 12-bit                |
 
 
-## Installing (Binary)
+## 安裝（二進制檔）
 
-Windows builds are available on Lastrosade's [website](https://jeremylee.sh/bins/) and can be downloaded [here](https://jeremylee.sh/bins/vpx.7z).
+Windows 版本可從 Lastrosade 的 [網站](https://jeremylee.sh/bins/) 下載，直接點擊 [這裡](https://jeremylee.sh/bins/vpx.7z) 下載即可。
 
-For Linux and MacOS, it may be be available when searching "vpxenc" or "libvpx" in their respective package managers.
+對於 Linux 和 MacOS，你可以在各自的套件管理器中搜尋 "vpxenc" 或 "libvpx" 來查找是否提供此工具。
 
+## 編譯（Windows/MacOS/Linux）
 
-## Compiling (Windows/MacOS/Linux)
+建議 Windows 使用者通過 MinGW-W64 編譯，MinGW-W64 附帶於 [MSYS2](https://msys2.org/)。
 
-Windows users are recommended to compile via MinGW-W64 which comes with [MSYS2](https://msys2.org/).
+這個過程需要 `nasm`/`yasm` 和 GNU 編譯工具（`make`、`configure`）。
 
-nasm/yasm, and the GNU build tools (make, configure) are required for this operation.
-
-### Cloning
-First, cloning
+### 複製原始碼
+首先，複製原始碼：
 ```bash
 git clone https://chromium.googlesource.com/webm/libvpx
 cd libvpx
 mkdir libvpx_build && cd libvpx_build
 ```
 
-### ./configure file
-Now here comes the annoying part, the configure file have really bad defaults. So you will need to adjust them, here are some recommended options you should use:
+### `./configure` 檔案
+接下來是麻煩的部分，`configure` 檔案的預設設定不是很好，因此你需要進行調整。以下是一些建議的選項：
 
 ```bash
 ../configure --cpu=native --extra-cxxflags="-flto" --extra-cflags="-flto" --as=auto --enable-vp9-highbitdepth --enable-libyuv --enable-webm-io --enable-vp9 --enable-runtime-cpu-detect --enable-internal-stats --enable-postproc --enable-vp9-postproc --enable-static --disable-shared --enable-vp9-temporal-denoising --disable-unit-tests --disable-docs --enable-multithread
 ```
 
-Now let's break down what each of them do.
-
+讓我們來逐一解釋這些選項的作用：
 
 - `--cpu=native`
-Native CPU optimizations.
+啟用本地 CPU 優化。
 
 - `--extra-cxxflags="-flto" --extra-cflags="-flto"`
-More CPU optimizations for faster encoding.
+進一步的 CPU 優化以加速編碼。
 
 - `--as=auto`
-Set the assembler to auto, so it can choose between `yasm` and `nasm`.
+設定組合器為自動，讓它可以在 `yasm` 和 `nasm` 之間選擇。
 
 - `--enable-vp9-highbitdepth`
-Enables high bit depth (>=10 bits) when encoding VP9.
+在編碼 VP9 時啟用高位深度（>=10 位）。
 
 - `--enable-libyuv`
-Enables YUV4MPEG input support (IMPORTANT), otherwise it will only accept RAW.
+啟用 YUV4MPEG 輸入支援（重要），否則只接受 RAW 格式。
 
 - `--enable-webm-io`
-Enables input and output support for WebM container.
+啟用 WebM 容器的輸入和輸出支援。
 
 - `--enable-vp9`
-Enables VP9 encoding support.
+啟用 VP9 編碼支援。
 
 - `--enable-runtime-cpu-detect`
-Enables runtime CPU detection.
+啟用執行時 CPU 檢測。
 
 - `--enable-internal-stats`
-Enables internal statistics for the encoder for debug purposes.
+啟用編碼器的內部統計資料，用於調試目的。
 
 - `--enable-postproc`
-Enables postprocessing stuff for better video quality.
+啟用後處理功能以提高影片品質。
 
 - `--enable-vp9-postproc`
-Enables VP9-specific postprocessing stuff for better video quality.
+啟用專門針對 VP9 的後處理功能以提高影片品質。
 
 - `--enable-static`
-Enables static builds.
+啟用靜態編譯。
 
 - `--disable-shared`
-Disables shared builds.
+禁用共享編譯。
 
 - `--enable-vp9-temporal-denoising`
-Disables spatial denoising for VP9 and enables temporal instead.
+禁用 VP9 的空間降噪，啟用時間降噪。
 
 - `--disable-unit-tests`
-Disables unit tests, unless you want to test the encoder as a developer. This should be disabled.
+禁用單元測試，除非你是開發人員並希望測試編碼器。建議禁用。
 
 - `--disable-docs`
-Disables documentation, as enabling this also requires doxygen.
+禁用文檔生成，啟用此選項還需要 `doxygen`。
 
 - `--enable-multithread`
-Enables the usage of multiple CPU threads for encoding and decoding.
+啟用多執行緒來進行編碼和解碼。
 
 
 ### Other ./configure options

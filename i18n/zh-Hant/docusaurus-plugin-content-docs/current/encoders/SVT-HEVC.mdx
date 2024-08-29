@@ -1,4 +1,4 @@
----
+﻿---
 title: SVT-HEVC
 sidebar_position: 10
 ---
@@ -8,19 +8,17 @@ import TabItem from '@theme/TabItem';
 
 # SVT-HEVC
 
-[SVT-HEVC](https://github.com/OpenVisualCloud/SVT-HEVC) (Scalable Video Technology for HEVC) is an open source [H.265 / HEVC](/docs/video/HEVC) software encoder developed by Intel made specifically to **only support x86**. As the name suggests, it is part of the "[Scalable Video Technology](https://www.intel.com/content/www/us/en/developer/articles/technical/scalable-video-technology.html)" project lineup by Intel.
+[SVT-HEVC](https://github.com/OpenVisualCloud/SVT-HEVC)（Scalable Video Technology for HEVC）是一個開源的 [H.265 / HEVC](/docs/video/HEVC) 軟件編碼器，由 Intel 開發，專門支援 **僅 x86** 架構。顧名思義，它是 Intel "[可擴展影片技術](https://www.intel.com/content/www/us/en/developer/articles/technical/scalable-video-technology.html)" 項目的一部分。
 
-The encoder is written in C with some parts in Assembly and licensed under **BSD+Patent**.
+該編碼器使用 C 語言編寫，部分代碼使用 Assembly，並採用 **BSD+Patent** 許可證。
 
 :::info
-It is recommended to use [x265](/docs/encoders/x265) instead as it performs much better in quality.
+建議使用 [x265](/docs/encoders/x265)，因為它在品質上表現更佳。
 :::
 
 ## FFmpeg
 
-SVT-HEVC is only available in FFmpeg when it is compiled with their provided [plugin](https://github.com/OpenVisualCloud/SVT-HEVC/tree/master/ffmpeg_plugin). Otherwise it is via `libsvt_hevc`, to check if you have it, run `ffmpeg -h encoder=libsvt_hevc`.
-
-
+SVT-HEVC 僅在 FFmpeg 編譯時包含其提供的 [擴充套件](https://github.com/OpenVisualCloud/SVT-HEVC/tree/master/ffmpeg_plugin) 才能使用。否則，可以通過 `libsvt_hevc` 使用。要檢查是否包含該編碼器，請執行 `ffmpeg -h encoder=libsvt_hevc`。
 ## Supported Color Space
 
 SVT-HEVC supports the following color spaces:
@@ -31,75 +29,72 @@ SVT-HEVC supports the following color spaces:
 | YUV420P10LE      | 4:2:0              | 10-bit                |
 
 
-## Installation
+## 安裝
 
 <Tabs>
-    <TabItem value="unixlike" label="Linux & macOS">
-        To build SVT-AV1 from source, first clone the SVT-HEVC repository & enter the build directory.
+    <TabItem value="unixlike" label="Linux 和 macOS">
+        要從源代碼構建 SVT-HEVC，首先複製 SVT-HEVC 儲存庫並進入構建目錄。
 
-        ```bash title="Clone SVT-HEVC and cd"
+        ```bash title="複製 SVT-HEVC 並切換目錄"
         git clone https://github.com/OpenVisualCloud/SVT-HEVC
         cd SVT-HEVC/Build/linux
         ```
 
-        In the directory, simply run `./build.sh [flags]` to build. Be aware that building requires CMake version 3.5.1 or higher and either GCC or Clang. It is recommended to use Clang when building SVT-HEVC.
+        在該目錄中，只需執行 `./build.sh [flags]` 來進行構建。請注意，構建需要 CMake 版本 3.5.1 或更高版本，以及 GCC 或 Clang。建議使用 Clang 進行構建。
 
-        ```bash title="Build release"
+        ```bash title="構建發行版"
         ./build.sh release
         ```
 
-        ```bash title="Statically build release"
+        ```bash title="靜態構建發行版"
         ./build.sh static release
         ```
 
-        The compiled binaries will be in the `Bin/Release` directory.
+        編譯後的二進制檔案將位於 `Bin/Release` 目錄中。
     </TabItem>
     <TabItem value="windows" label="Windows">
-        To be filled. If you believe you can help, see our [Contribution Guide](../contribution-guide.mdx). 
+        待填充。如果你認為可以提供幫助，請參閱我們的 [貢獻指南](../contribution-guide.mdx)。
     </TabItem>
 </Tabs>
+## 使用方法
 
-## Usage
-
-### Normal usage
-```bash title="Simple Y4M input with QP 20, and raw 265 bitstream output"
+### 一般使用
+```bash title="簡單 Y4M 輸入，QP 20，並輸出原始 265 位元流"
 SvtHevcEncApp -i input.y4m -q 20 -b output.265
 ```
 
-```bash title="Preset 4, CRF 20, Y4M input"
+```bash title="預設 4，CRF 20，Y4M 輸入"
 SvtHevcEncApp -i input.y4m -q 20 -encMode 4 -b output.265
 ```
 
-```bash title="FFmpeg piping"
+```bash title="FFmpeg 管道"
 ffmpeg -v error -i input.mkv -f yuv4mpegpipe -strict -1 - | SvtHevcEncApp -i stdin -q 20 -encMode 4 -b output.265
 ```
 
 :::danger
-SVT-HEVC currently does not have the ability to detect EOF (End of File) within Y4M pipes ([issue](https://github.com/OpenVisualCloud/SVT-HEVC/issues/634#issuecomment-1434911798)), so the encode process will go on indefinitely until your drive is full.
-The only known solution is to manually set the number of frames to encode via `-n`.
+SVT-HEVC 目前無法在 Y4M 管道中檢測 EOF（檔案結束），因此編碼過程將無限期進行，直到你的磁碟空間滿為止。
+唯一已知的解決方案是通過 `-n` 手動設定要編碼的幀數。
 :::
 
-### Encoding HDR
+### 編碼 HDR
 
 ```bash
 SvtHevcEncApp -i input.y4m -q 20 -encMode 4 -hdr -max-cll XXX -max-fall XXX -master-display G(0.265,0.690)B(0.150,0.060)R(0.680,0.320)WP(0.3127,0.3290)L(1000,0.0100) -b output.265
 ```
-Remember sure to adjust the HDR metadata accordingly.
+請務必相應調整 HDR 元資料。
 
-### Encoding with Dolby Vision
+### 編碼 Dolby Vision
 
-The ability to encode with Dolby Vision via RPU file is surprisingly present within SVT-HEVC, although it is limited to Profile 8.1.
+SVT-HEVC 驚人地支援通過 RPU 檔案編碼 Dolby Vision，但僅限於 Profile 8.1。
 ```bash
 SvtHevcEncApp -i input.y4m -q 20 -encMode 4 -hdr -dolby-vision-rpu RPUFile.bin -dolby-vision-profile 81 -max-cll XXX -max-fall XXX -master-display G(0.265,0.690)B(0.150,0.060)R(0.680,0.320)WP(0.3127,0.3290)L(1000,0.0100) -b output.265
 ```
-Remember sure to adjust the HDR metadata accordingly.
+請務必相應調整 HDR 元資料。
 
+## 所有配置參數列表
 
-## List of all configuration parameters
-
-As with every SVT line-up, they redirect you to read their "User Guide" instead of presenting what each and every parameter do in the `--help` page.
-The table below is an exact copy from their user guide taken from [GitHub](https://github.com/OpenVisualCloud/SVT-HEVC/blob/master/Docs/svt-hevc_encoder_user_guide.md) for backup purposes. Feel free to read them. 
-
+如同每一個 SVT 系列，這些參數在 `--help` 頁面中沒有詳細介紹，而是引導你閱讀他們的「用戶指南」。
+下表是從 [GitHub](https://github.com/OpenVisualCloud/SVT-HEVC/blob/master/Docs/svt-hevc_encoder_user_guide.md) 上的用戶指南中複製的備份副本。
 
 | **Encoder Parameter as shown in the configuration file** | **Command Line parameter** | **Range** | **Default** | **Description** |
 | --- | --- | --- | --- | --- |
