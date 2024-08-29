@@ -132,18 +132,18 @@ mkdir libvpx_build && cd libvpx_build
 啟用多執行緒來進行編碼和解碼。
 
 
-### Other ./configure options
+### 其他 ./configure 選項
 
-There are other options you may want use to either speed up compiliation or drop unwanted features.
+還有其他選項可以用來加快編譯速度或去除不需要的功能。
 
-1. `--disable-vp8 --disable-vp9-decoder --disable-vp8-decoder` 
-Disables VP8 encoding and `vpxdec` (decoder) to be compiled.
+1. `--disable-vp8 --disable-vp9-decoder --disable-vp8-decoder`  
+   禁用 VP8 編碼和 `vpxdec`（解碼器）的編譯。
 
-2. `--enable-small`
-Prioritizes smaller encoder binary size over encoding speed.
+2. `--enable-small`  
+   優先考慮減小編碼器二進位檔案的大小，而不是提高編碼速度。
 
-3. `--target=`
-Enables target compilation for a specific operating system or CPU architecture. There's a lot of them. Here's an exhaustive list of all of them based on the configure file:
+3. `--target=`  
+   啟用針對特定操作系統或 CPU 架構的目標編譯。這裡有很多選項。以下是根據配置檔案列出的所有選項的詳盡列表：
 ```bash
 arm64-android-gcc
 arm64-darwin-gcc
@@ -227,125 +227,123 @@ x86_64-win64-vs17
 generic-gnu
 ```
 
-For **Windows** compilation with MinGW you may need to use `--target=x86_64-win64-gcc` and `--target=arm64-darwin22-gcc` for **MacOS**.
+對於使用 MinGW 編譯的 **Windows** 系統，你可能需要使用 `--target=x86_64-win64-gcc`，而對於 **MacOS** 則需要使用 `--target=arm64-darwin22-gcc`。
 
+### 執行 GNU make
 
-### Running GNU make
-
-After successfully running the configure command above, run `make -j $(nproc)` to start compiling with your CPU count. The resulting binary will be called `vpxenc` and you can copy it wherever you like.
+在成功執行上述 `configure` 命令後，執行 `make -j $(nproc)` 以使用你的 CPU 數量開始編譯。編譯完成後的二進位檔案將被命名為 `vpxenc`，你可以將其複製到你喜歡的位置。
 
 ## VP8
 
-*Incomplete*
+*尚未完成*
 
 ## VP9
 
-For encoding VP9, vpxenc's default parameters are not considered optimal. There are a lot of options that are either disabled without reason or are simply misconfigured, hurting coding efficiency at little cost otherwise. As of mid-2021, some parameters (the TPL-model, lag-in-frames and auto-alt-ref frames) were changed (since libvpx 1.9.0 and libvpx 1.10.0) which means that there's not much use of setting these three parameters unless you're in [FFmpeg](../utilities/ffmpeg.mdx). This section covers the most important options libvpx-vp9 has to offer, recommended settings, & what they do.
+對於 VP9 編碼，vpxenc 的預設參數並不被視為最佳配置。許多選項要麼被禁用而沒有理由，要麼被錯誤配置，這會在幾乎不增加成本的情況下降低編碼效率。截至 2021 年中期，某些參數（TPL-model、lag-in-frames 和 auto-alt-ref frames）已被更改（自 libvpx 1.9.0 和 libvpx 1.10.0 以來），這意味著除非你使用 [FFmpeg](../utilities/ffmpeg.mdx)，否則設定這三個參數的效果不大。本節介紹了 libvpx-vp9 提供的最重要選項、推薦設定及其功能。
 
-It is important to note that the vpxenc parameters provided below are considered optimal because they are efficient, but VP9 Profile 2 isn't compatible with many hardware-accelerated VP9 decoding implementations.
+需要注意的是，以下提供的 vpxenc 參數被認為是最佳的，因為它們效率高，但 VP9 Profile 2 與許多硬體加速 VP9 解碼實現不兼容。
 
-### Encoding
+### 編碼
 
 - `--codec=vp9`
 
-Self-explanatory.
+顯而易見的選項，指定使用 VP9 編碼器。
 
 - `--passes=2`
 
-vpxenc's 2-pass mode is quite fast compared to 2-pass in [x264](../encoders/x264.mdx) and x265. Only use 1-pass mode for real-time applications, which won't be covered here yet. It is the default in the standalone vpxenc libvpx-vp9 encoder.
+vpxenc 的 2-pass 模式相比於 [x264](../encoders/x264.mdx) 和 x265 的 2-pass 模式速度相當快。僅在實時應用中使用 1-pass 模式，這裡不再詳細介紹。這是獨立 vpxenc libvpx-vp9 編碼器的預設模式。
 
 - `--webm`
 
-Enables WebM output for the encoder, and passes the encoder flags set. It is not necessary to enable it, but since it passes the encoder flags, I would use it. Can be changed to `--ivf` for an ivf video stream.
+啟用 WebM 輸出並傳遞編碼器標誌。雖然不是必須啟用，但因為它能夠傳遞編碼器標誌，我建議使用它。也可以更改為 `--ivf` 用於 ivf 影片流。
 
 - `--good`
 
-This is a sort of quality deadline, the minimum speed the encoder is allowed to go to. It isn't recommended to use `--best` as it is slow for the quality uplift you get. Do not use RT for anything but real-time encoding.
+這是一種品質限制，表示編碼器允許達到的最低速度。建議不要使用 `--best`，因為它對品質的提升效果不大而速度較慢。RT 模式僅適用於實時編碼。
 
-- `--threads=8` 
+- `--threads=8`
 
-Dictates the number of threads the encoder should spawn. It doesn’t mean it’ll scale all that well over those 8 threads. On a 16 thread CPU with a single encoder instance, I would use 8 threads. With multiple encoder instance encoding(with qencoder/av1an/neav1e), I would set it to 2 threads.
+指定編碼器應該使用的執行緒數量。這並不意味著它會在 8 個執行緒上擴展得很好。在具有 16 個執行緒的 CPU 上，使用單個編碼器實例時，建議使用 8 個執行緒。若使用多個編碼器實例（如 qencoder/av1an/neav1e），則建議設定為 2 個執行緒。
 
-- `--profile=2` 
+- `--profile=2`
 
-VP9 profile 2 is obligatory if you want 10-bit & 12-bit support for HDR, and improved quality from 8-bit.
+若要支援 10-bit 和 12-bit HDR 以及從 8-bit 改進品質，必須使用 VP9 Profile 2。
 
-- `--lag-in-frames=25` 
+- `--lag-in-frames=25`
 
-Lag-in-frames is the libvpx equivalent of lookahead in x264. The higher the number, the slower the encoder will be, but at the upside of making it more efficient. Going above –lag-in-frames=12 also activates another setting called alternate reference frames. 25 is the maximum you can get in libvpx-vp9. It is the default in the standalone vpxenc libvpx-vp9 encoder.
+Lag-in-frames 是 libvpx 相當於 x264 的 lookahead。數值越高，編碼器速度越慢，但效率也會提高。超過 `--lag-in-frames=12` 會啟用另一個設定，稱為替代參考幀。25 是 libvpx-vp9 的最大值。這是獨立 vpxenc libvpx-vp9 編碼器的預設值。
 
-- `--end-usage=q` 
+- `--end-usage=q`
 
-Q mode is the closest equivalent to CRF that libvpx-vp9 offers, so use it if maximum quality is desired.
+Q 模式是 libvpx-vp9 提供的最接近 CRF 的選項，若需要最大品質，建議使用它。
 
-- `--cq-level=25` 
+- `--cq-level=25`
 
-For 1080p30 8-bit content, it is recommended to go with a Q of 25; you can go lower if you value higher quality over pure efficiency. For 1080p60 8-bit content, I would recommend going with a higher Q value with a delta of around 15. So, a Q of 30 to 40 is usually recommended. Depending on the content, you may have to tune this value, so this advice is only useful in choosing a starting point.
+對於 1080p30 8-bit 內容，建議使用 Q 值為 25；如果你更重視品質而非純效率，可以降低此值。對於 1080p60 8-bit 內容，建議使用較高的 Q 值，通常為 30 到 40。根據內容的不同，你可能需要調整此值，因此這個建議僅作為起始點。
 
-- `--kf-max-dist=[input FPS * 10]` 
+- `--kf-max-dist=[input FPS * 10]`
 
-This tells the encoder to have a maximum number of frames between keyframes. It will usually place a lower number of keyframes in content like movies, TV shows, or animated shows, so you can set it to a very high number or not set it at all if you want maximum efficiency for this kind of content. Otherwise, I would go with the 10-second rule: `--kf-max-dist=240` for 24FPS content, 300 for 30FPS content, 600 for 60FPS content, and so on.
+這告訴編碼器在關鍵幀之間的最大幀數。對於電影、電視節目或動畫節目等內容，通常會放置較少的關鍵幀，因此你可以將其設定為非常高的數值，或根本不設定，以實現最大效率。否則，我建議遵循 10 秒規則：對於 24FPS 內容，設定 `--kf-max-dist=240`，對於 30FPS 內容，設定為 300，對於 60FPS 內容，設定為 600，等等。
 
 - `--cpu-used=3` 
 
-This is where the biggest balance of quality to speed is with libvpx-vp9. This is similar to presets in x264 and x265, except the lower the number, the slower the encoder takes. Using `--cpu-used=3` & below enables RDO, which increases quality at the expense of speed.
+這是 libvpx-vp9 中品質與速度之間的最佳平衡點。這類似於 x264 和 x265 的預設值，但數字越低，編碼速度越慢。使用 `--cpu-used=3` 及以下選項啟用 RDO（重建動態優化），這會在犧牲速度的情況下提高品質。
+
 :::info
-`--cpu-used=5` and above are *slower* in the 1st pass, so it isn't recommended to use them anyway.
+`--cpu-used=5` 及以上數值在第一遍編碼時 *更慢*，因此不建議使用這些數值。
 :::
 
 - `--auto-alt-ref=6`
 
-Activates alternate reference frames. Alternate reference frames are "invisible" frames which are used as references when creating the final display frames.
-
-More alternate reference frames is typically more efficient. Setting this greater than 1 activates overlay frames and isn't compatible with the 8-bit color profiles.
+啟用替代參考幀。替代參考幀是“不可見”的幀，用作創建最終顯示幀的參考。更多的替代參考幀通常能提高編碼效率。設定大於 1 會啟用疊加幀，並且與 8-bit 色彩配置檔案不兼容。
 
 - `--arnr-maxframes=7`
 
-This is the maximum number of alternate reference frames the encoder is allowed to use. For most content, 7 is usually a good bet, and it is the default. With animated content, going with a value of 12 or to the max is a good bet, as animated content benefits from more additional alt-ref frames than other content. Be aware that increasing this value will impact encode speed.
+這是編碼器允許使用的最大替代參考幀數。對於大多數內容，7 通常是一個良好的選擇，也是預設值。對於動畫內容，可以選擇更高的值，如 12 或更高，因為動畫內容比其他內容更能從額外的替代參考幀中受益。增加此值會影響編碼速度。
 
 - `--arnr-strength=4`
 
-This setting dictates how much denoising will occur in the alt-ref frames. Lowering it to 2 or 3 is usually a good bet for noisier/grainy content to try and retain more detail, but 4 is a sane starting place. The default setting is 5, which is fine for most content, but it can be beneficial going a bit lower. For animation, keeping the default of 5 is likely a better option.
+此設定決定了在替代參考幀中進行的去噪強度。對於噪點或顆粒內容，將其降低到 2 或 3 通常更好，以保持更多細節，但 4 是一個合理的起始值。預設值為 5，對於大多數內容來說，這是合適的，但對於動畫內容，保持預設值可能更好。
 
 - `--aq-mode=0`
 
-Adaptive quantization is the way for an encoder to spend more bits in certain areas to improve [psychovisual fidelity](../introduction/psychovisual.mdx). `--aq-mode=0` works well on clean content (animation, video games, screen content). `--aq-mode=2` is recommended when you want to give more detail to more complex parts of a video.
+自適應量化是編碼器在某些區域中分配更多比特以提高 [心理視覺保真度](../introduction/psychovisual.mdx) 的方式。`--aq-mode=0` 在乾淨內容（如動畫、影片遊戲、屏幕內容）上表現良好。當你希望對影片中的複雜部分提供更多細節時，建議使用 `--aq-mode=2`。
 
 - `--frame-boost=1`
 
-This flag lets the encoder periodically boost the bitrate of a scene/frame if it needs it. Leaving it at the default `--frame-boost=0` is usually a good bet, & this isn't a particularly salient change.
+此標誌允許編碼器在需要時周期性地提升場景/幀的位元率。保持預設的 `--frame-boost=0` 通常是一個不錯的選擇，這不是一個特別顯著的變化。
 
 - `--tune-content=default`
 
-This determines how the encoder is tuned. In libvpx-vp9, there are three options: `default`, `screen`, and `film`. Default is for most scenarios, screen is for screen content(video games, live-streaming content like web pages & your screen), and film is for heavily dithered/grainy video. Leaving it at the default for about everything but screen content as described above is probably the best option. `--tune-content=screen` with `--aq-mode=2` is not recommended, as it creates some odd artifacts. It is advised to use `--aq-mode=0` if `--tune-content=screen` is activated, or if you want better perceptual quality, `--aq-mode=1`.
+此選項決定了編碼器的調整方式。在 libvpx-vp9 中，有三個選項：`default`、`screen` 和 `film`。Default 適用於大多數情況，screen 適用於屏幕內容（如影片遊戲、網頁和屏幕直播內容），而 film 適用於大量抖動/顆粒的影片。對於除屏幕內容外的大多數內容，建議保持預設。`--tune-content=screen` 與 `--aq-mode=2` 不建議一起使用，因為這會產生一些奇怪的失真。如果啟用 `--tune-content=screen`，或希望更好的感知品質，建議使用 `--aq-mode=0` 或 `--aq-mode=1`。
 
 - `--row-mt=1`
 
-Enables row multi-threading in libvpx-vp9. *Always* enable it no matter what, as it does not hurt efficiency, but boosts speed considerably. This feature is disabled by default.
+啟用 libvpx-vp9 的行級多執行緒。*始終* 啟用此選項，因為它不會影響效率，但能顯著提高速度。此功能預設為禁用。
 
 - `--bit-depth=10`
 
-Always use 10-bit for maximum efficiency & minimal banding, even with an 8-bit source. Make sure to enable `--profile=2` as mentioned above.
+始終使用 10-bit 以獲得最佳效率和最小的帶寬，即使源為 8-bit。確保啟用上述的 `--profile=2`。
 
 - `--tile-columns=1`
 
-This setting divides the video into tile columns for easier parallelization when encoding & decoding. Setting `--tile-columns=1`, you will get 2¹ tile columns. Setting it higher is a trade-off between parallelization & coding efficiency, as more tiles means less information your encoder can work with, and this will result in decreased efficiency. Do note there is an upper threshold in regards to the number of tile columns you can get due to the fixed minimum tile width of 256 pixels. So, this means 4 tile columns (2²) for 720p and 1080p, 8 tile columns (2⁴) for 1440p/4k, and so on. If you set a tile column number that is too high, it will drop down to the lowest supported number of tile columns at the input resolution.
+此設定將影片劃分為 tile 列，以便在編碼和解碼時更容易進行並行處理。設定 `--tile-columns=1` 將得到 2¹ 的 tile 列。設定更高的數值是一種在並行化和編碼效率之間的權衡，因為更多的 tiles 意味著編碼器能夠處理的資訊較少，這會導致效率下降。請注意，根據固定的最小 tile 寬度 256 像素，你可以獲得的 tile 列數量存在上限。因此，720p 和 1080p 的 tile 列數為 4（2²），1440p/4k 為 8（2⁴），依此類推。如果設定的 tile 列數過高，將降至支援的最低 tile 列數。
 
 - `--tile-rows=0`
 
-This setting divides the video into tile rows. This option is different from columns because although it also makes decoding performance higher, it does not scale as well as tile columns & doesn’t increase encoder threading nearly as much. Always use more tile-columns than rows, or leave the number of tile rows at default (0). Leaving the encoder defaults at `--tile-rows=0` & `--tile-columns=0` will result in the highest overall coding efficiency possible with these options.
+此設定將影片劃分為 tile 行。這與 tile 列不同，雖然它也提高了解碼性能，但並不像 tile 列那樣擴展得很好，且不會顯著提高編碼器的執行緒數量。始終使用比行更多的 tile 列，或者保持 tile 行數為預設值（0）。保持編碼器預設值 `--tile-rows=0` 和 `--tile-columns=0` 將達到最高的編碼效率。
 
 - `--enable-tpl=1`
 
-This option enables a temporal layer model, which helps with coding efficiency. It is the default in the standalone vpxenc libvpx-vp9 encoder.
+此選項啟用時間層模型，有助於提高編碼效率。這是獨立 vpxenc libvpx-vp9 編碼器的預設值。
 
-All of these options are only available for the standalone vpxenc program. Here is a sample FFmpeg command line interpretation of the commands above, with some options missing:
+所有這些選項僅適用於獨立的 vpxenc 程序。以下是一些選項缺失的 FFmpeg 命令行示例：
 
 ```bash
 ffmpeg -i input.mkv -c:v libvpx-vp9 -pix_fmt yuv420p10le -pass 1 -quality good -threads 4 -profile:v 2 -lag-in-frames 25 -crf 25 -b:v 0 -g 240 -cpu-used 3 -auto-alt-ref 6 -arnr-maxframes 7 -arnr-strength 4 -aq-mode 0 -tune-content default -tile-rows 0 -tile-columns 1 -enable-tpl 1 -row-mt 1 -f null -
 ffmpeg -i input.mkv -c:v libvpx-vp9 -pix_fmt yuv420p10le -pass 2 -quality good -threads 4 -profile:v 2 -lag-in-frames 25 -crf 25 -b:v 0 -g 240 -cpu-used 3 -auto-alt-ref 6 -arnr-maxframes 7 -arnr-strength 4 -aq-mode 0 -tune-content default -tile-rows 0 -tile-columns 1 -enable-tpl 1 -row-mt 1 output.mkv
 ```
 
-Alternatively, you can pass a raw .y4m stream to standalone vpxenc & encode that way.
+或者，你可以將原始 .y4m 流傳遞給獨立的 vpxenc 進行編碼。
 
-*VP9 section written based on work by BlueSwordM, who has granted written permission for this wiki page to exist in its current fashion*
+*VP9 部分基於 BlueSwordM 的工作編寫，BlueSwordM 已授權以當前形式存在此 wiki 頁面*
