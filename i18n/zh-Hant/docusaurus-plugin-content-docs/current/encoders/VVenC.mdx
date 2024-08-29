@@ -1,4 +1,4 @@
----
+﻿---
 title: VVenC
 sidebar_position: 12
 ---
@@ -16,13 +16,13 @@ alt="vvencapp spamming the terminal output with progress per-picture-order-count
 
 VVenC is an open source command line application for encoding [H.266/VVC](../video/VVC.mdx) written in C++ and developed by Fraunhofer Heinrich-Hertz-Institute (HHI).
 
-## Installation
+## 安裝
 
 <Tabs>
     <TabItem value="unixlike" label="Linux & macOS">
-        Arch Linux users may check the AUR for the `vvenc` and `vvenc-git` packages.
+        Arch Linux 使用者可以在 AUR 查找 `vvenc` 和 `vvenc-git` 套件。
 
-        Compilation from source as shown belowe requires CMake.
+        下面的源代碼編譯過程需要 CMake。
 
         ```bash
         git clone https://github.com/fraunhoferhhi/vvenc.git
@@ -32,20 +32,20 @@ VVenC is an open source command line application for encoding [H.266/VVC](../vid
         cmake .. -DCMAKE_BUILD_TYPE=Release
         cmake --build .
         ```
-        Binaries will be available in `bin/release-static/`
+        編譯後的二進位檔案將會在 `bin/release-static/` 中找到。
 
-        ### FFmpeg Integration
+        ### FFmpeg 整合
 
-        Since 15th June 2024, you can officially compile your own FFmpeg binary with `libvvenc`. If you use earlier FFmpeg revision you will need to apply a custom patch. A comprehensive tutorial can be found in the [official VVenC wiki](https://github.com/fraunhoferhhi/vvenc/wiki/FFmpeg-Integration) ([archive](https://web.archive.org/web/20230509115800/https://github.com/fraunhoferhhi/vvenc/wiki/FFmpeg-Integration)).
+        自 2024 年 6 月 15 日起，你可以正式編譯帶有 `libvvenc` 的 FFmpeg 二進位檔。如果使用早期版本的 FFmpeg，你將需要應用自訂的補丁。詳細教程可以參見 [VVenC 官方 Wiki](https://github.com/fraunhoferhhi/vvenc/wiki/FFmpeg-Integration) ([存檔](https://web.archive.org/web/20230509115800/https://github.com/fraunhoferhhi/vvenc/wiki/FFmpeg-Integration))。
 
-        A VVC decoder has been [integrated into FFmpeg](https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/301ed950d1c3c500d0c2eee8472587dc5e691c04) in early 2024, FFmpeg 7.0 is the first release to support it. However if you still want to compile FFmpeg with the `vvdec` decoder, you can refer to the [official VVenC wiki](https://github.com/fraunhoferhhi/vvdec/wiki/FFmpeg-Integration) ([archive](https://web.archive.org/web/20240809090834/https://github.com/fraunhoferhhi/vvdec/wiki/FFmpeg-Integration)).
+        VVC 解碼器已於 2024 年初 [整合到 FFmpeg](https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/301ed950d1c3c500d0c2eee8472587dc5e691c04) 中，FFmpeg 7.0 是首個支援的版本。然而，如果你仍然希望編譯帶有 `vvdec` 解碼器的 FFmpeg，可以參考 [VVenc 官方 Wiki](https://github.com/fraunhoferhhi/vvdec/wiki/FFmpeg-Integration) ([存檔](https://web.archive.org/web/20240809090834/https://github.com/fraunhoferhhi/vvdec/wiki/FFmpeg-Integration))。
 
-        There is an FFmpeg fork called [FFmpeg-VVC](https://github.com/MartinEesmaa/FFmpeg-VVC). It is maintained by Marten Martin Eesmaa, who is the author of the [VVCEasy](https://github.com/MartinEesmaa/VVCEasy) GitHub repo featuring guides and more general information about working with VVC.
+        有一個名為 [FFmpeg-VVC](https://github.com/MartinEesmaa/FFmpeg-VVC) 的 FFmpeg 分支，由 Marten Martin Eesmaa 維護，他也是 [VVCEasy](https://github.com/MartinEesmaa/VVCEasy) GitHub 頁面的作者，該頁面包含有關 VVC 的指南和一般資訊。
 
-        Please be aware the script below produces a build of FFmpeg licensed under *LGPL version 2.1 or later*. It is legal to distribute the resulting binary, given you do not interfere with the flags provided below.
-
-        ```bash title="Build FFmpeg with libvvdec, libvvenc, and fdk-aac"
-        brew install libxml2 ffmpeg nasm # macOS-only; if on Linux, use your native package manager. Package names may differ.
+        請注意，以下腳本會生成一個以 LGPL 2.1 版或更高版本 授權的 FFmpeg 建置版本。只要你不修改下列設定，分發產生的二進位檔是合法的。
+        
+        ```bash title="使用 libvvdec、libvvenc 和 fdk-aac 編譯 FFmpeg"
+        brew install libxml2 ffmpeg nasm # 僅限 macOS；如果使用 Linux，請使用本地套件管理器。套件名稱可能有所不同。
         git clone https://github.com/fraunhoferhhi/vvenc
         git clone https://github.com/fraunhoferhhi/vvdec
         git clone https://github.com/mstorsjo/fdk-aac
@@ -67,39 +67,38 @@ VVenC is an open source command line application for encoding [H.266/VVC](../vid
         ./configure --enable-libfdk-aac --enable-libvvenc --enable-libvvdec --enable-static --enable-pic --enable-libxml2 --pkg-config-flags="--static" --enable-sdl2
         make -j
         ```
-        Binaries will be available in the final directory you end up in after the build process is complete.
+        建置完成後，二進位檔會出現在你最後所在的目錄中。
 
     </TabItem>
     <TabItem value="windows" label="Windows">
-        To be filled. If you believe you can help, see our [Contribution Guide](../contribution-guide.mdx).
+        內容待填寫。如果你希望提供幫助，請參閱我們的 [貢獻指南](../contribution-guide.mdx)。
     </TabItem>
 </Tabs>
 
-## Usage
+## 使用方法
 
-There are two encoders, the simple encoder (`vvencapp`) and the full-featured expert mode encoder (`vvencFFapp`) which is based on the [VTM](./VTM.mdx) configuration scheme. VVenC used to only accept YUV files input until support was added for Y4M.
+有兩種編碼器可供使用：簡易編碼器（`vvencapp`）和功能全面的專家模式編碼器（`vvencFFapp`），後者基於 [VTM](./VTM.mdx) 的配置方案。VVenC 最初僅支援 YUV 檔案作為輸入，但現在已經新增了對 Y4M 格式的支援。
 
-Here are some examples:
+以下是一些使用範例：
 
-```bash title="Standard VVenC input"
+```bash title="標準 VVenC 輸入"
 vvencapp -i input.y4m --qp 20 -o output.266
 ```
-```bash title="Preset slow + qpa (already default) + YUV420P10"
+```bash title="預設 slow + qpa（預設值）+ YUV420P10"
 vvencapp -i input.y4m --preset slow --qpa on --qp 20 -c yuv420_10 -o output.266
 ```
-```bash title="Piping with FFmpeg"
+```bash title="使用 FFmpeg 管道"
 ffmpeg -hide_banner -loglevel error -i input.mkv -pix_fmt yuv420p10le -strict -1 -f yuv4mpegpipe - | vvencapp -i - --y4m --preset medium --qpa on --qp 20 -c yuv420_10 -o output.266
 ```
 
-```bash title="FFmpeg preset fast + qp 32 muxing to mp4"
+```bash title="FFmpeg 預設 fast + qp 32 轉檔為 mp4"
 ffmpeg -i input.mkv -c:v libvvenc -qp 32 -preset fast out.mp4
 ```
 
 :::info
-FFmpeg vvenc plugin only supports yuv420p10le output pixel format which means resulting video will always have 10 bit color depth.
+FFmpeg vvenc 擴充套件僅支援 yuv420p10le 像素格式，這意味著生成的影片將始終具有 10 位色深。
 :::
 
 :::info QPA
-VVenC by default operates with QP (Quantization Parameter), which is basically fixed quality. For "CRF-like" rate control, QPA is enabled by default
-QPA (provided by --qpa) enables perceptually motivated QP adaptation based on [XPSNR](../metrics/XPSNR.mdx). QPA modifies the QP value on the fly spatially and temporally as well as enabling temporal RDO.
+VVenC 預設使用 QP（量化參數）來控制品質，這是一種固定品質的設定。如果需要「CRF 類似」的位元率控制，QPA 是預設啟用的。QPA（由 --qpa 提供）根據 [XPSNR](../metrics/XPSNR.mdx) 進行感知驅動的 QP 調整，並即時在空間和時間上調整 QP 值，同時啟用時間 RDO。
 :::
