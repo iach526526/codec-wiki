@@ -1,47 +1,47 @@
----
+﻿---
 title: SVT-VP9
 sidebar_position: 9
 ---
 
 # SVT-VP9
 
-:::info Under Maintenance
-The content in this entry is incomplete & is in the process of being completed.
+:::info 內容維護中
+本條目內容尚未完成，正在進行補充。
 :::
 
-SVT-VP9 is a [VP9](../video/VP9.mdx) encoder developed by Intel.<br/>
-Like [its](../encoders/SVT-HEVC.mdx) [siblings](../encoders/SVT-AV1.mdx) in the SVT encoder family, it scales very well on multicore processors by default.
+SVT-VP9 是由英特爾開發的 [VP9](../video/VP9.mdx) 編碼器。<br/>
+與 SVT 編碼器家族中的 [其](../encoders/SVT-HEVC.mdx) [兄弟](../encoders/SVT-AV1.mdx) 類似，SVT-VP9 預設情況下能夠在多核心處理器上進行良好的擴展。
 
-The [reference encoder](../encoders/vpxenc.mdx) beats it in rate control flexibility and supports 10-bit color,<br/>but SVT-VP9 is much faster out of the box.
+[參考編碼器](../encoders/vpxenc.mdx) 在位元率控制靈活性方面超過了 SVT-VP9，並支援 10 位色彩，但 SVT-VP9 在開箱即用的情況下速度更快。
 
 ## FFmpeg
-There are patches bundled in the SVT-VP9 source code for an FFmpeg plugin that adds the `libsvt_vp9` encoder.<br/>
-One must recompile FFmpeg with the plugin patch applied to take advantage of it.<br/>
-(An easy way to do so on Windows is using [media-autobuild_suite](https://github.com/m-ab-s/media-autobuild_suite).)
+SVT-VP9 的源代碼中包含了適用於 FFmpeg 的擴充套件補丁，用以添加 `libsvt_vp9` 編碼器。<br/>
+必須重新編譯 FFmpeg 並應用擴充套件補丁才能利用這一功能。<br/>
+（在 Windows 上，一個簡單的方法是使用 [media-autobuild_suite](https://github.com/m-ab-s/media-autobuild_suite)。）
 
-Operation is not too different from the SVT-AV1 FFmpeg integration. Your commands will generally look like this:<br/>
+操作過程與 SVT-AV1 的 FFmpeg 集成差異不大。你的命令通常會像這樣：<br/>
 `ffmpeg -i video.mp4 -c:v libsvt_vp9 -qp 38 -tune ssim -preset 7 -g 255 video_vp9.webm`
 
-
 <details>
-<summary>Parameters</summary>
+<summary>參數</summary>
 
-| Parameter           | Description |
+| 參數               | 描述 |
 |------------------|-------------|
-| -qp              | Quantizer value, higher = lower quality. Range is 1..51 in current patches, but -qmin/-qmax can be set as high as 69 for extreme low bitrates. |
-| -preset          | Speed preset. Range is 0..9, with 9 being fastest and default. |
-| -tune            | Quality metric. Can be "vq" (default), "ssim" or "vmaf". |
-| -g               | Size of the Group of Pictures. Range is -2..255, with -1 = no intraframe updates ever, -2 = "auto".<br/>We recommend you set it as high as possible for encode efficiency. |
-| -rc              | Rate control mode.<br/>Can be "cqp" (Constant Quantizer, default), "vbr" (Variable Bitrate) or "cbr" (Constant Bitrate).<br/>(Consider using **vpxenc's two-pass mode** if you really need to match a target bitrate.) |
-| -level           | Encoder level. Range is 1..6. Generally better not to set it. |
-| -socket          | Index of the CPU socket to use. By default it's -1, which uses "all available processors". |
+| -qp              | 量化器值，值越高 = 品質越低。當前補丁中的範圍是 1..51，但 -qmin/-qmax 可以設定為高達 69 以達到極低的位元率。 |
+| -preset          | 速度預設。範圍是 0..9，其中 9 為最快且預設。 |
+| -tune            | 品質指標。可以是 "vq"（預設）、"ssim" 或 "vmaf"。 |
+| -g               | 圖片組大小。範圍是 -2..255，其中 -1 = 永不進行內幀更新，-2 = "自動"。<br/>我們建議你設定為盡可能高以提高編碼效率。 |
+| -rc              | 位元率控制模式。<br/>可以是 "cqp"（常數量化器，預設）、"vbr"（可變位元率）或 "cbr"（常數位元率）。<br/>(如果你確實需要匹配目標位元率，請考慮使用 **vpxenc 的雙通道模式**。) |
+| -level           | 編碼器級別。範圍是 1..6。通常最好不要設定。 |
+| -socket          | 要使用的 CPU 插槽索引。預設為 -1，表示 "所有可用處理器"。 |
+</details>
 
 </details>
 
-## Supported Color Space
+## 支援的色度空間
 
-SVT-VP9 only supports 8-bit yuv420p.
+SVT-VP9 僅支援 8 位 yuv420p。
 
-## Usage
-### Standalone
-To be filled. If you believe you can help, see our [Contribution Guide](../contribution-guide.mdx). 
+## 使用方法
+### 獨立使用
+待填寫。如果你認為自己能夠提供幫助，請參閱我們的 [貢獻指南](../contribution-guide.mdx)。
