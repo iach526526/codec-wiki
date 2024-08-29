@@ -1,4 +1,4 @@
----
+﻿---
 title: AMF
 sidebar_position: 3
 ---
@@ -9,16 +9,16 @@ sidebar_position: 3
 本條目內容尚未完成，正在進行補充。
 :::
 
-AMF for AMD GPUs allows applications to take advantage of the dedicated video encoding & decoding hardware present in AMD GPUs.
+AMF 專為 AMD GPU 設計，允許應用程式利用 AMD GPU 上專用的影片編碼與解碼硬體。
 
-The AMD Advanced Media Framework (AMF) is a low-level API developed by AMD that enables developers to leverage hardware-accelerated video encoding & decoding on AMD GPUs. By utilizing specialized hardware on the GPU's media block, video encoding and decoding tasks can be offloaded from the CPU, resulting in drastic speed & efficiency increases. AMF provides multimedia processing functionality to applications, and competes with Nvidia's [NVENC](./nvenc.mdx) & Intel's [QSV](./qsv.mdx) for similar functionality.
+AMD 高階多媒體框架（AMF）是由 AMD 開發的一個低階 API，讓開發者能夠在 AMD GPU 上利用硬體加速進行影片編碼與解碼。透過使用 GPU 上的專用多媒體模組，影片編碼與解碼任務可以從 CPU 上卸載，從而顯著提升速度與效能。AMF 為應用程式提供多媒體處理功能，並與 Nvidia 的 [NVENC](./nvenc.mdx) 及 Intel 的 [QSV](./qsv.mdx) 在類似功能上競爭。
 
-AMF provides support for various video codecs, including [H.264](../video/AVC.mdx) , [H.265](../video/HEVC.mdx), [VP9](../video/VP9.mdx), and more recently [AV1](../video/AV1.mdx) on the latest supported GPUs. The GPU's encoding capabilities are especially useful for compressing video content in real-time, where speed is of greater importance than coding efficiency.
+AMF 支援多種影片編碼格式，包括 [H.264](../video/AVC.mdx)、[H.265](../video/HEVC.mdx)、[VP9](../video/VP9.mdx)，以及最新支援 GPU 上的 [AV1](../video/AV1.mdx) 編碼。GPU 的編碼能力在即時壓縮影片內容時特別有用，這時速度的重要性往往超過編碼效率。
 
-Hardware-accelerated video encoding using AMF usually significantly improves encoding performance at low compression efficiency compared to software-based encoding solutions. It usually allows for higher-quality output at lower bitrates when encoding much faster than real time, such as at 60-200 fps. This is particularly beneficial for applications that require real-time encoding, such as live streaming, video conferencing, and game recording.
+使用 AMF 進行硬體加速的影片編碼通常能顯著提升編碼性能，但壓縮效率相較於基於軟體的編碼解決方案會較低。與軟體編碼相比，硬體編碼通常在更低的位元率下提供更高品質的輸出，尤其是在需要比實時速度更快的編碼時，例如每秒 60 至 200 幀。這對於需要即時編碼的應用程式特別有利，例如直播、視訊會議和遊戲錄製。
 
-However, slower software encoding solutions almost always offer improvements in fidelity per bit compared to hardware encoding. For offline re-encoding & storage, software encoding is generally preferred. AMF in particular is not known for having strong compression efficiency, as it is hampered by AMD's comparably weak media blocks which are usually outperformed by other hardware implementations from Nvidia, Intel, & Apple.
+然而，相較於硬體編碼，較慢的軟體編碼解決方案在位元率與畫質之間的平衡通常更佳，因此在離線重新編碼與儲存時通常優先選擇軟體編碼。AMF 的壓縮效率並不以其優勢著稱，這是因為 AMD 的多媒體模組相對較弱，通常在性能上不如 Nvidia、Intel 和 Apple 的硬體實現。
 
-AMF is designed to integrate seamlessly with popular media frameworks and libraries, such as [FFmpeg](../utilities/ffmpeg.mdx) and GStreamer. These frameworks often include AMF support, allowing developers to easily incorporate hardware-accelerated encoding into their applications without the need for low-level API programming.
+AMF 設計上能無縫整合至流行的多媒體框架和函式庫，如 [FFmpeg](../utilities/ffmpeg.mdx) 和 GStreamer。這些框架通常包含 AMF 支援，讓開發者無需編寫低階 API 程式即可輕鬆將硬體加速的編碼功能融入應用程式中。
 
-AMF is compatible with a wide range of AMD GPUs, including both discrete and integrated graphics solutions. It supports various operating systems, including Windows and Linux, making it accessible to developers across different platforms.
+AMF 與廣泛的 AMD GPU 相容，無論是獨立顯卡還是集成顯卡，且支援多種作業系統，包括 Windows 和 Linux，使其在不同平台上對開發者都具可用性。

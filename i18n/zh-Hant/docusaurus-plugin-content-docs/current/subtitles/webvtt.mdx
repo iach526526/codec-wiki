@@ -1,27 +1,22 @@
----
+﻿---
 title: WebVTT
 ---
 
 # WebVTT
 
-WebVTT, or Web Video Text Tracks, is the format for subtitles on the web. It is used with the [HTML \<track\> element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/track), or embedded into a webm container.
+WebVTT（Web Video Text Tracks）是網頁上的字幕格式。它與 [HTML `<track>` 元素](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/track) 一起使用，或嵌入到 webm 容器中。
 
-## Structure
-WebVTT is a simple, text-based format, based on [SRT](./SRT.mdx). All files start with the string
-`WEBVTT`, optionally, some text, then two new lines. That's where the
-data we're interested in starts.
+## 結構
+
+WebVTT 是一種簡單的基於文本的格式，基於 [SRT](./SRT.mdx)。所有 WebVTT 檔案都以字符串 `WEBVTT` 開頭，之後是可選的文字，再接著是兩個換行符。這樣開始的部分就是我們感興趣的資料部分。
 
 ### Cue
 
-A WebVTT file is basically a bunch of cues. They can have a line with
-an ID, then they have to have a line specifying from where to where
-the cue should be displayed like this: `STARTTIME -> ENDTIME [optional
-settings go here]`, then all the text to be displayed goes after
-it. That text can have some HTML-like formatting in it. To learn about
-them, see [the documentation](https://developer.mozilla.org/en-US/docs/Web/API/WebVTT_API#webvtt_cues).
+WebVTT 檔案基本上是由一系列 cue（提示）組成的。它們可以有一行 ID，然後必須有一行指定提示的顯示時間範圍，格式如下：`STARTTIME --> ENDTIME [optional settings go here]`，接著是顯示的文本。這些文本可以包含一些 HTML 類似的格式化。欲了解更多資訊，請參見 [文檔](https://developer.mozilla.org/en-US/docs/Web/API/WebVTT_API#webvtt_cues)。
 
-## Example
-```
+## 範例
+
+```plaintext
 WEBVTT
 
 00:01.000 --> 00:04.000

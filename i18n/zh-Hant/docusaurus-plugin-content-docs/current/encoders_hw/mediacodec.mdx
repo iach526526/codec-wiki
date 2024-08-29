@@ -1,23 +1,23 @@
----
+﻿---
 title: Mediacodec
 sidebar_position: 5
 ---
 
 Android 的 MediaCodec 框架是 Android 多媒體框架的一部分，提供對低階媒體編碼器和解碼器元件的訪問。它類似於 Apple 設備上的 [VideoToolbox](./videotoolbox.mdx)。使用 MediaCodec 的硬體加速功能可以處理音訊、影片和壓縮資料。
 
-MediaCodec 框架的一個主要特點是它支持操作系統內的自動媒體轉碼功能。該功能於 Android 12 中引入，允許設備在錄製影片時使用更現代且儲存效率更高的媒體格式，同時保持與應用程式的相容性。對於啟用了相容媒體轉碼功能的設備，Android 可以在應用程式不支援某種格式時，自動將以例如 [H.265](../video/HEVC.mdx) 格式錄製的影片轉換為該應用程式可支援的格式。這使得應用程式即使在設備上錄製了新格式的影片時也能正常運行。
+MediaCodec 框架的一個主要特點是它支援操作系統內的自動媒體轉碼功能。該功能於 Android 12 中引入，允許設備在錄製影片時使用更現代且儲存效率更高的媒體格式，同時保持與應用程式的相容性。對於啟用了相容媒體轉碼功能的設備，Android 可以在應用程式不支援某種格式時，自動將以例如 [H.265](../video/HEVC.mdx) 格式錄製的影片轉換為該應用程式可支援的格式。這使得應用程式即使在設備上錄製了新格式的影片時也能正常執行。
 
 ## 使用說明
 
 要查看設備的 MediaCodec 框架所支援的硬體和軟體編碼器，建議下載開源應用程式 [Codec Info](https://play.google.com/store/apps/details?id=com.parseus.codecinfo)。
 
-在了解如何正確操作設備的硬體編碼器後，您可以使用 [FFmpeg](../utilities/ffmpeg.mdx) 從命令行輕鬆轉碼影片。
+在了解如何正確操作設備的硬體編碼器後，你可以使用 [FFmpeg](../utilities/ffmpeg.mdx) 從命令行輕鬆轉碼影片。
 
 ### FFmpeg
 
 本文中的測試是在搭載 Tensor G3 SoC 的 Google Pixel 8 上進行的。由於 Tensor G3 基於 Exynos 平台，因此由 Exynos 多媒體模組提供 H.264、H.265 (HEVC) 和 [VP9](../video/VP9.mdx) 硬體加速編碼。由 Google 定制的多媒體模組則提供 AV1 編碼和解碼。
 
-Exynos 的 H.264 和 H.265 硬體編碼實現不支援 CQ（恒定質量）編碼，因此必須為 CBR（恆定位元率）或 VBR（可變位元率）編碼提供目標位元率。Google 的 AV1 編碼實現情況相同。
+Exynos 的 H.264 和 H.265 硬體編碼實現不支援 CQ（恒定品質）編碼，因此必須為 CBR（恆定位元率）或 VBR（可變位元率）編碼提供目標位元率。Google 的 AV1 編碼實現情況相同。
 
 以下是一些使用 FFmpeg 進行 MediaCodec 編碼的範例命令：
 
@@ -29,7 +29,7 @@ ffmpeg -i input.mkv -c:v h264_mediacodec -codec_name c2.exynos.h264.encoder -bit
 ffmpeg -i input.mkv -c:v hevc_mediacodec -codec_name c2.exynos.hevc.encoder -bitrate_mode 1 -b:v 4000K -g 250 output.mp4
 ```
 
-VP9 編碼會產生與位元率相較失真的影片，而 AV1 編碼會產生沒有元數據的損壞檔案。
+VP9 編碼會產生與位元率相較失真的影片，而 AV1 編碼會產生沒有元資料的損壞檔案。
 
 ```bash title="VP9 編碼（VBR，目標位元率 9000K，250 幀 GOP 大小）"
 ffmpeg -i input.mkv -c:v vp9_mediacodec -codec_name c2.exynos.vp9.encoder -bitrate_mode 1 -b:v 9000K -g 250 output.mkv
@@ -39,7 +39,7 @@ ffmpeg -i input.mkv -c:v vp9_mediacodec -codec_name c2.exynos.vp9.encoder -bitra
 ffmpeg -i input.mkv -c:v av1_mediacodec -codec_name c2.google.av1.encoder -bitrate_mode 1 -b:v 8000K -g 250 output.mp4
 ```
 
-只需運行 `ffmpeg -help encoder=hevc_mediacodec` 或 `ffmpeg -help encoder=h264_mediacodec` 以獲取更多有關如何使用 MediaCodec 編碼器的資訊。您可以根據 Codec Info 應用程式中顯示的資訊選擇 `-codec_name` 的值。
+只需執行 `ffmpeg -help encoder=hevc_mediacodec` 或 `ffmpeg -help encoder=h264_mediacodec` 以獲取更多有關如何使用 MediaCodec 編碼器的資訊。你可以根據 Codec Info 應用程式中顯示的資訊選擇 `-codec_name` 的值。
 
 *來源*
 (1) [MediaCodec | Android Developers](https://developer.android.com/reference/android/media/MediaCodec.)

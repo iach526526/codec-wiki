@@ -1,28 +1,30 @@
----
+﻿---
 title: SRT
 ---
 
 # SRT
 
-SubRip Text (SRT) is a text format for subtitles, described as 'the most basic of all subtitle formats'. SRT files are plain text with the extension `.srt`.
+SubRip Text（SRT）是一種字幕的文本格式，被描述為「所有字幕格式中最基本的格式」。SRT 檔案是純文本檔案，副檔名為 `.srt`。
 
-## Format
-Subtitles are placed into sequentially ordered groups, called cues, with a starting and ending timestamp, encoded `hours:minutes:seconds,milliseconds`. Note the seperator for the millisecond value is a comma. The starting and ending value are seperated by ` --> `.
-### Unoffical features
-Some basic HTML tags are supported by some viewers, such as:
-* `<b>bold</b>` **bold**
-* `<i>italics</i>` *italics*
-* `<u></u>` underlined
-* `<font color="#0000FF">Blue</font>` colored text.
+## 格式
+字幕以按順序排列的群組形式呈現，稱為提示（cue），每個提示包含一個開始和結束的時間戳，格式為 `小時:分鐘:秒,毫秒`。請注意，毫秒值的分隔符是逗號。開始和結束的時間戳之間用 ` --> ` 分隔。
 
-Note these will be displayed verbatim on viewers that don't support these features.
-## Example
+### 非官方功能
+某些觀看器支援一些基本的 HTML 標籤，例如：
+* `<b>bold</b>` **粗體**
+* `<i>italics</i>` *斜體*
+* `<u></u>` 下劃線
+* `<font color="#0000FF">藍色</font>` 彩色文本
+
+請注意，對於不支援這些功能的觀看器，這些標籤將原樣顯示。
+
+## 範例
 ```
 1
 00:00:00,000 --> 00:01:00,000
-This subtitle will be visible for the first minute of the stream
+這條字幕將在影片流的前一分鐘顯示
 
 2
 00:01:00,000 --> 00:01:30,000
-and this one for thirty seconds after that.
+這條字幕將在接下來的三十秒內顯示。
 ```

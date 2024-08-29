@@ -1,30 +1,30 @@
----
+﻿---
 title: SubStation Alpha
 description: The SubStation Alpha subtitle format.
 keywords: [SSA, ASS, subtitles]
 ---
-SubStation Alpha (SSA), also known as Advanced Substation Alpha (ASS) for v4+, is a subtitle format. It was originally used by the Windows program of the same name, aimed at the karaoke and anime communities. It's advanced styling compared to alternatives made it popular with release groups.
+SubStation Alpha（SSA），也被稱為 Advanced Substation Alpha（ASS）v4+，是一種字幕格式。最初由同名 Windows 程式所使用，主要針對卡拉 OK 和動漫社群。由於其相較於其他格式的進階樣式功能，使其在發行群體中頗受歡迎。
 
-# Overview
-SSA is a "plain" text format, with Unicode support in ASS. It can either be left as a plain text file with the extension of .ssa or .ass, or muxed into a Matroska (.mkv) or AVI (.avi) file. The original SubStation Alpha software is abandonware, however a wide variety of media authoring, muxing, and playing software supports SSA, including [VLC](../video-players.mdx), [MPV](../video-players.mdx), and [FFmpeg](../utilities/ffmpeg.mdx).
+# 概覽
+SSA 是一種「純」文本格式，在 ASS 中支援 Unicode。它既可以保留為副檔名為 .ssa 或 .ass 的純文本檔案，也可以被合併進 Matroska (.mkv) 或 AVI (.avi) 檔案。原版的 SubStation Alpha 軟體已經成為被遺棄的舊版軟體。，但包括 [VLC](../video-players.mdx)、[MPV](../video-players.mdx) 和 [FFmpeg](../utilities/ffmpeg.mdx) 在內的多種媒體製作、混流和播放軟體都支援 SSA 格式。
 
-## Format
-SSA uses the word "script" to refer to the subtitles that track a video. The character ';' at the beginning of a line is used to mark comments.
-### ASS (SSA v4+) header
+## 格式
+SSA 使用「腳本」一詞來指代與影片同步的字幕。以字符 ';' 開頭的行用來標記註解。
+### ASS（SSA v4+）標頭
 ```
 [Script Info]
-; This is an Advanced Sub Station Alpha v4+ script.
-; For Sub Station Alpha info and downloads,
-; go to http://www.eswat.demon.co.uk/
-; or email kotus@eswat.demon.co.uk
+; 這是一個 Advanced Sub Station Alpha v4+ 腳本。
+; 如需 Sub Station Alpha 資訊和下載，
+; 請訪問 http://www.eswat.demon.co.uk/
+; 或電郵至 kotus@eswat.demon.co.uk
 ; 
-; Advanced Sub Station Alpha script format developed by #Anime-Fansubs@EfNET
+; Advanced Sub Station Alpha 腳本格式由 #Anime-Fansubs@EfNET 開發
 ; http://www.anime-fansubs.org
 ; 
-; For additional info and downloads go to http://vobsub.edensrising.com/
-; or email gabest@freemail.hu
+; 如需其他資訊和下載，請訪問 http://vobsub.edensrising.com/
+; 或電郵至 gabest@freemail.hu
 ; 
-; Note: This file was saved by Subresync.
+; 注意：此檔案由 Subresync 保存。
 ; 
 ScriptType: v4.00+
 Collisions: Normal
@@ -42,9 +42,9 @@ Dialogue: 0,0:01:41.70,0:01:46.84,Default,,0000,0000,0000,,Le rugissement des la
 Dialogue: 0,0:02:00.99,0:02:02.87,Default,,0000,0000,0000,,Est-ce vraiment Naruto ?
 ```
 
-## Further reading:
+## 延伸閱讀：
 [Multimedia wiki](https://wiki.multimedia.cx/index.php/SubStation_Alpha)
 
-[Specification](http://moodub.free.fr/video/ass-specs.doc)
+[規範說明](http://moodub.free.fr/video/ass-specs.doc)
 
-[Archived original software release](https://web.archive.org/web/20030603235926/http://www.eswat.demon.co.uk/substation.html)
+[原始軟體版本的存檔](https://web.archive.org/web/20030603235926/http://www.eswat.demon.co.uk/substation.html)

@@ -1,13 +1,13 @@
----
+﻿---
 title: Vapoursynth
 sidebar_position: 2
 ---
 
 # Vapoursynth
 
-> VapourSynth is an application for video manipulation. Or a plugin. Or a library. It’s hard to tell because it has a core library written in C++ and a Python module to allow video scripts to be created.
+> VapourSynth 是一款用於影片操作的應用程式。或者說是一個擴充套件。又或者是一個函式庫。這有點難界定，因為它有一個用 C++ 編寫的核心函式庫，並提供了一個 Python 模組來創建影片腳本。
 
-*Fredrik Mellbin, creator of VapourSynth*
+*VapourSynth 創作者 Fredrik Mellbin*
 
 <picture>
   <source
@@ -22,26 +22,26 @@ sidebar_position: 2
   />
 </picture>{" "}
 
-# Introduction
+# 簡介
 
-In the realm of video processing, one will frequently encounter media with various quality issues. These can range from minor imperfections to significant degradation, including:
+在影片處理領域，你經常會遇到各種品質問題。這些問題可能從輕微的瑕疵到顯著的劣化，包括：
 
-- Excessive film grain or noise that significantly increases bitrate due to its unpredictable nature
-- Visible banding artifacts
-- Unwanted halos around objects
-- Interlacing issues in older, unrestored footage
-- Telecine artifacts from improper film-to-video conversion
-- And more, on our [video artifacts](../introduction/video-artifacts.mdx) page.
+- 過度的膠卷噪點或雜訊，因其不可預測的性質顯著增加位元率
+- 明顯的條紋或顯示帶狀伪影
+- 物體周圍的無用光暈
+- 較舊、未修復影像中的交錯問題
+- 錯誤的膠片到影片轉換所產生的「電視剪影」伪影
+- 更多問題，請參見我們的 [影片伪影](../introduction/video-artifacts.mdx) 頁面。
 
-To address these challenges, video filtering techniques are employed. Currently, there are three primary software frameworks used for video filtering:
+為了解決這些挑戰，會使用影片濾鏡技術。目前，主要有三個影片濾鏡的軟件框架：
 
 1. [FFmpeg](../utilities/ffmpeg.mdx)
 2. [VapourSynth](https://vapoursynth.com)
 3. [AviSynth](http://avisynth.nl/index.php/Main_Page)
 
-VapourSynth is designed as a 21st-century upgrade and rewrite of AviSynth, which was originally created by Ben Rudiak-Gould, Edwin van Eggelen, Klaus Post, Richard Berg, and Ian Brabham in May 2000. One of the most attractive features of this complete rewrite is its improved multithreading capability, an area where AviSynth struggled due to its aging infrastructure.
 
-Some longtime AviSynth users are reluctant to switch to VapourSynth, preferring to stick with a familiar workflow. There is nothing wrong with this preference, as both tools have their merits in video processing; that being said, the Codec Wiki's *Filtering* section focuses primarily on VapourSynth (and occaisonally FFmpeg). It is important to note that working with VapourSynth requires a basic understanding of Python, as the filtering process involves scripting.
+VapourSynth 是 AviSynth 的 21 世紀升級版和重寫，AviSynth 最初由 Ben Rudiak-Gould、Edwin van Eggelen、Klaus Post、Richard Berg 和 Ian Brabham 於 2000 年 5 月創建。這次完全重寫的一個最吸引人的特點之一是改進的多線程能力，這是在 AviSynth 的老舊基礎設施中存在困難的領域。
+一些老牌的 AviSynth 用戶對轉向 VapourSynth 持保留態度，偏好保留熟悉的工作流程。這種偏好並沒有錯，因為這兩種工具在影片處理中都有其優點；不過，Codec Wiki 的 *Filtering* 部分主要集中於 VapourSynth（偶爾也會提到 FFmpeg）。值得注意的是，使用 VapourSynth 需要對 Python 有基本了解，因為濾鏡處理過程涉及腳本編寫。
 
 ## Installation
 
