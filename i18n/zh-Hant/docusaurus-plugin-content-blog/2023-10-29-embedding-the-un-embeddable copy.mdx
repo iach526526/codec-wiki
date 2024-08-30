@@ -1,4 +1,4 @@
----
+﻿---
 title: "Embedding the Un-Embeddable"
 description: "Revealing the secrets of those websites that allow you to embed entire movies, AV1, and videos over 500MB on Discord."
 slug: embedding-the-un-embeddable
@@ -16,17 +16,17 @@ hide_table_of_contents: false
 **A 567.14 MB, 12 min 11 s, 2K (2,048 x 858), VP9 + Opus, 6.51 Mbps average, Blender short film "Cosmos Laundromat"**
 
 
-## A Scenario
+## 情境
 
-While chatting in your favorite Discord servers & group chats, you may see a friend send a weird link. You might even consider it suspicious on first glance. It is a video featuring an image of a movie poster with a play button that is almost begging to be clicked. Naturally, you click it.
+當你在喜愛的 Discord 伺服器和群組聊天中時，可能會看到朋友發送一個奇怪的連結。你可能會在第一眼看到它時覺得有些可疑。這是一個播放電影海報圖片的影片，播放按鈕幾乎在強迫你點擊。自然地，你點擊了它。
 
 <!--truncate-->
 
-It loads for a second, and to your surprise it is a full-length, 90-minute (sometimes even two hour)-long unauthorized copy of a movie. If you don't know exactly what is going on, you probably sit there dumbfounded as a pixel perfect HD movie plays back. You may have expected a stereotypically muddy, blocky, laggy shitpost, but this has defied your expectations.
+影片加載了一秒鐘，令你驚訝的是，這竟然是一部長達 90 分鐘（有時甚至是兩小時）的未授權電影拷貝。如果你對這一切感到困惑，你可能會傻傻地坐在那裡，看著高畫質的電影播放。你可能原以為會看到一個模糊、塊狀、延遲的劣質影片，但這卻超出了你的預期。
 
 ![stolen.shoes](/img/stolenshoes-puss.webp)
 
-The truth is, there are *multiple* site that do this. Currently, there are five at the time of writing. Below is a list the ones I am currently familiar with:
+事實上，*有多個* 網站提供這種服務。目前在撰寫本文時，已有五個這樣的網站。以下是我目前熟悉的一些網站：
 
 - https://stolen.shoes
 - https://discord.nfp.is
@@ -34,20 +34,22 @@ The truth is, there are *multiple* site that do this. Currently, there are five 
 - https://x266.mov/discord-embed
 - https://autocompressor.net/av1
 
-The big question is, **how do they work?** Let's get to dissecting.
 
-## But First, a Quick Disclosure
+最重要的問題是，**這些網站如何運作？** 讓我們來深入分析一下。
 
-The Codec Wiki unequivocally condemns any form of piracy, including the unauthorized distribution of copyrighted content. This blog post is intended to educate & inform. You may not use the tools discussed to infringe upon the intellectual property rights of content creators without serious legal risk. We encourage our readers to respect copyright laws & use the tools we discuss here appropriately.
+## 但首先，快速聲明
 
-## How it Works
+Codec Wiki 明確譴責任何形式的盜版，包括未經授權的版權內容分發。這篇文章的目的是提供教育和資訊。你不應該使用這些工具來侵犯內容創作者的智慧財產權，這樣做會面臨嚴重的法律風險。我們鼓勵讀者尊重版權法，並合法使用我們在此介紹的工具。
 
-The entire scheme is actually very simple, as it is all just HTML meta tags (If you are familiar with web development, this is all a walk in the park).
+## 運作原理
 
-The technology's inner working can be divided into two distinct parts. First, let's see how it works on the website's end.
+實際上，整個計劃非常簡單，因為它只是利用 HTML 元標籤（如果你熟悉網頁開發，這就像是手到擒來）。
 
-### The Website's End
-If you view each website's source, you will find this specific line in each one but they may have a different order:
+這項技術的內部運作可以分為兩個明顯的部分。我們先來看看它在網站端的運作方式。
+
+### 網站端
+
+如果你查看每個網站的源代碼，你會發現每個網站都有這一特定的代碼行，但它們的順序可能會有所不同：
 
 ```html
 <meta property="og:image" content="https://example.com/i/someimageforthumbnail.jpg">
@@ -57,7 +59,8 @@ If you view each website's source, you will find this specific line in each one 
 <meta property="og:video:height" content="1080">
 ```
 
-These are the `head` parts of HTML, which dictate metadata for the document itself such as what the website title/name is, cosmetic embed, defining the site's icon, etc. They are usually found in between the `<html>` and `<body>` tags. Here's an example of a static HTML site serving one specific video:
+這些是 HTML 檔案中的 `head` 部分，用來設定文檔的元資料，比如網站的標題或名稱、外觀嵌入、網站圖標等。這些部分通常位於 `<html>` 和 `<body>` 標籤之間。以下是一個靜態 HTML 網站用來播放特定影片的範例：
+
 ```html
 <!DOCTYPE html>
 <html>
@@ -79,44 +82,40 @@ These are the `head` parts of HTML, which dictate metadata for the document itse
 ```
 
 < br />
-These interactive sites usually deploy a live script, like a Javascript framework. Examples are NodeJS, ExpressJS, Svelte, etc. These are used to parse video and thumbnails realtime so they can be embedded on Discord (or potentially other platforms).
+這些互動網站通常會使用即時腳本，例如 Javascript 框架，來處理影片和縮略圖，以便可以嵌入 Discord（或其他平台）。常見的框架包括 NodeJS、ExpressJS 和 Svelte。
 
-### Discord's End
+### Discord 的端
 
-Traditionally, Discord's media embedder will impose it's own video embed size limit (50 MiB) when a user sends a direct video link as usual. But in this case Discord will embed the thumbnail first, not the video. You could say the link "tricks" Discord by showing a "false face" first.
+一般來說，Discord 的媒體嵌入器會對用戶發送的直接影片鏈接施加 50 MiB 的大小限制。不過，在這種情況下，Discord 會先顯示縮略圖，而不是影片本身。可以說，這個鏈接透過顯示「假面孔」來「欺騙」 Discord。
 
+## 優勢與限制
 
+經過長時間的觀察、測試，並與這些網站的創建者交流後，目前這種漏洞的優勢和限制如下：
 
-## Strengths & Limitations
+#### 優勢
 
-After a combination of countless hours of observation, rigorous testing throughout the period of a year, and conversations with the sites' creators, the current strengths & limitations of this exploit are enumerated below.
+- 可以嵌入一些不兼容網頁的編解碼器，例如 [HEVC](https://wiki.x266.mov/docs/video/HEVC) 在 [MP4/MOV](https://wiki.x266.mov/docs/introduction/terminology#mp4--m4v) 格式中，但用戶需要使用兼容的瀏覽器，例如 [Thorium](https://thorium.rocks) 或 Safari 13 以上版本。
+- 沒有最大大小限制。你可以嵌入與原 Bluray 大小相同的影片，儘管這樣做需要適當的法律授權，或者如果是創用 CC 授權的電影如 Big Buck Bunny，只要遵守相應的授權條款。這也意味著你可以無限制地將高位元率的遊戲片段發送給朋友，前提是你有地方可以上傳它們。
 
-#### Strengths
+#### 限制
 
-- You can embed non-web compatible codecs such as [HEVC](https://wiki.x266.mov/docs/video/HEVC) in [MP4/MOV](https://wiki.x266.mov/docs/introduction/terminology#mp4--m4v), but the user must be using a compatible browser. [Thorium](https://thorium.rocks) or Safari version 13 or greater will work for HEVC playback.
-- There is no maximum size. You could embed a video the size of a raw Bluray, although I do not condone this unless you have the necessary legal permissions to do so or you're uploading a Creative Commons licensed movie like Big Buck Bunny while adhering to the restrictions of the applicable Creative Commons license. This also means you can send high bitrate gaming clips to your friends without any restrictions, assuming you already have a place to upload them.
+- 只能使用 [直接連結](https://simple.wikipedia.org/wiki/Hotlinking)，即直接鏈接到影片檔案本身，並以適當的檔案副檔名結尾，如 `.mp4`。像 Google Drive 或 OneDrive 這樣的雲端服務無法作為儲存解決方案。
+- 不能將 Discord 的 CDN（cdn.discordapp.com）作為影片來源。我推測這是因為 Discord 的代理會阻止超過 50 MiB 的嵌入，但 **只有 discord.nfp.is 可以做到這一點**，因為它 **代理了 cdn.discordapp.com**。
+- 不能嵌入分辨率超過 3840 x 2160 的影片，Discord 對所有影片施加了這一硬性限制，因為發現有些影片可以正常播放，但在播放過程中會被惡意縮放到極端的分辨率，導致 Discord 崩潰。
 
-#### Limitations
+## 網站之間的差異
 
-- You can only use [hotlinks](https://simple.wikipedia.org/wiki/Hotlinking), which means direct linking to the video itself ending in the appropriate file extension such as `.mp4`. Cloud services like Google Drive or OneDrive will not work for storage.
-- You cannot use Discord's CDN (cdn.discordapp.com) as the video source. I assume this is because of Discord's proxy blocking embeds over 50 MiB, but **only discord.nfp.is can do this**, as it **proxies cdn.discordapp.com** itself.
-- You cannot embed videos in any resolutions higher than 3840 x 2160, Discord imposes a hard limit for this on all video after it was discovered that some videos could play normally but then be maliciously scaled to ridiculous resolutions during playback to crash Discord.
+目前已知有五個這樣的網站，它們都提供類似的功能，但因為它們的特色和功能有所不同，有些網站可能會對你更具吸引力。
 
+以下是這些網站，每個網站都有一個特別的優勢：
 
+- https://stolen.shoes - 知名度高，因為它是最早的。
+- https://discord.nfp.is - 可以使用 Discord CDN 作為影片來源。
+- https://embeds.video - 可以立即將影片來源輸入到 URL（`https://embeds.video/https://example.com/v/video.mp4`）。
+- https://x266.mov/discord-embed - 吸引人的域名，佈局簡單。
+- https://autocompressor.net/av1 - 提供大量資訊，功能相當先進。
 
-## Differences between Sites
-
-As mentioned before, there are five known sites at the time of writing. They all serve the same function, but one may interest you more than another due to slight differences in features & functionality.
-
-Here are the sites, each with one noteworthy special benefit:
-
-- https://stolen.shoes - Recognition, as it is the OG.
-- https://discord.nfp.is - You can use Discord CDN as video source.
-- https://embeds.video - Immediately input video source into the URL (`https://embeds.video/https://example.com/v/video.mp4`)
-- https://x266.mov/discord-embed - Attractive domain, simple layout.
-- https://autocompressor.net/av1 - Lots of info dump, pretty advanced features.
-
-That concludes the technical overview! Next, let's cover the history of this exploit.
+這就是技術概述的結束！接下來，我們將探討這個漏洞的歷史。
 
 ## The Lore
 

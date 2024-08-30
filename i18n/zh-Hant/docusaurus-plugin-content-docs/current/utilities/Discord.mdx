@@ -1,91 +1,95 @@
----
+﻿---
 title: Discord
 sidebar_position: 14
 ---
 
 # Discord
 
-:::info Under Maintenance
-The content in this entry is incomplete & is in the process of being completed.
+:::info 內容維護中
+本條目內容尚未完成，正在進行補充。
 :::
 
-:::caution Pending Review
-The content in this entry may not be entirely accurate, & is pending further review to assess the quality of the information.
+:::caution 待審核
+本條目內容尚待審核，其準確性可能需要進一步確認。 
 :::
 
-This entry is a bit different from others, and may be moved to a blog post in the future. Below are a number of tables that enumerate the codecs Discord supports for local playback (*not* livestreaming). These tables are based on community testing across a number of platforms, and are not exhaustive.
 
-## Key
 
-The key has a number of emojis corresponding to full support, partial support, support with the [Discord embed workaround](https://wiki.x266.mov/blog/embedding-the-un-embeddable), and no support.
+這篇文章與其他內容略有不同，未來可能會移至部落格。以下是列出 Discord 支援的本地播放編碼格式（*非* 直播）的幾個表格。這些表格基於社群在多個平台上的測試結果，並不全面。
 
-- ✅ Full support
-- ⚠️ Partial support
-- 🛠️ Support with the Discord embed workaround
-- ❔ Untested or unknown
-- ❌ No support
+## 圖示
 
-If the browser isn't compatible with a particular platform, it will be marked as N/A.
+圖示包括以下幾種，對應完全支援、部分支援、透過 [Discord embed 訊息](https://wiki.x266.mov/blog/embedding-the-un-embeddable) 支援，以及不支援。
 
-## Video Codecs & Containers
+- ✅ 完全支援
+- ⚠️ 部分支援
+- 🛠️ 支援（需 Discord embed 訊息）
+- ❔ 未測試或未知
+- ❌ 不支援
 
-**[H.264](../video/AVC.mdx)** 4:2:0 8-bit lossy | .mp4
+如果瀏覽器與某個平台不兼容，將標記為 N/A。
 
-| Browser | macOS | Windows | iOS | Android | Linux |
+## 影片編解碼器與容器
+
+**[H.264](../video/AVC.mdx)** 4:2:0 8-bit 有損 | .mp4
+
+| 瀏覽器 | macOS | Windows | iOS | Android | Linux |
 |---------|:-----:|:-------:|:---:|:-------:|:-----:|
 | Chrome  | ✅     | ✅      | ❔  | ❔       | ✅    |
 | Firefox | ✅     | ✅      | ❔  | ❔       | ✅    |
 | Safari  | ✅     | N/A     | ✅  | N/A      | N/A   |
-| App    | ✅     | ✅      | ✅  | ✅       | ✅    |
+| App     | ✅     | ✅      | ✅  | ✅       | ✅    |
 
-**[H.265](../video/HEVC.mdx)** 4:2:0 8-bit lossy | .mp4
+**[H.265](../video/HEVC.mdx)** 4:2:0 8-bit 有損 | .mp4
 
-| Browser | macOS | Windows | iOS | Android | Linux |
+| 瀏覽器 | macOS | Windows | iOS | Android | Linux |
 |---------|:-----:|:-------:|:---:|:-------:|:-----:|
 | Chrome  | ✅     | ⚠️**      | ❔  | ❔       | ❌    |
 | Firefox | ❌     | ⚠️***      | ❔  | ❔       | ❌    |
 | Safari  | ⚠️*     | N/A     | ⚠️*  | N/A      | N/A   |
-| App    | ✅     | ⚠️**      | ⚠️*  | ✅       | ❌    |
+| App     | ✅     | ⚠️**      | ⚠️*  | ✅       | ❌    |
 
-\* Only supports H.265 with the `hvcC` box in the MP4 container. These streams can be encoded by adding `-tag:v hvc1` to an FFmpeg encoding command.
+\* 僅支援 H.265 並帶有 MP4 容器中的 `hvcC` 標籤。這些流可以通過在 FFmpeg 編碼命令中添加 `-tag:v hvc1` 來編碼。
 
-\** Requires you have hardware accelerated HEVC decoding support.
+\** 需要硬體加速 HEVC 解碼支援。
 
-\*** Firefox on Windows requires you have hardware accelerated HEVC decoding support and the `media.wmf.hevc.enabled` flag enabled in `about:config`.
+\*** Windows 上的 Firefox 需要硬體加速 HEVC 解碼支援和在 `about:config` 中啟用 `media
 
-**[H.265](../video/HEVC.mdx)** 4:2:0 8-bit lossy | .mov
+.wmf.hevc.enabled` 標籤。
 
-| Browser | macOS | Windows | iOS | Android | Linux |
+**[H.265](../video/HEVC.mdx)** 4:2:0 8-bit 有損 | .mov
+
+| 瀏覽器 | macOS | Windows | iOS | Android | Linux |
 |---------|:-----:|:-------:|:---:|:-------:|:-----:|
 | Chrome  | ✅     | ⚠️**      | ❔  | ❔       | ❌    |
 | Firefox | ❌     | ⚠️***      | ❔  | ❔       | ❌    |
 | Safari  | ⚠️*     | N/A     | ⚠️*  | N/A      | N/A   |
-| App    | ✅     | ⚠️**      | ⚠️*  | ✅       | ❌    |
+| App     | ✅     | ⚠️**      | ⚠️*  | ✅       | ❌    |
 
-\* Only supports H.265 with the `hvcC` box in the MOV container. These streams can be encoded by adding `-tag:v hvc1` to an FFmpeg encoding command.
+\* 僅支援 H.265 並帶有 MOV 容器中的 `hvcC` 標籤。這些流可以通過在 FFmpeg 編碼命令中添加 `-tag:v hvc1` 來編碼。
 
-\** Requires you have hardware accelerated HEVC decoding support.
+\** 需要硬體加速 HEVC 解碼支援。
 
-\*** Firefox on Windows requires you have hardware accelerated HEVC decoding support and the `media.wmf.hevc.enabled` flag enabled in `about:config`.
+\*** Windows 上的 Firefox 需要硬體加速 HEVC 解碼支援和在 `about:config` 中啟用 `media.wmf.hevc.enabled` 標籤。
 
-**[H.265](../video/HEVC.mdx)** 4:2:0 10-bit lossy | .mp4
+**[H.265](../video/HEVC.mdx)** 4:2:0 10-bit 有損 | .mp4
 
-| Browser | macOS | Windows | iOS | Android | Linux |
+| 瀏覽器 | macOS | Windows | iOS | Android | Linux |
 |---------|:-----:|:-------:|:---:|:-------:|:-----:|
 | Chrome  | ✅     | ❌      | ❔  | ❔       | ❌    |
 | Firefox | ❌     | ❌       | ❔  | ❔       | ❌    |
 | Safari  | ⚠️*     | N/A     | ⚠️*  | N/A      | N/A   |
-| App    | ✅     | ❌      | ⚠️*  | ✅       | ❌    |
+| App     | ✅     | ❌      | ⚠️*  | ✅       | ❌    |
 
-\* Only supports H.265 with the `hvcC` box in the MP4 container. These streams can be encoded by adding `-tag:v hvc1` to an FFmpeg encoding command.
+\* 僅支援 H.265 並帶有 MP4 容器中的 `hvcC` 標籤。這些流可以通過在 FFmpeg 編碼命令中添加 `-tag:v hvc1` 來編碼。
 
-**[H.265](../video/HEVC.mdx)** 4:2:0 10-bit lossy | .mov
+**[H.265](../video/HEVC.mdx)** 4:2:0 10-bit 有損 | .mov
 
-| Browser | macOS | Windows | iOS | Android | Linux |
+| 瀏覽器 | macOS | Windows | iOS | Android | Linux |
 |---------|:-----:|:-------:|:---:|:-------:|:-----:|
 | Chrome  | ✅     | ❌      | ❔  | ❔       | ❌    |
 | Firefox | ❌     | ❌       | ❔  | ❔       | ❌    |
 | Safari  | ⚠️*     | N/A     | ⚠️*  | N/A      | N/A   |
-| App    | ✅     | ❌      | ⚠️*  | ✅       | ❌    |
+| App     | ✅     | ❌      | ⚠️*  | ✅       | ❌    |
 
-\* Only supports H.265 with the `hvcC` box in the MOV container. These streams can be encoded by adding `-tag:v hvc1` to an FFmpeg encoding command.
+\* 僅支援 H.265 並帶有 MOV 容器中的 `hvcC` 標籤。這些流可以通過在 FFmpeg 編碼命令中添加 `-tag:v hvc1` 來編碼。
