@@ -117,61 +117,61 @@ Codec Wiki 明確譴責任何形式的盜版，包括未經授權的版權內容
 
 這就是技術概述的結束！接下來，我們將探討這個漏洞的歷史。
 
-## The Lore
+## 故事背景
 
 ### Dwayne
 
-In around April of 2022, a Reddit user going by the name of u/CreativeGamer03 [posted a video on r/discordapp](https://www.reddit.com/r/discordapp/comments/u96kky/someone_sent_this_in_the_memes_channel_and_bruh) of a link where a GIF of Dwayne "The Rock" Johnson plays caption with "Is this a GIF or is it a video?" When played, a low-quality music video of Rick Astley's "Never Gonna Give You Up" plays.
+大約在 2022 年 4 月，一位 Reddit 用戶名為 u/CreativeGamer03 的用戶在 [r/discordapp](https://www.reddit.com/r/discordapp/comments/u96kky/someone_sent_this_in_the_memes_channel_and_bruh) 上分享了一個影片鏈接。鏈接中的 GIF 顯示 Dwayne "The Rock" Johnson，標題為「這是 GIF 還是影片？」當點擊播放時，卻顯示為低畫質的 Rick Astley 音樂影片 "Never Gonna Give You Up"。
 
-The link used is now unfortunately [removed](https://archuser.de/the-rock).
+該鏈接目前已經 [被刪除](https://archuser.de/the-rock)。
 
-### Discovery
-On 23rd June 2022, a Discord user *Clybius* on the AV1 Community server asked people for [VP9](https://wiki.x266.mov/docs/video/VP9) or [H.264](https://wiki.x266.mov/docs/video/AVC) videos that were over 100 MB in size. At the time the current 500 MB nitro tier did not exist. They then decided to use a 59 minute 1080p sample video of nature scenery from around the world with a thumbnail featuring a GIF of a waterfall to test the exploit. It worked.
+### 發現
 
-He tried shortly afterward with [AV1](https://wiki.x266.mov/docs/video/AV1). Eureka, it also worked:
+在 2022 年 6 月 23 日，Discord 用戶 *Clybius* 在 AV1 社區伺服器上尋求超過 100 MB 的 [VP9](https://wiki.x266.mov/docs/video/VP9) 或 [H.264](https://wiki.x266.mov/docs/video/AVC) 影片。當時，500 MB 的 Nitro 等級尚未推出。他們決定使用一個 59 分鐘長的 1080p 自然風光影片，縮略圖顯示為瀑布的 GIF，來測試這個漏洞。結果顯示成功。
+
+隨後，他們又用 [AV1](https://wiki.x266.mov/docs/video/AV1) 進行了測試，結果同樣成功：
 
 ![AV1](/img/clybius-av1.webp)
 
-Clybius confirmed that this could be patched if discovered. He cites having had the idea from the Dwayne Johnson example above, but forgetting about it for a couple of months. So, it seems this entire concept stemmed from a silly rickroll.
+Clybius 確認這個漏洞一旦被發現，可能會被修補。他提到這個想法來自上面提到的 Dwayne Johnson 範例，但幾個月後才再次想起來。因此，這整個概念似乎起源於一個搞笑的 rickroll。
 
 ![Dwayne](/img/clybius-dwayne.webp)
 
-### The Experiments & Interactive Site
+### 實驗與互動網站
 
-After the discovery of AV1 embedding, experimentation brought about the discovery that *any* video codec will work as long as the user can decode/play the codec and the container/extension is an MP4, MOV, or WebM. These are all traditionally web-compatible containers. If you're interested in learning about containers, please see the [Containers](https://wiki.x266.mov/docs/introduction/terminology#container) section on the [Terminology](https://wiki.x266.mov/docs/introduction/terminology) page.
+在發現 AV1 嵌入後，實驗表明 *任何* 影片編解碼器只要用戶能夠解碼/播放，並且容器/副檔名是 MP4、MOV 或 WebM，都可以使用。這些都是與網頁兼容的傳統容器。如果你對容器感興趣，請參見 [Terminology](https://wiki.x266.mov/docs/introduction/terminology) 頁面的 [Containers](https://wiki.x266.mov/docs/introduction/terminology#container) 部分。
 
-This applies to HEVC, ProRes, [xHE-AAC](https://wiki.x266.mov/docs/audio/AAC#xhe-aac), and other bizarre codecs that are rarely seen on the Web.
+這也適用於 HEVC、ProRes、[xHE-AAC](https://wiki.x266.mov/docs/audio/AAC#xhe-aac) 及其他不常見的編解碼器。
 
-While experimentating, Clybius converted one their idle domains `stolen.shoes` into an interactive embedder that provided a textbox for a video URL, a thumbnail URL, a width value, & a height value for the desired video. This would be the first website for Discord embedding.
+在實驗過程中，Clybius 將一個閒置的域名 `stolen.shoes` 轉換成了互動嵌入工具，提供了影片 URL、縮略圖 URL、寬度和高度值的文本框。這成為首個 Discord 嵌入網站。
 
-### Virality
+### 傳播性
 
-It's not long before people outside of the AV1 Community discovered `stolen.shoes`, and its popularity increased rapidly. Its use usually involved the illicit distribution of full-length, unauthorized copies of movies; this sometimes happened very shortly after some movies were released. There were a couple notable instances of this happenening that caused quite the stir online each time.
+不久之後，`stolen.shoes` 被 AV1 社區以外的人發現，人氣迅速上升。這個網站通常用於非法分發完整版、未經授權的電影拷貝，有時這些影片在電影上映後不久便會出現。以下是幾個引起廣泛關注的著名案例：
 
-- The first instance featured the DreamWorks sequel of "Puss in Boots (2011)", "Puss in Boots: The Last Wish (2022)". A 1080p video sourced from a streaming site was the first wake up call that attracted attention to the existence of these embed sites. This example used `stolen.shoes`.
+- 第一個案例涉及 DreamWorks 的續集《鞋貓劍客（2011）》的《鞋貓劍客：the last wish（2022）》。來自流媒體網站的 1080p 版本成為引起人們注意這些嵌入網站的第一個警訊。這個例子使用了 `stolen.shoes`。
 
 ![puss](/img/stolenshoes-puss.webp)
 
-- The second instance was when highly-anticipated animated film "The Super Mario Bros. Movie (2023)" produced by Illumination, Universal Studios, and Nintendo was spread around Discord. It was first spotted as a Cam (A camera recording by someone in theaters), then as it went out on streaming services a different link appeared but spread faster and with upgraded 1080p quality. Both used `stolen.shoes` as the embed site.
+- 第二個案例是備受期待的動畫電影《超級瑪利歐兄弟電影（2023）》，由 Illumination、環球影業和任天堂製作。這部影片在 Discord 上被傳播。最初以 Cam 版（影院拍攝的錄像）出現，後來在流媒體服務上上線後，出現了品質更高的 1080p 版本，並迅速擴散。兩者都使用了 `stolen.shoes` 作為嵌入網站。
 
 ![mario](/img/stolenshoes-mario.webp)
 
-- The third instance is very recent as of the day this was posted. A streaming-service sourced "Five Nights at Freddy's (2023)" was spread around since the movie released both in theaters and streaming service (Peacock) day one, and it gained steam extremely fast as most people had not seen it yet. Currently, this illegal novelty is gaining [hundreds of upvotes within the r/discordapp subreddit](https://www.reddit.com/r/discordapp/comments/17hx45y/is_discordnfp_an_ip_grabber/). The copy seems to be a compressed 720p encode. This example used `discord.nfp.is`.
+- 第三個案例非常近期，是在本文發佈當天。一部來自流媒體服務的《五夜鬼胎（2023）》自電影在影院和流媒體服務（Peacock）首日上映以來迅速傳播，由於大多數人尚未看過，這部非法新奇作品迅速引起了關注。目前，這部作品在 [r/discordapp 子版塊](https://www.reddit.com/r/discordapp/comments/17hx45y/is_discordnfp_an_ip_grabber/) 中獲得了數百個贊。這部拷貝似乎是壓縮過的 720p 編碼。這個例子使用了 `discord.nfp.is`。
 
 ![fnaf](/img/discordnfpis-fnaf.webp)
 
-Note the ones listed here are the ones that I saw become extremely popular. There may be lesser known links that have been spread around privately or just did not cause enough noise for me to notice. Some less popular examples I've noticed, featuring more illicit copyrighted content distribution: 
-- Top Gun Maverick (2022)
-- The SpongeBob trilogy (2005/2015/2020)
-- Spider-Man: Across the Spider-Verse (2023)
+以上列出的例子是我看到的非常受歡迎的影片。可能還有一些不那麼知名的鏈接在私下傳播，或是沒有引起足夠注意的鏈接。一些我注意到的較少見的例子，包括更多非法版權內容的分發：
+- 《捍衛戰士：獨行俠（2022）》
+- 《海綿寶寶三部曲（2005/2015/2020）》
+- 《蜘蛛人：穿越新宇宙（2023）》
 
+## 結語
 
-## Closing
+在 Discord 上嵌入異常大型影片的能力帶來了正面與負面的使用情境。一方面，它使得高品質內容可以輕鬆分享給朋友。但另一方面，它也促進了大規模的版權侵權，使幾乎所有擁有 Discord 帳戶的人都能自由分享盜版電影。
 
-The ability to embed unusually large videos on Discord has enabled both positive and negative use cases. On the one hand, it allows high-quality content to be shared easily among friends. However, it has also facilitated mass copyright infringement by empowering virtually anyone with a Discord accound to freely spread pirated movies.
+從技術角度來看，這是令人著迷的，但這種嵌入技術在道德上非常微妙。與任何事物一樣，我們的行為可能會影響他人，我要提醒大家，內容創作者應該得到報酬。作為用戶，我們應該通過合法平台來支援他們，合法地訪問他們的內容。
 
-While this is fascinating from a technical perspective, embedding techniques like these tread a fine ethical line. As with anything, it is important to be mindful of how our actions affect others, and I should remind everyone that content creators deserve to be compensated for their work. As users, we should support them by accessing their content via legitimate platforms.
+目前還不清楚這個漏洞能夠使用多久。與其促進盜版（這可能會讓 Discord 更有可能修補這個漏洞），不如負責任地利用這些功能來分享我們自己的創作、遊戲精華和其他可以合法分享的媒體。經過一些深思熟慮，也許我們可以在尊重版權法和滿足 Discord 敏感度之間找到公平的平衡，同時讓平台上的創意有更多的靈活性。
 
-It is hard to say how long this exploit will continue to be usable. Instead of enabling piracy, which may cause Discord to be more likely to patch this exploit if they see it as a serious threat, let's instead use these capabilities responsibly to share our own creations, gaming highlights, and other media which we can share legally. Given some thoughtfulness, perhaps we can find a fair balance between respecting copyright law and appeasing Discord's sensibilities while allowing some creative flexibility on the platform.
-
-Thank you for reading this blog post, I hope you learned something!
+感謝閱讀這篇博客文章，希望你能從中收穫不少！

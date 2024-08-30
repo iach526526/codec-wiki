@@ -75,46 +75,47 @@ Windows 上的支援是基於「最佳努力」原則，通過 **WSL2** 提供�
     </TabItem>
 </Tabs>
 
-## Aviator's Defaults
+### 第二次意譯
 
-Hovering over most user configurable options in Aviator will produce a helpful tooltip that you can look at to make things more clear.
+## Aviator 的預設設定
 
-### Perceptual Optimization
+在 Aviator 中，大多數可配置選項的滑鼠懸停會顯示有用的提示，幫助你更清楚地了解功能。
 
-Aviator doesn't use mainline SVT-AV1, but rather uses [a fork](https://github.com/gianni-rosato/svt-av1-psy) dubbed SVT-AV1-PSY maintained for perceptual quality. It includes several unique changes, including a custom [SSIM](../metrics/SSIM.mdx)-based [RDO](../introduction/psychovisual.mdx) tune that isn't included in mainline SVT-AV1. You can read more about SVT-AV1-PSY on the [SVT-AV1](../encoders/SVT-AV1.mdx#community-forks) entry.
+### 知覺優化
 
-Aviator's default FFmpeg command uses the following encoding parameters, some of which are redundant with defaults:
+Aviator 並未使用主流版本的 SVT-AV1，而是選擇了一個名為 [SVT-AV1-PSY](https://github.com/gianni-rosato/svt-av1-psy) 的分支，這個分支專注於提高知覺品質。這個分支包含一些獨特的改動，例如基於 [SSIM](../metrics/SSIM.mdx) 的 [RDO](../introduction/psychovisual.mdx) 調整，這在主線 SVT-AV1 中並不提供。你可以在 [SVT-AV1](../encoders/SVT-AV1.mdx#community-forks) 條目中了解更多關於 SVT-AV1-PSY 的詳細資訊。
+
+Aviator 的預設 FFmpeg 命令使用以下編碼參數，其中部分參數與預設值冗餘：
 
 ```bash
 -c:v libsvtav1 -crf X -preset X -pix_fmt yuv420p10le -svtav1-params film-grain=X:irefresh-type=2:input-depth=10:tune=3:sharpness=1:qm-min=0:keyint=300:aq-mode=2:enable-qm=1:film-grain-denoise=X
 ```
 
-### Video
+### 影片
 
 <img width="678" height="567" src="https://raw.githubusercontent.com/gianni-rosato/aviator/main/assets/aviator_video.webp" alt="Aviator Video Settings" loading="lazy" />
 
-By default, output resolution will match your source's resolution. Manually changing one resolution value will automatically calculate the other based on the video's aspect ratio. Aviator's SVT-AV1 speed preset is set to 6 by default, with a CRF (Constant Rate Factor) level of 32. You can set CRF from 0 to 63 using the slider, with larger numerical values indicating smaller filesize at the expense of visual quality. You can look at the detailed specifications behind each speed preset [here](https://gitlab.com/AOMediaCodec/SVT-AV1/-/blob/master/Docs/CommonQuestions.mdx#what-presets-do). Speed 7 offers a good balance between speed & compression efficiency at any CRF level.
+預設情況下，輸出的解析度會與原始影片的解析度相匹配。如果手動調整其中一個解析度值，系統會根據影片的縱橫比自動計算另一個解析度。Aviator 的 SVT-AV1 速度預設預設為 6，CRF（恆定位元率因子）預設為 32。你可以通過滑塊設定 CRF 值，範圍從 0 到 63，數值越大代表檔案大小越小，但視覺品質會降低。每個速度預設的詳細規格可以在 [這裡](https://gitlab.com/AOMediaCodec/SVT-AV1/-/blob/master/Docs/CommonQuestions.mdx#what-presets-do) 查閱。速度預設為 7 在各種 CRF 級別下提供了良好的速度與壓縮效率平衡。
 
-Setting values that don't correspond with the source video's aspect ratio means the output will either stretch or crop based on if the "crop" option is checked.
+如果設定的解析度與原影片的縱橫比不符，輸出影片會根據是否選擇「裁剪」選項來進行拉伸或裁剪。
 
-The Grain Synth slider allows you to add artificial grain to your video to mimic its natural grain. This option applies the artificial grain at decode time as a filter, which makes it easier to encode grainy videos at high fidelity. The Denoise switch removes noise from the video before applying artificial grain.
+Grain Synth 滑塊允許你在影片中添加人工顆粒，以模擬自然顆粒。這個選項在解碼時應用顆粒濾鏡，使得編碼顆粒感強的影片時能保持較高品質。Denoise 開關可以在應用顆粒之前去除影片中的噪聲。
 
-### Audio
+### 音頻
 
 <img width="678" height="567" src="https://raw.githubusercontent.com/gianni-rosato/aviator/main/assets/aviator_audio.webp" alt="Aviator Audio Settings" loading="lazy" />
 
-The default bitrate for Opus audio is 80kb/s. The audio source can be copied to the output media via that "Copy Audio" switch, & audio with >2 channels can be downmixed to stereo via the appropriately labelled switch. Volume adjustment & normalization are also offered in this section as well; the Volume slider allows you to increase or decrease the output's volume & is measured in decibels, & negative values decrease the volume. The Normalize toggle allows you to normalize your audio's perceived loudness.
+Opus 音頻的預設位元率為 80kb/s。你可以通過「複製音頻」開關將音頻源直接複製到輸出媒體中，超過兩個聲道的音頻則可以通過標註的開關轉換為立體聲。此外，這一部分還提供音量調整和正常化功能；音量滑塊可以調整輸出的音量，單位為分貝，負值表示音量降低。正常化開關則可讓你調整音頻的感知響度。
 
-The "Copy Audio" switch disables WebM output due to potential compatibility hiccups & overrides every option on the Audio page to keep the source audio untouched. This option, when enabled, ensures the source audio isn't reencoded.
+啟用「複製音頻」開關會禁用 WebM 輸出，以避免兼容性問題，並會覆蓋音頻頁面上的所有選項，確保原始音頻不會被重新編碼。此選項啟用時，源音頻將不會重新編碼。
 
-The Volume slider allows you to increase or decrease the output's volume. It is measured in decibels, and negative values decrease the volume. The Normalize switch allows you to normalize the audio's perceived loudness.
+音量滑塊允許你調整音量，單位為分貝，負值降低音量。正常化開關則用於調整音頻的感知響度。
 
-### Output
+### 輸出
 
 <img width="678" height="567" src="https://raw.githubusercontent.com/gianni-rosato/aviator/main/assets/aviator_output.webp" alt="Aviator Output UI" loading="lazy" />
 
-The container your video is stored in is associated with the file extension. Aviator offers two options for video output: the [Matroska](../introduction/terminology.mdx#mkv--mka--mks--mk3d) video container & the [WebM](../introduction/terminology.mdx#webm) container. The open-source Matroska container (.MKV) is used by default in Aviator & is a universal multimedia container with broad video & audio support. WebM is designed for web compatibility. Aviator won't copy subtitles to WebM outputs because WebM is only officially compatible with [WebVTT](../subtitles/webvtt.mdx) subtitles. Both containers work out of the box with Aviator's AV1 video & Opus audio, but WebM output will be disabled if the Copy Audio switch is enabled because then we lose this format compliance assurance.
-
+影片的儲存容器與檔案副檔名相關聯。Aviator 提供兩種影片輸出選擇：[Matroska](../introduction/terminology.mdx#mkv--mka--mks--mk3d) 容器和 [WebM](../introduction/terminology.mdx#webm) 容器。預設情況下，Aviator 使用開源的 Matroska 容器（.MKV），這是一種通用的多媒體容器，支援多種影片和音頻格式。WebM 容器則是為了網頁兼容性而設計的。Aviator 不會將字幕複製到 WebM 輸出中，因為 WebM 僅與 [WebVTT](../subtitles/webvtt.mdx) 字幕官方兼容。這兩種容器都能直接與 Aviator 的 AV1 影片和 Opus 音頻兼容，但如果啟用「複製音頻」開關，WebM 輸出將會被禁用，因為這樣會失去格式兼容性的保證。
 ## Credits
 
 Aviator is actively developed by [Gianni Rosato](https://github.com/gianni-rosato/).
