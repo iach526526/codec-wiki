@@ -110,148 +110,154 @@ sudo cp rav1ator-cli /usr/local/bin
 ## Windows
 
 :::note Windows
-The content in this entry was written by pat-e, or `pate` on Discord. This tutorial focuses on Windows 11.
+此指南由 Discord 用戶 pat-e（或稱 `pate`）撰寫，主要針對 Windows 11 系統。
 :::
 
-**Enable WSL2 on Windows 11 and Install "ArchWSL2"** by pat-e
+**由 pat-e 提供的 Windows 11 上啟用 WSL2 並安裝 "ArchWSL2" 教學**
 
-### Basic installtion
+### 基本安裝
 
-1.  Open the Terminal as Administrator:  
+1. 以管理員身份打開終端：  
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/01_wsl_rv-cli.avif)
-2.  In the Command-Prompt, enter the following to install WSL:  
-    
+
+2. 在命令提示符中輸入以下指令來安裝 WSL：
+
     ```pwsh
     wsl.exe --install --no-distribution
     ```
-    
-    ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/02_wsl_rv-cli.avif)  
-      
-    If the "Host Process for Windows Services" asks for allowing changes, approve it (Press "Yes"):  
+
+    ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/02_wsl_rv-cli.avif)
+
+    當 "Host Process for Windows Services" 要求你批准更改時，請點擊 "Yes"：  
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/03_wsl_rv-cli.avif)
-3.  Once the installation of WSL is finished, restart your Computer:  
-    
+
+3. WSL 安裝完成後，請重新啟動電腦：
+
     ```pwsh
     shutdown -r -f -t 1
     ```
-    
+
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/04_wsl_rv-cli.avif)
-4.  From [This GitHub link](https://github.com/sileshn/ArchWSL2), download the latest release of ArchWSL2 in the Releases section:  
+
+4. 從 [此 GitHub 連結](https://github.com/sileshn/ArchWSL2) 的 Releases 部分下載最新版本的 ArchWSL2：  
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/06_wsl_rv-cli.avif)
-5.  On your SSD, create a folder where we will place the ArchWSL2 files. This folder **must be kept and never deleted** as this will contain the base files for this distribution. It is advised to use an SSD instead of an HDD. The storage must be local storage, not a network-share or a removable disk. In our example, we will create a folder located at C:\\Stuff\\ArchWSL2;  
+
+5. 在 SSD 上創建一個檔案夾，用於存放 ArchWSL2 檔案。此檔案夾 **必須永久保留且不得刪除**，因為它包含該發行版的基礎檔案。建議使用 SSD 儲存檔案而非 HDD，並確保儲存位置為本地儲存而非網絡共享或可移動磁碟。我們的示例檔案夾位於 C:\\Stuff\\ArchWSL2；  
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/07_wsl_rv-cli.avif)  
       
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/08_wsl_rv-cli.avif)
 
-6.  Extract the downloaded ZIP of "ArchWSL2" into your newly created folder:  
-      
+6. 將下載的 ArchWSL2 ZIP 檔案解壓縮到剛才創建的檔案夾中：
+
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/09_wsl_rv-cli.avif)
 
-7.  Once extracted, start the extracted "Arch.exe":
+7. 解壓縮完成後，執行解壓出的 "Arch.exe" 檔案：
 
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/10_wsl_rv-cli.avif)
 
-8.  On first start, the program will create a virtual disk (VHDx). Once finished, press "Enter" to continue (it will close the window)
+8. 在首次啟動時，程式將創建一個虛擬硬盤 (VHDx)。完成後，按 "Enter" 繼續（此時窗口會自動關閉）：
 
-    ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/11_wsl_rv-cli.avif)  
-      
-    
-9.  Once the virtual hard disk is created, restart the "arch.exe" again. It will finish some steps and ask for creating a new user-account. **This account is completely separate from your Windows user.** Please remember the username and password you use.
+    ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/11_wsl_rv-cli.avif)
+
+9. 虛擬硬盤創建完成後，重新啟動 "arch.exe"。程式會進行一些設定並要求創建一個新用戶帳戶。**請注意，這個帳戶與你的 Windows 帳戶完全分離。**請記住你設定的用戶名和密碼。
 
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/12_wsl_rv-cli.avif)  
       
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/13_wsl_rv-cli.avif)
 
-10.  The Window will close and reopen again. As first step, update all packages. As your account you created earlier is in the sudo-group, you have to enter your password again as confirmation.
+10. 程式將再次關閉並重新打開。第一步是更新所有軟體包。由於你創建的帳戶已屬於 sudo 組，因此需要再次輸入密碼以確認操作。
 
     ```bash
     sudo pacman -Syu
     ```
-    
+
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/14_wsl_rv-cli.avif)
 
-11.  Approve the installation of all the updates (Type "y"):
+11. 確認安裝所有更新（輸入 "y"）：
 
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/15_wsl_rv-cli.avif)
 
-12.  Done... You can now use ArchWSL2.
+12. 完成！現在你可以開始使用 ArchWSL2 了。
 
-### After the Installation and Cleanup, How Do I Start Arch?
 
-For the start of Arch, there are 2 steps possible:
+### 安裝和清理後，如何啟動 Arch？
 
-1.  You can just start "wsl" form the command prompt, terminal or "Windows Search":  
+啟動 Arch 有兩種方式：
 
+1. 你可以從命令提示符、終端或 "Windows 搜索" 中直接啟動 "wsl"：
+   
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/20_wsl_rv-cli.avif)  
-      
+   
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/21_wsl_rv-cli.avif)
 
-2.  As another option, you can create a Shortcut to the "arch.exe" in the Installation-Folder:
-
+2. 另一個選擇是，你可以在安裝檔案夾中為 "arch.exe" 創建一個快捷方式：
+   
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/22_wsl_rv-cli.avif)  
-
+   
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/23_wsl_rv-cli.avif)  
-      
+   
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/24_wsl_rv-cli.avif)  
 
-**Hint**: When you open the "arch.exe", you will be placed into the directory where also the "arch.exe" is located. To change to your home directory, just enter the command below:
+**提示**：當你打開 "arch.exe" 時，系統會將你置於 "arch.exe" 所在的目錄中。若要切換到你的主目錄，請輸入以下命令：
+    
     ```bash
     cd ~
     ```
-      
+   
 ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/25_wsl_rv-cli.avif)
 
-### Unlock WSL RAM Usage (Optional)
+### 解鎖 WSL 記憶體使用量（可選）
 
-**Hint**: WSL caps RAM usage at 50% of the total RAM available on your system.
+**提示**：WSL 預設情況下將記憶體使用量限制為你系統總記憶體的 50%。
 
-When you start the VM, you will see that you only will only have 50% of your total memory available:  
+當你啟動虛擬機（VM）時，你會發現只使用了總記憶體的 50%：
 
 ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/26_wsl_rv-cli.avif)
 
-To allow more memory, you need to place a config-file in your profile-folder in Windows. See the instructions below:
+要允許使用更多記憶體，你需要在 Windows 用戶配置檔案夾中創建一個配置檔案。請按照以下步驟操作：
 
-1.  Open "notepad.exe" and enter the following:  
-    
+1. 打開 "notepad.exe" 並輸入以下內容：
+
     ```txt
     [wsl2]
     memory=12GB
     ```
-    
+
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/27_wsl_rv-cli.avif)
-2.  The amount of memory should never be more than current memory. Set it to total memory minus 4GB to leave enough left over for Windows. In my example, Windows has 16GB of RAM available, so I select the memory to be 12GB.  
-      
-    
-3.  When saving the file, enter the following as filename:  
-    
+
+2. 記憶體設定不應超過當前可用記憶體。通常，應該將記憶體設定為總記憶體減去 4GB，以保證 Windows 系統執行所需的資源。在示例中，系統擁有 16GB 的 RAM，所以將記憶體設定為 12GB。
+
+3. 保存檔案時，請輸入以下路徑作為檔案名：
+
     `%userprofile%`
-    
+
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/28_wsl_rv-cli.avif)
 
-4.  When pressing enter, the directory will switch to your user-profile folder:
+4. 按下 "Enter" 後，檔案夾將自動切換至你的用戶配置檔案夾：
 
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/29_wsl_rv-cli.avif)
 
-5.  Select the "Save as type" to "All files (\*.\*)" and save as the following filename:
-    
+5. 將 "保存類型" 更改為「所有檔案 (\*.\*)」，並保存為以下檔案名：
+
     `.wslconfig`
-    
-    ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/30_wsl_rv-cli.avif)  
-      
-    Make sure the file is saved as `.wslconfig`. Then exit notepad.
-6.  Exit any current running WSL / Arch (exit):
+
+    ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/30_wsl_rv-cli.avif)
+
+    確保該檔案已保存為 `.wslconfig`，然後退出記事本。
+
+6. 退出當前正在執行的 WSL / Arch（輸入 exit 命令）：
 
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/31_wsl_rv-cli.avif)
 
-7.  Open the Terminal as Administrator and "shutdown" any running WSL:  
-    
+7. 以管理員身份打開終端並執行以下命令，關閉所有正在執行的 WSL：
+
     ```pwsh
     wsl --shutdown
     ```
-    
+
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/32_wsl_rv-cli.avif)
 
-8.  Restart WSL again and check the memory settings from within Arch by running the following command:
+8. 再次啟動 WSL，並通過執行以下命令來檢查 Arch 的記憶體設定：
 
     ```bash
     free -h
@@ -259,13 +265,13 @@ To allow more memory, you need to place a config-file in your profile-folder in 
 
     ![](https://raw.githubusercontent.com/av1-community-contributors/images/main/33_wsl_rv-cli.avif)
 
-If you've made it this far, you should be more than ready to encode. We hope you enjoy rAV1ator CLI!
+如果你已經走到這一步，那麼你應該已經準備好開始編碼了。希望你享受使用 rAV1ator CLI！
 
 ## macOS
 
-No macOS support is provided at this time. It is definitely technically feasible, and I may produce a separate tool in the future with proper macOS binaries, though this would be a burden to keep up considering I don't currently see any demand for a port.
+目前暫不支援 macOS。雖然技術上可行，但考慮到目前並無需求，我可能會在未來製作一個適用於 macOS 的獨立工具。不過，維護這樣的工具將是一個負擔。
 
-### Troubleshooting
+### 常見問題解答
 
-- If your encode features a grey screen flashing occaisonally in the output, create a lossless intermediary of your source with x264 `-qp 0`. This happens because of VC-1 decoding errors, and is not something I can fix.
-- If you have any more questions, please join the [AV1 for Dummies Discord server](https://discord.gg/bbQD5MjDr3). There is a rAV1ator CLI channel over there, and I am always happy to talk!
+- 如果你的編碼中偶爾出現灰屏閃爍，請使用 x264 `-qp 0` 創建一個無損中介檔案。這是由於 VC-1 解碼錯誤引起的，目前無法修復。
+- 如有更多疑問，歡迎加入 [AV1 for Dummies Discord 伺服器](https://discord.gg/bbQD5MjDr3)。那裡有一個 rAV1ator CLI 頻道，我隨時樂於交流！

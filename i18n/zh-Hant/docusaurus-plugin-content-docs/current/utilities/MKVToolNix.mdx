@@ -1,4 +1,4 @@
----
+﻿---
 title: MKVToolNix
 sidebar_position: 4
 ---
@@ -11,23 +11,23 @@ sidebar_position: 4
 </picture>
 <br/><br/>
 
-MKVToolNix is free and open source GUI frontend to a set of tools (mkvmerge, mkvinfo, mkvpropedit, mkvextract) to create, alter and inspect Matroska files under Linux, other \*NIXes and Windows.
+MKVToolNix 是一款免費且開源的圖形化界面工具集，包含 mkvmerge、mkvinfo、mkvpropedit 和 mkvextract 等工具，主要用於在 Linux、其他 \*NIX 系統及 Windows 平台上創建、修改和檢查 Matroska 檔案。
 
-MKVToolNix is built with Qt and written in C++.
+MKVToolNix 是基於 Qt 框架開發，並使用 C++ 編寫。
 
-## Installation
+## 安裝指南
 
-Fortunately, Moritz Bunkus (Creator) is sane enough to provide downloads for pretty much all popular desktop operating systems.
-- Windows & Mac: [MKVToolNix site](https://mkvtoolnix.download/downloads.html).
-- Linux: [Install as a Flatpak](https://flathub.org/apps/org.bunkus.mkvtoolnix-gui) or check your package manager.
+幸運的是，這款工具的創作者 Moritz Bunkus 提供了幾乎適用於所有主流桌面操作系統的下載版本。
+- Windows 和 Mac 用戶請訪問：[MKVToolNix 官方網站](https://mkvtoolnix.download/downloads.html)。
+- Linux 用戶可選擇 [通過 Flatpak 安裝](https://flathub.org/apps/org.bunkus.mkvtoolnix-gui) 或檢查包管理器中的相關版本。
 
-## Usage
+## 使用說明
 
-Drag and drop media files (or use "Add source files") to the application and modify, remux, demux, add streams, drop streams, anything and when done set your output destination and click "Start multiplexing" to start writing the output.
+將媒體檔案拖放到應用程式中（或點擊「Add source files」），然後可以進行修改、重新封裝（remux）、解封裝（demux）、添加或刪除流。設定好輸出目錄後，點擊「開始多路復用」來生成輸出檔案。
 
-## Tips and tricks
+## 使用技巧
 
-1. You can import unencrypted BDMV (``index.bdmv``) or Blu-ray playlist files into MKVToolNix and it will prompt you to select which stream you would want to import.
-2. You can set a WebM output in Output > Miscellaneous > "Create WebM compliant file"
-3. You can split videos in multiple ways in Output > Splitting. Best of all? No freeze frames unlike in FFmpeg and no re-encoding required.
-4. You can edit metadata without remuxing (Albeit rather limited) in the "Header Editor".
+1. 你可以將未加密的 BDMV 檔案（如 ``index.bdmv``）或藍光播放列表檔案導入 MKVToolNix，並選擇要導入的流。
+2. 你可以在 Output > Miscellaneous > Create WebM compliant file 中選擇輸出為 WebM 格式。
+3. 你可以在 Output > Splitting 中以多種方式分割影片檔案。最棒的是，這不會像 FFmpeg 那樣出現卡幀，且無需重新編碼。
+4. 在「Header Editor」中，你可以編輯元資料而無需重新封裝檔案（儘管功能相對有限）。
