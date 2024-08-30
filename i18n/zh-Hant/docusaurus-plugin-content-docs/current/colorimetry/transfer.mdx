@@ -1,134 +1,116 @@
----
+﻿---
 title: Transfer Characteristics
 sidebar_position: 5
 ---
 
-# Transfer Characteristics
+### 傳輸特性
 
-Transfer characteristics, also known as transfer functions, represent the
-gamma function of a video--that is, how to convert from a gamma-compressed
-video to one that is in linear light. These are sometimes also called EOTF
-and OETF functions.
+傳輸特性，也稱為傳輸函數，表示影片的伽瑪函數——即如何將伽瑪壓縮的影片轉換為線性色彩。這些有時也被稱為 EOTF（Electro-Optical Transfer Function）和 OETF（Opto-Electronic Transfer Function）函數。
 
-As with primaries, the integer values are defined within universal specifications,
-and as such they will be the same across all encoding and playback tools.
+與色彩原理一樣，這些整數值在全球標準中有明確定義，因此它們在所有編碼和播放工具中都將保持一致。
 
-The following values are available:
+以下是可用的值：
 
 ### 1: BT.1886
 
-BT.1886 is the standard used for most modern, SDR video, and is a safe default assumption.
+BT.1886 是大多數現代 SDR（標準動態範圍）影片使用的標準，也是安全的預設選擇。
 
-This transfer function is used in the following standards:
+此傳輸函數在以下標準中使用：
 
 - Rec. ITU-R BT.709-6
-- Rec. ITU-R BT.1361-0 conventional
-  colour gamut system (historical)
+- Rec. ITU-R BT.1361-0 傳統色域系統（歷史性）
 
-### 2: Unspecified
+### 2: 未指定
 
-This value indicates that no transfer function is set for the video, and the player must decide which value to use.
+此值表示影片未設定任何傳輸函數，播放器必須決定使用哪個值。
 
-mpv will always assume BT.1886 in this case.
+在這種情況下，mpv 會始終假定使用 BT.1886。
 
 ### 4: BT.470M
 
-BT.470M is a standard that was used in analog television systems in the United States. This transfer represents a power function with a gamma of 2.2.
+BT.470M 是一個曾用於美國模擬電視系統的標準。這個傳輸函數代表一個伽瑪為 2.2 的冪函數。
 
-This transfer function is used in the following standards:
+此傳輸函數在以下標準中使用：
 
-- Rec. ITU-R BT.470-6 System M
-  (historical)
-- United States National Television
-  System Committee 1953
-  Recommendation for transmission
-  standards for color television
-- United States Federal Communications
-  Commission (2003) Title 47 Code of
-  Federal Regulations 73.682 (a) (20)
-- Rec. ITU-R BT.1700-0 625 PAL and
-  625 SECAM
+- Rec. ITU-R BT.470-6 系統 M（歷史性）
+- 美國國家電視系統委員會 1953 年
+  對彩色電視傳輸標準的建議
+- 美國聯邦通信委員會（2003 年）《第 47 條聯邦法規》第 73.682 條（a）(20)
+- Rec. ITU-R BT.1700-0 625 PAL 和 625 SECAM
 
 ### 5: BT.470BG
 
-BT.470BG is a standard that was used for European (PAL) television systems and DVDs. This transfer represents a power function with a gamma of 2.8.
+BT.470BG 是一個曾用於歐洲（PAL）電視系統和 DVD 的標準。這個傳輸函數代表一個伽瑪為 2.8 的冪函數。
 
 ### 6: SMPTE 170M
 
-SMPTE 170M is a stanrard that was used for NTSC television systems and DVDs. Its transfer function is equivalent to BT.1886.
+SMPTE 170M 是一個曾用於 NTSC 電視系統和 DVD 的標準。其傳輸函數等同於 BT.1886。
 
-This transfer function is used in the following standards:
+此傳輸函數在以下標準中使用：
 
-- Rec. ITU-R BT.601-7 525 or 625
-- Rec. ITU-R BT.1358-1 525 or 625
-  (historical)
+- Rec. ITU-R BT.601-7 525 或 625
+- Rec. ITU-R BT.1358-1 525 或 625（歷史性）
 - Rec. ITU-R BT.1700-0 NTSC
 - SMPTE ST 170 (2004)
 
 ### 7: SMPTE 240M
 
-SMPTE 240M was an interim standard used during the early days of HDTV (1988-1998).
+SMPTE 240M 是在早期高畫質電視（1988-1998）時期使用的臨時標準。
 
 ### 8: Linear
 
-This value indicates that the content is already in linear light.
+此值表示內容已經處於線性色彩空間中。
 
 ### 9: Logarithmic 100
 
-Indicates a logarithmic transfer function with a 100:1 range.
+表示具有 100:1 範圍的對數轉換函數。
 
 ### 10: Logarithmic 316
 
-Indicates a logarithmic transfer function with a (100 \* sqrt(10)):1 range.
+表示具有 (100 \* sqrt(10)):1 範圍的對數轉換函數。
 
 ### 11: XVYCC
 
-Used in standard IEC 61966-2-4. I have no idea what this actually is.
+用於標準 IEC 61966-2-4。這是一個我不太了解的色彩空間。
 
 ### 12: BT.1361E
 
-This was intended to be a standard for "future" television systems, but it never really came into use.
+這原本打算作為「未來」電視系統的標準，但實際上並未真正使用。
 
 ### 13: sRGB
 
-Represents the sRGB colorspace.
+代表 sRGB 色彩空間。
 
-This transfer function is used in the following standards:
+此轉換函數用於以下標準：
 
-- IEC 61966-2-1 sRGB (with
-  MatrixCoefficients equal to 0)
-- IEC 61966-2-1 sYCC (with
-  MatrixCoefficients equal to 5)
-
+- IEC 61966-2-1 sRGB（MatrixCoefficients 等於 0）
+- IEC 61966-2-1 sYCC（MatrixCoefficients 等於 5）
 ### 14: BT.2020 10-bit
 
-Typically used with ultra-high-definition 10-bit SDR video. Its transfer function is equivalent to BT.1886.
+通常用於超高畫質的 10 位 SDR 影像。其轉換函數等同於 BT.1886。
 
 ### 15: BT.2020 12-bit
 
-Typically used with ultra-high-definition 12-bit SDR video. Its transfer function is equivalent to BT.1886.
+通常用於超高畫質的 12 位 SDR 影像。其轉換函數等同於 BT.1886。
 
-### 16: PQ aka SMPTE 2084
+### 16: PQ 又名 SMPTE 2084
 
-PQ is the most widely used transfer function for HDR content. It allows for a wider range of luminance to be represented than conventional transfer functions.
+PQ 是目前最廣泛使用的 HDR 內容轉換函數。它允許表示比傳統轉換函數更廣泛的亮度範圍。
 
-This transfer function is used in the following standards:
+此轉換函數用於以下標準：
 
-- SMPTE ST 2084 (2014) for 10-, 12-,
-  14- and 16-bit systems
-- Rec. ITU-R BT.2100-2 perceptual
-  quantization (PQ) system
+- SMPTE ST 2084（2014），適用於 10 位、12 位、14 位和 16 位系統
+- Rec. ITU-R BT.2100-2 感知量化（PQ）系統
 
 ### 17: SMPTE 428
 
-SMPTE 428 is used for D-Cinema Distribution Masters, aka DCDM.
+SMPTE 428 用於數位影院發行主檔（D-Cinema Distribution Masters，簡稱 DCDM）。
 
-### 18: HLG aka Hybrid Log-Gamma
+### 18: HLG 又名 Hybrid Log-Gamma
 
-HLG is an alternative transfer function for HDR content used by some televisions.
+HLG 是一種用於 HDR 內容的替代轉換函數，部分電視機使用此功能。
 
-This transfer function is used in the following standards:
+此轉換函數用於以下標準：
 
-- ARIB STD-B67 (2015)
-- Rec. ITU-R BT.2100-2 hybrid log-
-  gamma (HLG) system
+- ARIB STD-B67（2015）
+- Rec. ITU-R BT.2100-2 混合對數伽瑪（HLG）系統
