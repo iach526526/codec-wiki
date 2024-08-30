@@ -1,51 +1,50 @@
----
+﻿---
 title: eac3to
 sidebar_position: 10
 ---
 
 # eac3to
 
-eac3to is a command line tool written by madshi to mostly work with audios (conversion) and raw, unencrypted Blu-rays (BDMV).
+eac3to 是一款由 madshi 開發的命令行工具，主要用於音頻轉換以及處理原始、未加密的藍光光碟（BDMV）。
 
-:::info Compatibility
-This is a Windows only software, although usage with Wine is possible.
+:::info 兼容性
+此軟體僅限於 Windows 系統，但也可以在 Wine 上執行。
 :::
 
-:::caution Avoid using when possible
-There is absolutely no reason whatsoever to use this software unless required by paleolithic [private trackers](https://wiki.installgentoo.com/wiki/Private_trackers), due to a bajillion dependencies needed that aren't bundled with the download itself. Use something like FFmpeg instead.
+:::caution 避免使用
+除非被古老的 [私人追蹤器](https://wiki.installgentoo.com/wiki/Private_trackers) 所要求，否則完全沒有必要使用此軟體，因為它需要的眾多依賴並未隨下載檔案一起打包。可以選擇使用如 FFmpeg 之類的其他工具。
 :::
 
-## Installation
+## 安裝
 
-- Download from [VideoHelp](https://www.videohelp.com/software/eac3to), drag and drop into your designated folder, add to PATH when necessary.
+- 從 [VideoHelp](https://www.videohelp.com/software/eac3to) 下載，將其拖放到指定檔案夾中，必要時將其添加到 PATH 中。
 
-## Usage
+## 使用方法
 
-### Audio conversion
+### 音頻轉換
 
-Examples:
-```bash title="Convert PCM audio to FLAC"
+範例：
+```bash title="將 PCM 音頻轉換為 FLAC"
 eac3to source.pcm destination.flac
 ```
 
-```bash title="Convert TrueHD to FLAC while also extracting the AC-3 compatibility layer"
+```bash title="將 TrueHD 轉換為 FLAC 同時提取 AC-3 兼容層"
 eac3to source.thd destination.flac destination.ac3
 ```
 
-
-### Get BDMV info
+### 獲取 BDMV 訊息
 
 ```bash
 eac3to Movie.2024.Bluray/BDMV
 ```
 
-### Demux
+### 解複製
 
 ```bash
 eac3to Movie.2024.Bluray/BDMV -demux
 ```
 
-### Delay audio
+### 調整音頻延遲
 ```bash
 eac3to input.eac3 output.eac3 1000ms
 ```

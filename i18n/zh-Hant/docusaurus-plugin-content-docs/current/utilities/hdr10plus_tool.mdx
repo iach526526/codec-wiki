@@ -1,4 +1,4 @@
----
+﻿---
 title: hdr10plus_tool
 sidebar_position: 11
 ---
@@ -14,7 +14,7 @@ import TabItem from '@theme/TabItem';
 
 <Tabs>
     <TabItem value="unixlike" label="Linux 與 macOS">
-        你可以從 [GitHub Releases](https://github.com/quietvoid/hdr10plus_tool/releases) 下載適用於 Linux 與 macOS 的官方預建二進位文件，或依照以下指示自行編譯工具。
+        你可以從 [GitHub Releases](https://github.com/quietvoid/hdr10plus_tool/releases) 下載適用於 Linux 與 macOS 的官方預建二進位檔案，或依照以下指示自行編譯工具。
 
         確保已安裝 Rust。
 
@@ -25,7 +25,7 @@ import TabItem from '@theme/TabItem';
         ```
     </TabItem>
     <TabItem value="windows" label="Windows">
-        你可以從 [GitHub Releases](https://github.com/quietvoid/hdr10plus_tool/releases) 下載適用於 Windows 的官方預建二進位文件，或依照以下指示自行編譯工具。
+        你可以從 [GitHub Releases](https://github.com/quietvoid/hdr10plus_tool/releases) 下載適用於 Windows 的官方預建二進位檔案，或依照以下指示自行編譯工具。
 
         確保已安裝 Rust。
 
@@ -38,31 +38,38 @@ import TabItem from '@theme/TabItem';
     </TabItem>
 </Tabs>
 
-## Usage
+### 使用方式
 
-```bash title="General usage"
+```bash title="一般使用"
 hdr10plus_tool [OPTIONS] <SUBCOMMAND>
 ```
-```bash title="Get more options for a subcommand"
+
+```bash title="獲取子命令的更多選項"
 hdr10plus_tool <SUBCOMMAND> --help
 ```
-### Extracting
-```bash title="Extract using FFmpeg pipe (Recommended)"
+
+### 提取
+
+```bash title="使用 FFmpeg 管道提取（推薦）"
 ffmpeg -hide_banner -strict -2 -i input.mkv -map 0:v:0 -c copy -vbsf hevc_mp4toannexb -f hevc - | hdr10plus_tool extract -o metadata.json -
 ```
-```bash title="Extract from raw bitstream"
+
+```bash title="從原始位流提取"
 hdr10plus_tool extract video.hevc -o metadata.json
 ```
-### Injecting
 
-```bash title="Inject to raw bitstream"
+### 注入
+
+```bash title="注入到原始位流"
 hdr10plus_tool inject -i video.hevc -j metadata.json -o injected_output.hevc
 ```
-### Removing HDR10+ Metadata
 
-```bash title="Remove using FFmpeg pipe (Recommended)"
+### 移除 HDR10+ 元資料
+
+```bash title="使用 FFmpeg 管道移除（推薦）"
 ffmpeg -hide_banner -strict -2 -i input.mkv -map 0:v:0 -c copy -vbsf hevc_mp4toannexb -f hevc - | hdr10plus_tool remove -
 ```
-```bash title="Remove from raw bitstream"
+
+```bash title="從原始位流移除"
 hdr10plus_tool remove video.hevc -o hdr10plus_removed_output.hevc
 ```

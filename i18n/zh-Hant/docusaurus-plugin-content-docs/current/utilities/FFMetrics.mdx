@@ -1,4 +1,4 @@
----
+﻿---
 title: FFMetrics
 sidebar_position: 8
 ---
@@ -12,21 +12,20 @@ sidebar_position: 8
 </picture>
 <br/><br/>
 
-FFMetrics is a proprietary Windows-only graphical user interface (GUI) for FFmpeg that allows you to calculate and visualize video quality metric results with graphs. PSNR, SSIM, and VMAF are the only options.
+FFMetrics 是一款僅限 Windows 的專有圖形使用介面（GUI）工具，用於計算和視覺化影片品質指標結果，並以圖表方式顯示。可選擇的指標包括 PSNR、SSIM 和 VMAF。
 
-
-## Installation
+## 安裝
 
 :::caution
-You need to have FFmpeg in your system PATH in order to use this. and `--enable-libvmaf` is required for VMAF calculation support. 
+使用此工具前，你需要確保 FFmpeg 已經在系統 PATH 中設定，並且 VMAF 計算支援需要啟用 `--enable-libvmaf`。 
 :::
 
-Download the program from their GitHub homepage [releases](https://github.com/fifonik/FFMetrics/releases), pick whichever version you'd like to download and extract to your preferred folder.
-Run the exe file to launch.
+從他們的 GitHub 主頁 [releases](https://github.com/fifonik/FFMetrics/releases) 下載程式，選擇你想下載的版本，然後將其解壓到你選擇的檔案夾中。
+執行 exe 檔案以啟動程式。
 
-## Usage
+## 使用方法
 
-Use the "Browse" button to insert your reference (source) video and "Add files" to add your distorted (encoded) video(s). Tick the checkboxes to choose the metric calculations you'd like to run.
-Custom VMAF models can be chosen via "VMAF options" and once you're done just click "Start", the program will automatically generate graphs live for each score. 
+使用「Browse」按鈕插入你的參考（源）影片，使用「Add files」添加你的失真（編碼）影片。選擇你希望執行的指標計算，並選中相應的復選框。
+可以通過「VMAF options」選擇自定義 VMAF 模型，完成後點擊「Start」，程式將自動生成每個指標的實時圖表。
 
-Depending on your CPU. This process might take a while.
+根據你的 CPU 性能，此過程可能需要一些時間。

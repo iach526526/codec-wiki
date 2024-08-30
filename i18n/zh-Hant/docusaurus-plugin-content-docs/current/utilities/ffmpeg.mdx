@@ -1,89 +1,90 @@
----
+﻿---
 title: ffmpeg
 sidebar_position: 3
 ---
 
 # FFmpeg
 
-:::danger Help Wanted
-This section is in need of contributions. If you believe you can help, please see our [Contribution Guide](../contribution-guide.mdx) to get started as a contributor!
+:::danger 我們需要你！
+此部分需要更多內容。如果你有意協助，請參考我們的 [貢獻指南](../contribution-guide.mdx) 並開始貢獻！
 :::
 
-[FFmpeg](https://ffmpeg.org/) is a multimedia framework that has utilities for transcoding, transmuxing, and filtering audio and video. It provides the `ffmpeg`, `ffprobe`, and `ffplay` command-line utilities. It also features the libav\* libraries, which allow you to use the functionality of FFmpeg without the programs.
+[FFmpeg](https://ffmpeg.org/) 是一個功能強大的多媒體框架，提供音影片的轉碼、轉封裝及過濾等工具。其主要命令行工具包括 `ffmpeg`、`ffprobe` 和 `ffplay`。此外，FFmpeg 還包含 libav\* 庫，允許開發者在不使用完整程式的情況下調用其功能。
 
-# Installation
+# 安裝指南
 
-There are a number of ways to install FFmpeg depending on the operating system you're using.
+根據不同的操作系統，有多種方式可以安裝 FFmpeg。
 
-### Linux & macOS
+### Linux 和 macOS
 
-**Package Manager**
+**包管理器安裝**
 
-The easiest way to obtain FFmpeg is through your package manager. On most package managers, the package is simply named `ffmpeg`, however `ffprobe` and `ffplay` may have their own packages. Note that the packages may be outdated.
+最便捷的安裝方式是通過包管理器。在大多數 Linux 和 macOS 包管理器中，FFmpeg 的包名為 `ffmpeg`，但 `ffprobe` 和 `ffplay` 可能會有獨立的包。需要注意的是，這些包可能並不是最新版本。
 
-**Compiling from source**
+**從原始碼編譯**
 
-A more complete guide is available at the [FFmpeg Compilation Guide](https://trac.ffmpeg.org/wiki/CompilationGuide). Simplifying things a bit, what you need to do is:
-- grab [the sources](https://ffmpeg.org/download.html) or clone from FFmpeg's git: `git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg`
-- Enter the directory & run `./configure --help` to see a list of features and libraries you can choose to build with.
-- Install all libraries you want to build FFmpeg with.
-- Run `./configure` with `--enable-` flags as desired.
-- Run `make`, or `make -j $(nproc)` on Linux to properly make use of multiple cores. on macOS, this would be `make -j $(sysctl -n hw.ncpu)`.
-- Run `make install`. May require root.
+若需要更多的定製功能，可以參考 [FFmpeg 編譯指南](https://trac.ffmpeg.org/wiki/CompilationGuide)。簡單來說，你需要執行以下步驟：
+- 獲取 [原始碼](https://ffmpeg.org/download.html) 或使用 git 複製 FFmpeg 倉庫：`git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg`
+- 進入原始碼目錄並執行 `./configure --help` 查看可選的功能和庫。
+- 安裝你需要用於編譯 FFmpeg 的所有庫。
+- 根據需要使用 `--enable-` 參數來執行 `./configure`。
+- 執行 `make`，或者在 Linux 上使用 `make -j $(nproc)` 來利用多核處理器；在 macOS 上，這一指令是 `make -j $(sysctl -n hw.ncpu)`。
+- 最後執行 `make install` 完成安裝，這可能需要 root 權限。
 
 ### Windows
 
-There are no official binaries for FFmpeg on Windows, but you can download third-party binaries:
-- by [gyan.dev](https://www.gyan.dev/ffmpeg/builds/)
-- by [BtbN](https://github.com/BtbN/FFmpeg-Builds/releases)
+儘管 FFmpeg 沒有官方的 Windows 版二進制檔案，但你可以從以下第三方網站下載：
+- [gyan.dev](https://www.gyan.dev/ffmpeg/builds/)
+- [BtbN](https://github.com/BtbN/FFmpeg-Builds/releases)
 
-# Using FFmpeg
-`ffmpeg` is the primary command-line tool of FFmpeg. It takes 0 or more files as inputs & outputs.
+# 使用 FFmpeg
 
-`ffmpeg`'s command-line arguments are positional, meaning it matters where you put each option. Each input and output has its own arguments. For example, `ffmpeg -r 24 -i file1 file2` applies the `-r 24` option to the input `file1`, interpreting the video as having that frame rate, while `ffmpeg -i file1 -r 24 file2` applies the `-r 24` option to `file2`. To get a list of options, refer to the more verbose [FFmpeg documentation](//ffmpeg.org/ffmpeg-all.html).
+`ffmpeg` 是 FFmpeg 的核心命令行工具，它可以接收多個輸入檔案並生成相應的輸出。
 
-#### Transcode a video
+`ffmpeg` 的命令行參數是有位置依賴性的，這意味著各個選項的順序非常重要。每個輸入和輸出都有專屬的參數。例如，`ffmpeg -r 24 -i file1 file2` 會將 `-r 24` 應用到輸入檔案 `file1` 上，將影片解釋為具有該幀速率，而 `ffmpeg -i file1 -r 24 file2` 則會將 `-r 24` 應用到輸出檔案 `file2`。有關更詳細的選項列表，請參考 [FFmpeg 文檔](//ffmpeg.org/ffmpeg-all.html)。
+
+#### 影片轉碼
 
 ```bash
 ffmpeg -i [input] -c:v [video_codec] -b:v [video_bitrate] -c:a [audio_codec] -b:a [audio_bitrate] output
 ```
 
-| Option               | Meaning                                                     |
-|----------------------|-------------------------------------------------------------|
-| `-c:v video_encoder` | **c**odec for the automatically selected **v**ideo stream   |
-| `-b:v video_bitrate` | **b**itrate for the automatically selected **v**ideo stream |
-| `-c:a audio_encoder` | **c**odec for the automatically selected **a**udio stream   |
-| `-b:a audio_bitrate` | **b**itrate for the automatically selected **a**udio stream |
+| 選項               | 含義                                                    |
+|--------------------|----------------------------------------------------------|
+| `-c:v video_codec` | 設定影片流的編碼器                                      |
+| `-b:v video_bitrate` | 設定影片流的碼率                                       |
+| `-c:a audio_codec` | 設定音頻流的編碼器                                       |
+| `-b:a audio_bitrate` | 設定音頻流的碼率                                       |
 
-#### Transmux a video
+#### 影片轉封裝
 
 ```bash
 ffmpeg -i [input] -c copy [output]
 ```
 
-| Option    | Meaning                       |
-|-----------|-------------------------------|
-| `-c copy` | set the **c**odec to **copy** |
+| 選項     | 含義                         |
+|----------|-----------------------------|
+| `-c copy` | 將編碼器設定為直接複製       |
 
-#### Filter a video
+#### 影片過濾
 
 ```bash
 ffmpeg -i [input] -c:v [video_encoder] -c:a [audio_codec] (...) -vf [filter_name] output
 ```
 
-| Option            | Meaning                                         |
-|-------------------|-------------------------------------------------|
-| `-vf filter_name` | set the **v**ideo **f**ilter to **filter_name** |
+| 選項             | 含義                                                |
+|------------------|------------------------------------------------------|
+| `-vf filter_name` | 設定影片過濾器為 `filter_name`                      |
 
-#### Container selection
+#### 容器選擇
 
-FFmpeg will usually select the appropriate container based on the file extension of the output. If it doesn't detect the correct container, you can specify it with `-f`.
+FFmpeg 通常會根據輸出檔案的副檔名來選擇適當的容器格式。如果無法自動選擇正確的容器，你可以使用 `-f` 參數手動指定。
 
-| Option           | Meaning                               |
-|------------------|---------------------------------------|
-| `-f format_name` | set the **f**ormat to **format_name** |
+| 選項             | 含義                          |
+|------------------|------------------------------|
+| `-f format_name` | 設定檔案格式為 `format_name`  |
 
-*References:*
-*[^multimediawiki-howtos]: [HOWTO Search Results - MultimediaWiki](//wiki.multimedia.cx/index.php?search=HOWTO&title=Special%3ASearch&go=Go)*
+*參考資料：*
+*[^multimediawiki-howtos]: [HOWTO 搜索結果 - MultimediaWiki](//wiki.multimedia.cx/index.php?search=HOWTO&title=Special%3ASearch&go=Go)*
 
-*Special thanks to [bluefalcon's encoding guide](https://encoding.bluefalcon.cc/) for this material, licensed under CC BY-SA 4.0. Our adaptation features formatting changes & content changes, specifically regarding the titles of some headings.*
+*特別感謝 [bluefalcon's encoding guide](https://encoding.bluefalcon.cc/) 提供的資料，該資料根據 CC BY-SA 4.0 授權。我們對內容和格式進行了一些修改，尤其是對部分標題進行了調整。*
