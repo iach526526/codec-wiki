@@ -295,7 +295,7 @@ Q 模式是 libvpx-vp9 提供的最接近 CRF 的選項，若需要最大品質�
 
 - `--auto-alt-ref=6`
 
-啟用替代參考幀。替代參考幀是“不可見”的幀，用作創建最終顯示幀的參考。更多的替代參考幀通常能提高編碼效率。設定大於 1 會啟用疊加幀，並且與 8-bit 色彩配置檔案不兼容。
+啟用替代參考幀。替代參考幀是「不可見」的幀，用作創建最終顯示幀的參考。更多的替代參考幀通常能提高編碼效率。設定大於 1 會啟用疊加幀，並且與 8-bit 色彩配置檔案不兼容。
 
 - `--arnr-maxframes=7`
 
@@ -337,7 +337,7 @@ Q 模式是 libvpx-vp9 提供的最接近 CRF 的選項，若需要最大品質�
 
 此選項啟用時間層模型，有助於提高編碼效率。這是獨立 vpxenc libvpx-vp9 編碼器的預設值。
 
-所有這些選項僅適用於獨立的 vpxenc 程序。以下是一些選項缺失的 FFmpeg 命令行示例：
+所有這些選項僅適用於獨立的 vpxenc 程式。以下是一些選項缺失的 FFmpeg 命令行示例：
 
 ```bash
 ffmpeg -i input.mkv -c:v libvpx-vp9 -pix_fmt yuv420p10le -pass 1 -quality good -threads 4 -profile:v 2 -lag-in-frames 25 -crf 25 -b:v 0 -g 240 -cpu-used 3 -auto-alt-ref 6 -arnr-maxframes 7 -arnr-strength 4 -aq-mode 0 -tune-content default -tile-rows 0 -tile-columns 1 -enable-tpl 1 -row-mt 1 -f null -

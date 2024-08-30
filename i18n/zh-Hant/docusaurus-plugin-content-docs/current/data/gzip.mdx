@@ -19,7 +19,7 @@ ZIP 格式由 Phil Katz 開發，作為一種開放格式，並且其規範也�
 
 目前存在一種[受限的 ZIP 格式](http://www.digitalpreservation.gov/formats/fdd/fdd000361.shtml)，該格式被用於其他檔案類型中，例如 Java .jar 檔案、一系列 Microsoft Office 檔案格式、Office 檔案格式檔案（.odt、.ods、.odp）以及電子書的 EPUB 檔案。
 
-大約在 1990 年，Info-ZIP 出現了。“Info-ZIP 的目的是提供免費、可移植、高品質的 ZIP 和 UnZip 壓縮-解壓縮工具，與 PKWARE, Inc. 的基於 DOS 的 PKZIP 兼容。”（https://infozip.sourceforge.net/）。他們成功地實現了這一目標，從而促進了 ZIP 格式的普及。
+大約在 1990 年，Info-ZIP 出現了。「Info-ZIP 的目的是提供免費、可移植、高品質的 ZIP 和 UnZip 壓縮-解壓縮工具，與 PKWARE, Inc. 的基於 DOS 的 PKZIP 兼容。」（https://infozip.sourceforge.net/）。他們成功地實現了這一目標，從而促進了 ZIP 格式的普及。
 
 在 1990 年代初期，基於 Info-ZIP 工具中的 Deflate 程式碼，開發出了 [gzip](../data/gzip.mdx) 格式。它旨在取代 Unix 上使用的 `compress` 工具，後者使用的是當時專利的 LZW 壓縮演算法，該專利威脅到了它的免費使用。雖然某些特定的 Deflate 實作受到了 Phil Katz 的專利保護，但該格式本身並未被專利，因此編寫了不侵犯任何專利的 Deflate 實作。
 
@@ -54,7 +54,7 @@ gzip -r mydirectory/
 ```
 這將創建指定目錄中每個檔案的壓縮版本。
 
-6. 如果你想使用不同的擴展名來編碼 gzip 壓縮檔案，可以使用 `-S` 選項，後跟 `.suf` 後綴。例如：
+6. 如果你想使用不同的副檔名來編碼 gzip 壓縮檔案，可以使用 `-S` 選項，後跟 `.suf` 後綴。例如：
 ```bash
 gzip -S .suf myfile.txt
 ```

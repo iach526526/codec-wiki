@@ -19,7 +19,7 @@ sidebar_position: 8
 ```bash
 tar -cf {檔案名稱} {檔案列表}
 ```
-你可以使用 `tar` 壓縮你的檔案，例如壓縮成 `.tar.gz` 或 `.tar.xz` 檔案。為此，你可以使用 `-z`、`-j` 或 `-J` 等選項（分別對應 [gzip](./gzip.mdx)、[bzip2](./bzip2.mdx)、[xz](../data/xz.mdx)），或者使用 `-a`（自動），它可以根據檔案擴展名自動判斷所需的壓縮算法，例如 `archive.tar.xz` 代表 xz 壓縮的 tarball。
+你可以使用 `tar` 壓縮你的檔案，例如壓縮成 `.tar.gz` 或 `.tar.xz` 檔案。為此，你可以使用 `-z`、`-j` 或 `-J` 等選項（分別對應 [gzip](./gzip.mdx)、[bzip2](./bzip2.mdx)、[xz](../data/xz.mdx)），或者使用 `-a`（自動），它可以根據檔案副檔名自動判斷所需的壓縮算法，例如 `archive.tar.xz` 代表 xz 壓縮的 tarball。
 
 GNU tar 支援以下壓縮'方法：
 * gzip (.gz)

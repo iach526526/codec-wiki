@@ -1,4 +1,4 @@
----
+﻿---
 title: SSIMULACRA2
 sidebar_position: 1
 ---
@@ -8,27 +8,26 @@ import TabItem from '@theme/TabItem';
 
 # SSIMULACRA2
 
-:::info Under Maintenance
-The content in this entry is incomplete & is in the process of being completed.
+:::info 維護中
+此條目內容尚不完整，正在完善中。
 :::
 
-SSIMULACRA 2 is a visual fidelity metric based on the concept of the multi-scale structural similarity index measure (MS-SSIM), computed in a perceptually relevant color space, adding two other (asymmetric) error maps, and aggregating using two different norms. It is currently the most reputable visual quality metric according to its correlation with subjective results, and is considered a very robust means of comparing encoders. It is debatable whether [Butteraugli](../metrics/butteraugli.mdx) is better for very high fidelity, but SSIMULACRA 2 is considered the best for medium/low fidelity comparisons. Although it does not feature any inter-frame temporal awareness, it is still considered a very strong metric for video fidelity comparison nonetheless.
+SSIMULACRA 2 是一種視覺品質度量指標，基於多尺度結構相似性指標（MS-SSIM）概念，並在一個感知相關的色彩空間中進行計算。它額外添加了兩個（不對稱）錯誤地圖，並使用兩種不同的範數進行整合。根據其與主觀評價結果的相關性，SSIMULACRA 2 被認為是最受信賴的視覺品質指標，並被廣泛用於比較編碼器的效果。儘管 [Butteraugli](../metrics/butteraugli.mdx) 在超高忠實度下表現更佳存在爭議，但 SSIMULACRA 2 被認為在中低忠實度的比較中最為出色。儘管它缺乏幀間時間感知，但依然是一個強大的影片品質比較工具。
 
-While a [reference implementation by Cloudinary](https://github.com/cloudinary/ssimulacra2) exists,
-most people will want to use [the rust implementation `ssimulacra2_rs`](https://github.com/rust-av/ssimulacra2).
+雖然存在 [Cloudinary 的參考實現](https://github.com/cloudinary/ssimulacra2)，大多數人選擇使用 [Rust 實現的 `ssimulacra2_rs`](https://github.com/rust-av/ssimulacra2) 。
 
-## Installing
+## 安裝
 
 <Tabs>
     <TabItem value="cargo" label="Cargo" default>
-        To install ssimulacra2_rs using cargo, run this:
+        若要使用 cargo 安裝 ssimulacra2_rs，請執行以下命令：
         ```bash
         cargo install ssimulacra2_rs
         ```
     </TabItem>
     <TabItem value="archlinux" label="Archlinux AUR">
-        On archlinux, you may use the [AUR](https://wiki.archlinux.org/title/Arch_User_Repository) to install.
-        Simply use your favorite AUR helper to install `ssimulacra2_bin-git`
+        在 Archlinux 系統上，你可以通過 [AUR](https://wiki.archlinux.org/title/Arch_User_Repository) 進行安裝。
+        只需使用你喜愛的 AUR 工具安裝 `ssimulacra2_bin-git`：
 
         ```bash
         paru -S ssimulacra2_bin-git
@@ -36,49 +35,48 @@ most people will want to use [the rust implementation `ssimulacra2_rs`](https://
     </TabItem>
 </Tabs>
 
-## Running
-### On Images
-Comparing images is simple, run this:
+## 執行
+### 圖像
+比較圖像非常簡單，執行以下命令：
 ```bash
 ssimulacra2_rs image source.png distorted.png
 ```
 
-### On Videos
+### 影片
 
-If you want to compare videos, run this:
+若要比較影片，執行以下命令：
 ```bash
 ssimulacra2_rs video source.mkv distorted.mkv
 ```
 
-:::tip Graphical visualization
-You can optionally output a graph using the `-g` parameter:
+:::tip 圖形可視化
+你可以選擇使用 `-g` 參數生成圖形：
 ```bash
 ssimulacra2_rs video source.mkv distorted.mkv -g
 ```
 :::
-#### Multithreading
-Multithreading with ssimulacra2_rs works, but it scales badly.
-This is likely due to memory bandwidth limitations.  
-However, the speedup is worth it.
+#### 多執行緒
+ssimulacra2_rs 支援多執行緒，但擴展效果有限，這可能由於內存帶寬限制所致。
+儘管如此，使用多執行緒仍能顯著提升速度。
 
-To run multithreaded, use the `--frame-threads` or `-f` parameters.
-For example, to run with 16 threads:
+要啟用多執行緒，使用 `--frame-threads` 或 `-f` 參數。
+例如，要使用 16 個執行緒：
 ```bash
 ssimulacra2_rs video source.mkv distorted.mkv -f 16
 ```
-:::info Thread amount
-You should set the amount of threads to half of your actual thread count, as going any higher won't make a difference.
+:::info 執行緒數量
+建議將執行緒數量設定為實際執行緒數量的一半，因為增加更多執行緒通常無法進一步提升效能。
 :::
 
-:::warning Memory limitation
-If you have a small amount of system memory, you may encounter out of memory errors while running with multi-threading.
-If that's the case, you need to lower the amount of threads. 
+:::warning 內存限制
+若系統內存較少，使用多執行緒時可能會遇到內存不足的錯誤。
+如果發生這種情況，請降低執行緒數量。 
 :::
 
-## Scoring
-The score that ssimulacra2 outputs is simple:
+## 評分
+ssimulacra2 輸出的分數範圍簡單明瞭：
 
-- Very high quality: `90` and above
-- High quality: `70` to `90`
-- Medium quality: `50` to `70`
-- Low quality: Below `50`
+- 非常高品質：`90` 以上
+- 高品質：`70` 到 `90`
+- 中等品質：`50` 到 `70`
+- 低品質：低於 `50`

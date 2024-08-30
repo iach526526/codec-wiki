@@ -42,7 +42,7 @@ Bitstream filter 是一種直接應用於 [bitstream](#bitstream) 的濾鏡，�
 
 #### MP4 / M4V
 
-這可能是你遇到的最常見的容器，並且具有幾乎普遍的兼容性。它有最大的流量限制。支持的視訊編解碼器包括 [H.264](../video/AVC.mdx)、[H.265](../video/HEVC.mdx)、[H.266](../video/VVC.mdx)、DivX、Xvid、[VP9](../video/VP9.mdx)（非官方、黑客版本）、[AV1](../video/AV1.mdx)（非官方、黑客版本）。音訊編解碼器包括各種不同風格的 [AAC](../audio/AAC.mdx)、[MP3](../audio/MP3.mdx)、[FLAC](../audio/FLAC.mdx)（非官方）、[Opus](../audio/Opus.mdx)（非官方、黑客版本）。字幕方面僅支持 MPEG-4 Timed Text (TTXT)。
+這可能是你遇到的最常見的容器，並且具有幾乎普遍的兼容性。它有最大的流量限制。支援的視訊編解碼器包括 [H.264](../video/AVC.mdx)、[H.265](../video/HEVC.mdx)、[H.266](../video/VVC.mdx)、DivX、Xvid、[VP9](../video/VP9.mdx)（非官方、黑客版本）、[AV1](../video/AV1.mdx)（非官方、黑客版本）。音訊編解碼器包括各種不同風格的 [AAC](../audio/AAC.mdx)、[MP3](../audio/MP3.mdx)、[FLAC](../audio/FLAC.mdx)（非官方）、[Opus](../audio/Opus.mdx)（非官方、黑客版本）。字幕方面僅支援 MPEG-4 Timed Text (TTXT)。
 
 處理這種容器的最佳工具是 MP4Box，但 FFmpeg 也適用。
 
@@ -69,7 +69,7 @@ RDO，即 Rate-Distortion Optimization（位元率-失真優化），是一種�
 
 ## Perceptual / Psychovisual / Psychoacoustic
 
-“Psychovisual quality”（視訊感知品質）、“Psychoacoustic quality”（音訊感知品質）或“perceptual quality”（感知品質）是用來描述人類感官如何感知扭曲媒體品質的術語。任何多媒體編碼器的目標都是在保持感知品質的同時減少資料量，並圍繞人類感知進行優化，這樣理論上能在有限的編碼技術中實現最佳性能。由於我們對人類感知的理解不斷演進，建模感知品質變得非常困難。目前，[SSIMULACRA2](../metrics/SSIMULACRA2.mdx)（用於圖像/視訊）和 [Butteraugli](../metrics/butteraugli.mdx)（用於視訊）被認為是最符合我們視覺系統的度量標準。
+「Psychovisual quality」（視訊感知品質）、「Psychoacoustic quality」（音訊感知品質）或「perceptual quality」（感知品質）是用來描述人類感官如何感知扭曲媒體品質的術語。任何多媒體編碼器的目標都是在保持感知品質的同時減少資料量，並圍繞人類感知進行優化，這樣理論上能在有限的編碼技術中實現最佳性能。由於我們對人類感知的理解不斷演進，建模感知品質變得非常困難。目前，[SSIMULACRA2](../metrics/SSIMULACRA2.mdx)（用於圖像/視訊）和 [Butteraugli](../metrics/butteraugli.mdx)（用於視訊）被認為是最符合我們視覺系統的度量標準。
 
 ## Discrete Cosine Transform (DCT)
 
