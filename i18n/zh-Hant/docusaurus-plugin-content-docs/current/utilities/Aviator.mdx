@@ -1,4 +1,4 @@
----
+﻿---
 title: Aviator
 sidebar_position: 1
 ---
@@ -8,27 +8,29 @@ import TabItem from '@theme/TabItem';
 
 # Aviator
 
-Aviator is a GUI application designed for encoding [AV1](../video/AV1.mdx) video & Opus audio with [SVT-AV1](../encoders/SVT-AV1.mdx), [libopus](../audio/Opus.mdx), & [ffmpeg](../utilities/ffmpeg.mdx) on Linux systems in a user-friendly, intuitive manner. Aviator's primary focus is ease-of-use, while still striving to offer optimal quality per bit through a smart default encoding configuration implemented via the SVT-AV1-PSY encoder.
+Aviator 是一款圖形化界面應用程式，旨在以使用者友善且直觀的方式在 Linux 系統上對 [AV1](../video/AV1.mdx) 影片和 Opus 音頻進行編碼。
+它支援 [SVT-AV1](../encoders/SVT-AV1.mdx)、[libopus](../audio/Opus.mdx) 和 [ffmpeg](../utilities/ffmpeg.mdx)。
+Aviator 的主要目標是簡化使用過程，同時通過 SVT-AV1-PSY 編碼器提供最佳的每位元品質，實現智能的預設編碼配置。
 
 <img width="640" height="360" src="https://raw.githubusercontent.com/gianni-rosato/aviator/main/assets/aviator_splash2.avif" alt="Aviator Splash"/>
 
-## Installation
+### 安裝
 
 <Tabs>
     <TabItem value="unixlike" label="Linux">
-        Aviator is available on Linux through Flathub as a Flatpak. You can learn how to set up Flatpak on your distro of choice [here](https://flatpak.org/setup/). Please do not use Aviator through the AUR.
+        Aviator 可以透過 Flathub 以 Flatpak 形式在 Linux 上安裝。你可以 [這裡](https://flatpak.org/setup/) 瞭解如何在你選擇的發行版上設定 Flatpak。請不要通過 AUR 安裝 Aviator。
 
         <a href="https://flathub.org/apps/details/net.natesales.Aviator"><img width="200" alt="Download on Flathub" src="https://flathub.org/assets/badges/flathub-badge-en.png"/></a>
 
-        If Flatpak is already set up and you'd prefer to install Aviator from the terminal, you can run the following commmand:
+        如果你已經設定了 Flatpak，並希望從終端安裝 Aviator，可以執行以下命令：
 
         ```bash
         flatpak install flathub net.natesales.Aviator
         ```
 
-        Flatpak was chosen for Aviator because it allows Aviator to ship its own sandboxed dependencies, ensuring every Linux user has a cohesive experience. One major benefit is the latest stable SVT-AV1-PSY implementation is always included, and Flatpak Aviator won't use your system's SVT-AV1 implementation which may be incompatible with Aviator's custom parameters.
+        Aviator 選擇使用 Flatpak，因為這樣可以讓 Aviator 自帶沙盒依賴，確保每位 Linux 用戶都能獲得一致的體驗。一個主要好處是始終包含最新穩定的 SVT-AV1-PSY 實現，Flatpak 版本的 Aviator 不會使用系統中的 SVT-AV1 實現，這可能與 Aviator 的自定義參數不兼容。
 
-        If you would like to build Aviator from source, you may do so via the following commands. Ensure you have the right dependencies; if not, `make` will warn you and you can install them as you see what you're missing.
+        如果你希望從原始碼構建 Aviator，可以通過以下命令進行。請確保你擁有正確的依賴；如果沒有，`make` 會提醒你，你可以根據提示安裝缺失的部分。
 
         ```bash
         git clone https://github.com/gianni-rosato/aviator
@@ -37,39 +39,39 @@ Aviator is a GUI application designed for encoding [AV1](../video/AV1.mdx) video
         ```
     </TabItem>
     <TabItem value="windows" label="Windows">
-            :::caution Partial Support
-Windows support is provided on a "best-effort" basis via **WSL2**. Compatibility hiccups will almost certainly be encountered should you decide to run Aviator on Windows.
+        :::caution 部分支援
+Windows 上的支援是基於「最佳努力」原則，通過 **WSL2** 提供。若在 Windows 上執行 Aviator，可能會遇到兼容性問題。
 :::
 
-        Aviator is supported on a "best-effort" basis on Windows via WSL2. In order to set up a WSL2 Arch Linux environment, see the [rAV1ator CLI](../utilities/rav1ator-cli.mdx#windows) WSL2 tutorial for Windows 11.
+        Aviator 在 Windows 上的支援是基於「最佳努力」原則，通過 WSL2 提供。要設定 WSL2 Arch Linux 環境，請參見 [rAV1ator CLI](../utilities/rav1ator-cli.mdx#windows) 的 Windows 11 WSL2 教程。
 
-        Once WSL2 is set up, install Flatpak in your Linux environment by follwing the steps below. **Always be careful when running commands with `sudo` copied from the Internet, including the commands below.**
-
-        ```bash
-        sudo pacman -Syu # Update your system
-        sudo pacman -S flatpak # Install flatpak
-        sudo systemctl enable --now dbus # Start dbus
-        flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo # Add flathub repo if it hasn't already been added
-        ```
-        Finally, you can verify that Flatpak has actually been installed by running `flatpak --version` and checking that the version string is valid.
-
-        Now, Aviator requires a couple of special Flatpak dependencies most commonly found on GNOME Linux distros.
+        設定 WSL2 後，你可以在你的 Linux 環境中安裝 Flatpak，請按照以下步驟進行。**在執行來自網絡的 `sudo` 命令時，請始終小心，尤其是以下命令。**
 
         ```bash
-        sudo flatpak install org.gnome.Sdk # Select option 15
-        sudo flatpak install org.gnome.Platform # Select option 14
+        sudo pacman -Syu # 更新系統
+        sudo pacman -S flatpak # 安裝 flatpak
+        sudo systemctl enable --now dbus # 啟動 dbus
+        flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo # 如果尚未添加 flathub repo，則添加
         ```
-        Finally, you can install Aviator.
+        最後，你可以通過執行 `flatpak --version` 來驗證 Flatpak 是否已正確安裝，並檢查版本字串是否有效。
+
+        現在，Aviator 需要幾個在 GNOME Linux 發行版中最常見的特殊 Flatpak 依賴項。
+
+        ```bash
+        sudo flatpak install org.gnome.Sdk # 選擇選項 15
+        sudo flatpak install org.gnome.Platform # 選擇選項 14
+        ```
+        最後，你可以安裝 Aviator。
 
         ```bash
         sudo flatpak install flathub net.natesales.Aviator
         ```
-        You can run Aviator by executing the following command:
+        你可以通過執行以下命令來啟動 Aviator：
 
         ```bash
         flatpak run net.natesales.Aviator
         ```
-        Now, you should be all set! Happy encoding!
+        現在，你應該一切就緒！祝你編碼愉快！
     </TabItem>
 </Tabs>
 

@@ -1,4 +1,4 @@
----
+﻿---
 title: Av1an
 sidebar_position: 2
 templating: true
@@ -15,78 +15,80 @@ import TabItem from '@theme/TabItem';
 </picture>
 
 <br/><br/>
-Av1an is a video encoding framework. It can increase your encoding speed and improve CPU utilization by running multiple encoder processes in parallel. Target quality, VMAF plotting, and more, available to take advantage for video encoding.
+Av1an 是一個影片編碼框架，能通過並行執行多個編碼器進程來提高編碼速度和優化 CPU 使用率。它支援設定目標品質、生成 VMAF 繪圖等功能，非常適合影片編碼使用。
 
-The only downside to this, is that RAM usage increases significantly with each "worker" you add, so if you have a low amount of RAM (< 8GB), this might not be that useful to you. 
+不過，每增加一個「工作進程」，RAM 的使用量會顯著增加。如果你的電腦 RAM 小於 8GB，那麼這個工具可能效果有限。
+
 :::caution
-Av1an does not ship with any dependencies except for it's Docker image, so you will have to provide them on your own.
+Av1an 只提供了 Docker 映像，並不附帶其他依賴項，你需要自行安裝這些依賴。
 :::
 
-## Prerequisites
+## 先決條件
 
-You will need Python, [FFmpeg](/docs/utilities/ffmpeg) and [Vapoursynth](/docs/filtering/vapoursynth) to be installed regardless of your current operating system.
-## Installation
+無論你使用的是什麼操作系統，都需要安裝 Python、[FFmpeg](/docs/utilities/ffmpeg) 和 [Vapoursynth](/docs/filtering/vapoursynth)。
+
+## 安裝
 
 ### Windows
 
-#### Script
-Windows users can use this [script](https://github.com/Hishiro64/av1an-win-script) which installs everything needed in a single portable folder. Do note that you will need to update the dependencies manually once installed. 
+#### 腳本
+Windows 用戶可以使用這個 [腳本](https://github.com/Hishiro64/av1an-win-script)，它會將所有必需的檔案安裝到一個可攜帶的資料夾中。不過，安裝後你需要手動更新依賴項。
 
-#### Pre-built Binary
-Av1an is available as a pre-built binary under the "[latest](https://github.com/master-of-zen/Av1an/releases/tag/latest)" tag on GitHub releases, you can simply download that and place it wherever you want.
+#### 預建二進制檔
+Av1an 的預建二進制檔可以在 GitHub 上的 "[latest](https://github.com/master-of-zen/Av1an/releases/tag/latest)" 發行標籤下找到，下載後可隨意放置。
 
-#### Compile from Source
-To compile from source, it is easier to use mingw-w64 which comes with [MSYS2](https://msys2.org). Once installed, open MinGW64 and run the following:
+#### 從原始碼編譯
+若要從原始碼編譯，建議使用帶有 [MSYS2](https://msys2.org) 的 mingw-w64。安裝後，打開 MinGW64 並執行以下命令：
 ```bash
 pacman -Syuu; pacman -S cmake git nasm python3 mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake base-devel mingw-w64-x86_64-ffmpeg mingw-w64-x86_64-rust mingw-w64-x86_64-lld mingw-w64-x86_64-clang mingw-w64-x86_64-make
 ```
 
-Then, before you do anything further. Download Vapoursynth **portable** (`VapourSynth64-Portable-RXX.7z`) from its GitHub [release page](https://github.com/vapoursynth/vapoursynth/releases). Make sure the version you chose is compatible with the current MinGW64 Python version. For example, R65 supports 3.8 and 3.11, the version from Pacman (currently) is 3.11, so you should choose that.
+在進行下一步之前，從 GitHub [發行頁面](https://github.com/vapoursynth/vapoursynth/releases) 下載適用於 MinGW64 Python 版本的 Vapoursynth **可攜帶版** (`VapourSynth64-Portable-RXX.7z`)。例如，R65 支援 3.8 和 3.11，Pacman 目前的版本為 3.11，所以選擇該版本。
 
-After downloading, open the 7z file and head to `\sdk\lib64`, copy all the libraries from there to MinGW64's `lib` directory, this usually resides in `C:\msys64\mingw64\lib`.
+下載後，打開 7z 檔案並將 `\sdk\lib64` 目錄中的所有庫複製到 MinGW64 的 `lib` 目錄，通常位於 `C:\msys64\mingw64\lib`。
 
-Now finally, resume your session and run the following:
+最後，繼續你的操作並執行以下命令：
 ```bash
 git clone https://github.com/master-of-zen/Av1an
 cd Av1an
 RUSTFLAGS="-C target-cpu=native" cargo build --release
 ```
 
-The binary will be available in `C:\msys64\home\USER\Av1an\target\release`. The `USER` part is your Windows username.
+二進制檔案將位於 `C:\msys64\home\USER\Av1an\target\release`，其中 `USER` 是你的 Windows 用戶名。
 
 ### macOS
 
-#### Using MacPorts
-Av1an is available in the MacPorts repository, to install just simply run:
+#### 使用 MacPorts
+Av1an 可以在 MacPorts 儲存庫中找到，安裝方法很簡單，只需執行：
 ```bash
 port install av1an
 ```
 
-#### Compile from Source
-You need to have Git, Nasm, and Rust to be installed first. You can achieve this by using [Homebrew](https://brew.sh/) or similar.
+#### 從原始碼編譯
+首先需要安裝 Git、Nasm 和 Rust。你可以使用 [Homebrew](https://brew.sh/) 或類似工具來安裝：
 ```bash
 git clone https://github.com/master-of-zen/Av1an
 cd Av1an
 RUSTFLAGS="-C target-cpu=native" cargo build --release
 ```
-Binary is located in `Av1an/target/release`, you can optionally place it somewhere like `/usr/local/bin`.
+二進制檔案位於 `Av1an/target/release`，你可以選擇將其放置在如 `/usr/local/bin` 的位置。
 
 ### Linux
 
-#### Package Managers
-Av1an is available in the package manager of some distributions such as Arch Linux. If not, you can skip to the next part every Linux user is familiar with.
+#### 包管理器
+Av1an 在某些發行版的包管理器中可用，如 Arch Linux。如果不可用，你可以跳到每個 Linux 用戶都熟悉的下一步。
 
-#### Compile from Source
-Just like macOS, you need to have Git, Nasm, and Rust to be installed. Can be achieved by either using your package manager or Rustup for Rust.
+#### 從原始碼編譯
+與 macOS 一樣，你需要先安裝 Git、Nasm 和 Rust。可以使用包管理器或 Rustup 安裝 Rust：
 ```bash
 git clone https://github.com/master-of-zen/Av1an.git
 cd Av1an
 RUSTFLAGS="-C target-cpu=native" cargo build --release
 ```
-Binary is located in `Av1an/target/release`, you can optionally place it somewhere like `/usr/local/bin` or `/usr/bin`.
+二進制檔案位於 `Av1an/target/release`，你可以選擇將其放置在如 `/usr/local/bin` 或 `/usr/bin` 的位置。
 
 ### Docker
-The following examples assume the file you want to encode is in your current working directory.
+以下示例假設你要編碼的檔案位於當前工作目錄中。
 
 <Tabs>
   <TabItem value="windows" label="Windows" default>
@@ -106,41 +108,38 @@ The following examples assume the file you want to encode is in your current wor
    ```bash
    docker build -t "av1an" .
    ```
-   Run in the root directory of the repository. The dependencies will automatically be installed into the image, no manual installations necessary.
+   在倉庫的根目錄中執行。依賴項將自動安裝到映像中，無需手動安裝。
   </TabItem>
 </Tabs>
 
-
 :::info
-To specify a different directory to use you would replace $(pwd) with the directory
+要指定不同的目錄，你可以將 `$(pwd)` 替換為目錄
 
 ```bash
 docker run --privileged -v "/c/Users/masterofzen/Videos":/videos --user $(id -u):$(id -g) -it --rm masterofzen/av1an:latest -i S01E01.mkv {options}
 ```
 
-The ``--user`` flag is required on Linux to avoid permission issues with the docker container not being able to write to the location, if you get permission issues ensure your user has access to the folder that you are using to encode.
+在 Linux 上，`--user` 標誌是必需的，以避免 Docker 容器無法寫入位置的權限問題。如果遇到權限問題，請確保你的用戶對你使用的編碼檔案夾有訪問權限。
 :::
 
 :::caution
-The Docker image ships with the default dependencies.
-::: 
+Docker 映像只附帶預設依賴項。
+:::
 
-## Installing Dependencies
+## 安裝依賴項
 
-You will need a chunk method installed as the built-in ones are very slow.
+你需要安裝一個分塊方法，因為內建的方法非常慢。
 
+## 故障排除
 
-## Troubleshooting
+### "Error: The file 'XXXXX.ivf' could not be opened for reading: open file error." 與 mkvmerge 在 Linux 上
+由於 mkvmerge 同時打開所有編碼的塊，因此這顯然會達到 1024 的預設打開檔案描述符限制，對於長影片來說非常麻煩。
+你可以通過 `ulimit -n 20000` 暫時增加檔案描述符限制，以允許在該會話中同時打開 20,000 個檔案。
 
-### "Error: The file 'XXXXX.ivf' could not be opened for reading: open file error." with mkvmerge on Linux
-Since mkvmerge opens all the encoded chunks at once, this obviously hits the default open file descriptor limit of 1024 on longer videos.
-You can temporarily increase it with `ulimit -n 20000` to allow opening 20,000 files at once in that session.  
+### 輸出中單個幀的灰色屏幕閃爍
+這是 Av1an 的一個獨特問題。由於 Av1an 進行隨機尋址，傳統的基於關鍵幀的解碼方法如 L-SMASH 和 FFMS2 可能會失敗並導致灰色幀。目前僅有兩種已知的方法來解決此問題：
 
-### Gray screen flashing for a single frame in output
-This is a unique problem with Av1an. Since Av1an does random seeking for chunks, traditional keyframe-based decoding methods 
-such as L-SMASH and FFMS2 may fail and result in a gray frame. There are currently only two known methods to solve this:
-
-1. Create a lossless intermediary with x264 `-qp 0`, this always fixes all related seeking issues but will result in a huge file due to it's lossless nature.
-2. Using a linear-decoding chunk method such as `bestsource`, the downside to this is it's mega slow. Tests shown encode speeds drop by a whopping 10-15x slower.
-3. Using `dgdecnv` chunk method. `dgdecnv` and `DGIndexNV` is a proprietary CUVID-accelerated Vapoursynth "Source" decoder created by [Donald Alan Graft](https://www.rationalqm.us/) where `DGIndexNV` is the standalone program for seeking and `dgdecnv` is the Vapoursynth plugin itself.
-It is especially made with random seeking in mind which makes it perfect for Av1an. Only downside is you need an NVIDIA GPU and `DGIndexNV` only supports x86_64 platforms.
+1. 使用 x264 `-qp 0` 創建一個無損中介檔案，這總是能解決所有相關的尋址問題，但會生成一個由於其無損性而非常大的檔案。
+2. 使用如 `bestsource` 的線性解碼分塊方法，缺點是速度非常慢。測試顯示編碼速度會下降 10-15 倍。
+3. 使用 `dgdecnv` 分塊方法。`dgdecnv` 和 `DGIndexNV` 是由 [Donald Alan Graft](https://www.rationalqm.us/) 創建的專有 CUVID 加速 Vapoursynth "Source" 解碼器，其中 `DGIndexNV` 是獨立的尋址程式，而 `dgdecnv` 是 Vapoursynth 擴充套件本身。
+它專門為隨機尋址而設計，非常適合 Av1an。唯一的缺點是需要 NVIDIA GPU，且 `DGIndexNV` 僅支援 x86_64 平台。

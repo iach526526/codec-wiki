@@ -1,61 +1,63 @@
----
+﻿---
 title: av1an-command-gen
 sidebar_position: 14
 ---
 
 # Av1an Command Generator
 
-Av1an Command Generator is a rudimentary tool for easily generating Av1an commands for AV1 encoding. It is written in the Zig programming language. It is very similar to [rAV1ator CLI](../utilities/rav1ator-cli.mdx) in the sense that it can produce Av1an commands based on user input.
+Av1an Command Generator 是一款簡單易用的工具，用於生成 AV1 編碼的 Av1an 命令。
+它使用 Zig 這門程式語言，功能類似於 [rAV1ator CLI](../utilities/rav1ator-cli.mdx)，可以根據用戶輸入生成 Av1an 命令。
 
-[GitHub Link](https://github.com/gianni-rosato/av1an-command-gen/)
+[GitHub 連結](https://github.com/gianni-rosato/av1an-command-gen/)
 
-## Description
+## 描述
 
-Av1an Command Generator is designed for beginners, although experienced encoders can use it to speed up their Av1an scripting. The program generates an AV1 video encoding command for use with [Av1an](../utilities/av1an.mdx), a chunked video encoding tool that can be used with [aomenc](../encoders/aomenc.mdx), [SVT-AV1](../encoders/SVT-AV1.mdx), and [rav1e](../encoders/rav1e.mdx).
+Av1an Command Generator 專為初學者設計，但經驗豐富的開發人員也可以使用它來加速 Av1an 腳本的生成。該程式生成一個 AV1 影片編碼命令，用於與 [Av1an](../utilities/av1an.mdx) 配合使用，Av1an 是一個分塊影片編碼工具，可以與 [aomenc](../encoders/aomenc.mdx)、[SVT-AV1](../encoders/SVT-AV1.mdx) 和 [rav1e](../encoders/rav1e.mdx) 一起使用。
 
-This tool takes in the video resolution, frame rate, desired encoder, speed preset, and target bitrate range as command line arguments. Based on these parameters, it calculates settings like tile columns/rows, lag-in-frames, CRF, and encoder speed preset. Then, it injects these into a generated encoding command string.
+該工具接受影片分辨率、幀率、所需編碼器、速度預設和目標位元率範圍作為命令行參數。根據這些參數，它計算設定如瓦片列/行、延遲幀數、CRF 和編碼器速度預設。然後，將這些設定注入生成的編碼命令字符串中。
 
-The output is a full `av1an` command that can be run to encode a video based on the specified settings.
+輸出是一個完整的 `av1an` 命令，可以根據指定的設定對影片進行編碼。
 
-## Usage
+## 使用方法
 
 ```bash
 av1an-command-gen [width] [height] [fps] [encoder] [speed] [bitrate_target]
 ```
 
-- `width` - Input video width in pixels 
-- `height` - Input video height in pixels
-- `fps` - Input video frame rate
-- `encoder` - `aom`, `svt`, or `rav1e`
-- `speed` - `slower`, `slow`, `med`, `fast`, `faster` 
-- `bitrate_target` - `lowest`, `low`, `med`, `high`
+- `width` - 輸入影片的寬度（像素）
+- `height` - 輸入影片的高度（像素）
+- `fps` - 輸入影片的幀率
+- `encoder` - `aom`、`svt` 或 `rav1e`
+- `speed` - `slower`、`slow`、`med`、`fast`、`faster`
+- `bitrate_target` - `lowest`、`low`、`med`、`high`
 
-## Examples
+## 範例
 
-Generate a command for encoding a 1280x720 video at 24 fps using rav1e at 'med' speed and 'low' bitrate target:
+生成一個用 `rav1e` 以 'med' 速度和 'low' 位元率目標編碼 1280x720 像素、24 fps 的影片的命令：
 
 ```bash
 av1an-command-gen 1280 720 24 rav1e med low
 ```
 
-Generate a command for encoding a 1920x1080 video at 30 fps using svt-av1 at 'fast' speed and 'high' bitrate target:
+生成一個用 `svt-av1` 以 'fast' 速度和 'high' 位元率目標編碼 1920x1080 像素、30 fps 的影片的命令：
 
 ```bash
 av1an-command-gen 1920 1080 30 svt fast high
 ```
 
-## Installation
+## 安裝
 
-This program requires the [Zig](https://ziglang.org/) v0.11.0 programming language. 
+此程式需要 [Zig](https://ziglang.org/) v0.11.0 。
 
-To build:
+構建命令：
 
 ```bash
 zig build
 ```
 
-This will produce a standalone binary `av1an-command-gen` in `zig-out/bin/`.
+這將生成一個獨立的二進制檔案 `av1an-command-gen`，
+位於 `zig-out/bin/` 目錄中。
 
-## License
+## 授權
 
-This project is licensed under the BSD 3-Clause License.
+本項目採用 BSD 3-Clause License 許可。
